@@ -1,0 +1,38 @@
+.module-text {
+  font-size: 15px;
+  color: #151567;
+}
+.module-cards-container {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
+  column-gap: 5px;
+  row-gap: 20px;
+}
+.module-cards {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  min-height: 180px;
+  min-width: 180px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%); */
+  /* box-shadow: rgb(0 0 0 / 2%) 0px 1px 3px 0px,
+    rgb(27 31 35 / 15%) 0px 0px 0px 1px; */
+  /* background-color:green;   */
+
+  font-size: 60px;
+  color: #1515679c;
+  transition: all 0.2s linear;
+}
+.module-cards:hover {
+  color: #151567;
+  font-size: 70px;
+}

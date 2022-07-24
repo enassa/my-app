@@ -1,0 +1,34 @@
+.uploader-images-container:-webkit-scrollbar-track {
+    background-color: transparent;
+    /* background-color: darkgrey; */
+    /* padding: 10px 10px; */
+  }
+  .uploader-images-container::-webkit-scrollbar-thumb {
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+    /* background-color: darkgrey; */
+    /* border-radius: 100px;
+    background-color: white; */
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 9999px;
+    /* background-color: #153D6F; */
+    background-color: #2B91FF;
+  }
+  .uploader-images-container::-webkit-scrollbar-thumb:hover {
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+    /* background-color: darkgrey; */
+    /* border: px solid white; */
+    background-color: #153D6F;
+    border: 4px solid transparent;
+    cursor: pointer;
+
+  }
+  .edit-icons{
+    color:#EEEEEE;
+    transition: all 0.2s ease-out;
+  }
+  .edit-icons:hover{
+    color:white;
+    transform: scale(1.2);
+  }
+ 
