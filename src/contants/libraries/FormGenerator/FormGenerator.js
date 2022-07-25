@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { cssModules, deleteValueFromArray, getWindowWidth } from "../easy";
 import { FIELDS } from "./FormGeneratorFields";
 import styles from "./formgenerator.module.css";
+import { TextField, Autocomplete } from "@mui/material";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {
   fontFamily3,
   fontFamily5,
-} from "../../components/contants/ui-constants";
+} from "../../../components/contants/ui-constants";
 
-var dummyArray = [0, 1, 2, 3];
 let fieldStyles, outerStyle;
 const mod = cssModules(styles);
 let requiredFields = [];
@@ -172,10 +173,8 @@ class FormGenerator extends Component {
         this.setState({ emptyRequiredFields: myArr });
       }
     }
-    // alert(pattern)
     if (pattern !== undefined) {
       // regex checker function
-      // alert(pattern)
       const checkRegex = (myString, pattern, fieldName) => {
         if (pattern === null) {
           return undefined;
@@ -194,12 +193,6 @@ class FormGenerator extends Component {
       }
     }
   };
-  // if(value === "" ||value === " " || value === null || value.length === 0 ||value === undefined){
-  //     if(requiredFields.includes(fieldName)){
-  //         this.setState({emptyRequiredFields:[...this.state.emptyRequiredFields,fieldName]})
-  //         return 0
-  //     }
-  // }
 
   handleOnSubmit = (e) => {
     // alert('jj')
@@ -242,16 +235,15 @@ class FormGenerator extends Component {
       }
     }
 
-    if (errorCounter !== 0 && !this.props.skipValidation) {
+    if (errorCounter !== 0) {
       this.setState({ emptyRequiredFields: obtainedErrors });
       console.log(emptyRequiredFields, errorCounter);
       return;
     }
 
-    if (regexErrors.length !== 0 && this.props.skipValidation) {
+    if (regexErrors.length !== 0) {
       return 0;
     }
-
     this.props.enableConfirmation
       ? this.setState({ confirmation: !this.state.confirmation })
       : console.log("");
@@ -287,14 +279,14 @@ class FormGenerator extends Component {
         : {},
     };
     return (
-      <div
+      <Autocomplete
         // style={style.textField}
         key={index}
         {...defaultProps}
         id={field.name}
         debug
         renderInput={(params) => (
-          <input
+          <TextField
             style={{
               fontFamily: `${
                 this.props.fontFamily ? this.props.fontFamily : fontFamily3
@@ -523,14 +515,10 @@ class FormGenerator extends Component {
             justifyContent: "space-between",
           }}
           // style={{display:"none", width:"100%", flexFlow:"column", borderRadius:20, borderLeft:`${this.state.activeQuestion===value?'5px solid blue':""}`}}
-          // className='nate-white-bg d-none margin-t-40  margin-b-40 padding-20 elevated-blend'
+          // className='bg-white d-none mt-[40px] mb-[40px]p-[20px] shadow-blend'
           onClick={() => this.setState({ activeQuestion: value })}
         >
           {field.groupItems.map((item, index) => {
-            // <div class="form__group">
-            // <input type="email" id="email" class="form__field" placeholder="Your Email">
-            // <label for="email" class="form__label">Your Email</label>
-            // </div>
             return (
               <div
                 key={index}
@@ -539,9 +527,7 @@ class FormGenerator extends Component {
               >
                 <input
                   key={index}
-                  autoComplete="none"
                   type={field.fieldType}
-                  // disabled = {field?.disabled?field?.disabled:""}
                   name={field.name}
                   defaultValue={field.defaulValue ? field.defaultValue : ""}
                   className={mod("form__field")}
@@ -584,7 +570,7 @@ class FormGenerator extends Component {
             justifyContent: "space-between",
           }}
           // style={{display:"flex", width:"100%", flexFlow:"column", borderRadius:20, borderLeft:`${this.state.activeQuestion===value?'5px solid blue':""}`}}
-          // className='nate-white-bg d-none margin-t-40  margin-b-20 padding-20 elevated-blend'
+          // className='bg-white d-none mt-[40px] margin-b-20p-[20px] shadow-blend'
           onClick={() => this.setState({ activeQuestion: value })}
         >
           <div key={index} className={mod("form__group")} style={{}}>
@@ -655,7 +641,7 @@ class FormGenerator extends Component {
               this.state.activeQuestion === value ? "5px solid blue" : ""
             }`,
           }}
-          className="nate-white-bg  margin-t-40  margin-b-40 padding-20 elevated-blend"
+          className="bg-white  mt-[40px] mb-[40px]p-[20px] shadow-blend"
           onClick={() => this.setState({ activeQuestion: value })}
         >
           <div
@@ -679,7 +665,6 @@ class FormGenerator extends Component {
               >
                 <input
                   key={index}
-                  autoComplete={false}
                   type={field.fieldType}
                   name={field.name}
                   defaultValue={field.defaulValue ? field.defaultValue : ""}
@@ -845,7 +830,7 @@ class FormGenerator extends Component {
               this.state.activeQuestion === value ? "5px solid blue" : ""
             }`,
           }}
-          className="nate-white-bg  margin-t-40  margin-b-40 padding-20 elevated-blend"
+          className="bg-white  mt-[40px] mb-[40px]p-[20px] shadow-blend"
           onClick={() => this.setState({ activeQuestion: value })}
         >
           <div
@@ -861,10 +846,10 @@ class FormGenerator extends Component {
             {field.question}
           </div>
           {!field.vertical ? (
-            <div className="d-flex j-start">
+            <div className="d-flex justify-start">
               {field.groupItems.map((item, index) => {
                 return (
-                  <div className="cursor-pointer a-center j-start margin-r-30 margin-b-10">
+                  <div className="cursor-pointer items-center justify-start margin-r-30 margin-b-10">
                     <input
                       type="radio"
                       style={{
@@ -895,7 +880,7 @@ class FormGenerator extends Component {
           ) : (
             field.groupItems.map((item, index) => {
               return (
-                <div className="cursor-pointer a-center j-start margin-r-10 margin-b-10">
+                <div className="cursor-pointer items-center justify-start mr-[10px] margin-b-10">
                   <input
                     type="radio"
                     style={{
@@ -953,7 +938,7 @@ class FormGenerator extends Component {
               this.state.activeQuestion === value ? "5px solid blue" : ""
             }`,
           }}
-          className="nate-white-bg  margin-t-40  margin-b-40 padding-20 elevated-blend"
+          className="bg-white  mt-[40px] mb-[40px]p-[20px] shadow-blend"
           onClick={() =>
             this.setState({ activeQuestion: field.groupItems[0].name })
           }
@@ -971,13 +956,13 @@ class FormGenerator extends Component {
             {field.question}
           </div>
           {!field.vertical ? (
-            <div className="d-flex j-start">
+            <div className="d-flex justify-start">
               {field.groupItems.map((item, index) => {
                 return (
                   <label
                     style={{ marginTop: 20 }}
                     key={index}
-                    className={mod("pure-material-radio margin-r-20")}
+                    className={mod("pure-material-radio mr-[20px]")}
                   >
                     <input
                       type={"radio"}
@@ -1082,7 +1067,7 @@ class FormGenerator extends Component {
               this.state.activeQuestion === value ? "5px solid blue" : ""
             }`,
           }}
-          className="nate-white-bg  margin-t-40  margin-b-40 padding-20 elevated-blend"
+          className="bg-white  mt-[40px] mb-[40px] p-[20px] shadow-blend"
           onClick={() =>
             this.setState({ activeQuestion: field.groupItems[0].name })
           }
@@ -1100,13 +1085,13 @@ class FormGenerator extends Component {
             {field.question}
           </div>
           {!field.vertical ? (
-            <div className="d-flex j-start">
+            <div className="d-flex justify-start">
               {field.groupItems.map((item, index) => {
                 return (
                   <label
                     style={{ marginTop: 20 }}
                     key={index}
-                    className={mod("pure-material-radio margin-r-20")}
+                    className={mod("pure-material-radio mr-[20px]")}
                   >
                     <input
                       type={"checkbox"}
@@ -1260,11 +1245,13 @@ class FormGenerator extends Component {
         style={{
           display: "flex",
           width: "100%",
-          justifyContent: "space-between",
-          borderBottom: "1px solid #d2d2d2",
+          flexFlow: "column",
+          borderRadius: 20,
+          borderLeft: `${
+            this.state.activeQuestion === value ? "5px solid blue" : ""
+          }`,
         }}
-        // style={{display:"flex", width:"100%", flexFlow:"column", borderRadius:20, borderLeft:`${this.state.activeQuestion===value?'5px solid blue':""}`}}
-        // className='nate-white-bg  margin-t-40  margin-b-50 padding-20 elevated-blend'
+        className="bg-white  mt-[40px] mb-[50px]  p-[20px] shadow-blend"
         onClick={() => this.setState({ activeQuestion: fields.name })}
       >
         <div
@@ -1275,7 +1262,7 @@ class FormGenerator extends Component {
             fontSize: this.state.fontSize,
             fontWeight: 300,
           }}
-          className="margin-r-20 "
+          className="w-full   "
         >
           {fields.label}
         </div>
@@ -1283,14 +1270,13 @@ class FormGenerator extends Component {
           multiple={fields.multiple ? fields.multiple : false}
           name={fields.name}
           style={{
-            backgroundColor: "transparent",
             color: "rgb(155, 155, 155)",
             marginTop: 20,
             fontFamily: "Helvetica Neue",
             fontSize: this.state.fontSize,
             fontWeight: 300,
           }}
-          className="width-100-cent border-0 outline-none"
+          className="w-full  border-0 outline-none"
           onChange={(e) => {
             this.props.removeButton
               ? this.handleSelect(e, fields)
@@ -1307,7 +1293,7 @@ class FormGenerator extends Component {
             disabled
             selected
           >
-            Please select value
+            Nothing selected
           </option>
           {fields.dropDownList.map((item, index) => {
             return <option>{item[fields.property]}</option>;
@@ -1355,9 +1341,7 @@ class FormGenerator extends Component {
     };
     const { fields } = this.props;
     if (this.props.fields) {
-      // set all fields as innitial empty so that we can loop through and alert errors for required fields if user submits form without filling at all or without filling some fiedls because the erros are only collected onblur
-      // console.log('required fields',requiredFields)
-      // console.log('regexPattern',regexPatterns)
+      // set all fields as innitial empty so that we can loop through and alert errors for required fields if user submits form without filling at all or without filling some fiedls because the errors are only collected onblur
       return this.props.fields.map((formField, index) => {
         if (isFollowUpAndTrue(formField)) {
           if (formField.fieldType === undefined || formField.fieldType == null)
@@ -1396,6 +1380,7 @@ class FormGenerator extends Component {
       });
     }
   };
+
   componentDidMount() {
     let innitialData = {};
     const { fields } = this.props;
@@ -1448,7 +1433,6 @@ class FormGenerator extends Component {
   }
   render() {
     outerStyle = {
-      marginTop: "40px",
       ...this.props.style,
     };
     fieldStyles = {
@@ -1528,36 +1512,35 @@ class FormGenerator extends Component {
       <div id={mod("main-form-container")} style={outerStyle}>
         {this.state.confirmation ? (
           <div
-            style={{ zIndex: "" }}
             onClick={() => {
               this.setState({ confirmation: !this.state.confirmation });
             }}
-            className="width-100-cent a-center top-0 right-0 j-center height-100-cent nate-black-partial-bg position-fixed above-all"
+            className="w-full flex items-center top-0 right-0 justify-center h-full bg-backdrop  fixed z-[500000]"
           >
-            {/* <div className='position-fixed fill-entire-page nate-blue-bg'>j</div> */}
-            <div className="slide-up nate-blue-text max-width-400 width-80-cent position-relative a-center f-column j-center height-200 curved-corners nate-white-bg">
+            {/* <div className='fixed fill-entire-page nate-blue-bg'>j</div> */}
+            <div className="slide-up text-blue-500 m-w-[400px] w-[80%] relative items-center flex-col justify-center h-[200px] rounded-lg bg-white">
               <span
                 style={{
-                  fontFamily: fontFamily3,
+                  fontFamily: fontFamily5,
                   fontSize: 20,
                   fontWeight: 300,
-                  color: "",
+                  color: "green",
                 }}
               >
                 Confirm form submission?
               </span>
-              <span className=" width-100-cent bottom-0 right-0 j-end position-absolute padding-r-20 padding-b-20">
+              <span className=" w-full  bottom-0 right-0 justify-end absolute pr-[20px] pb-[20px] ">
                 {/* <PopUpButton buttonText = "confirm"/> */}
                 <span
                   onClick={() => {
                     this.setState({ confirmation: !this.state.confirmation });
                   }}
                   style={{
-                    fontFamily: fontFamily3,
+                    fontFamily: fontFamily5,
                     fontSize: 20,
                     fontWeight: 300,
                   }}
-                  className="nate-pink-text margin-r-20 cursor-pointer"
+                  className="text-red-400 mr-[20px] cursor-pointer"
                 >
                   Cancel
                 </span>
@@ -1566,10 +1549,10 @@ class FormGenerator extends Component {
                     this.handleOnSubmit(e);
                   }}
                   style={{
-                    fontFamily: fontFamily3,
+                    fontFamily: fontFamily5,
                     fontSize: 20,
                     fontWeight: 300,
-                    color: "",
+                    color: "green",
                   }}
                   className="cursor-pointer"
                 >
@@ -1579,11 +1562,7 @@ class FormGenerator extends Component {
             </div>
           </div>
         ) : null}
-        <form
-          autoComplete="off"
-          ref={this.formRef}
-          className={mod("form-element")}
-        >
+        <form ref={this.formRef} className={mod("form-element")}>
           {this.spitFields()}
           {!this.props.removeButton ? (
             <div
@@ -1598,7 +1577,7 @@ class FormGenerator extends Component {
                 }
               >
                 <button
-                  disable={`${!this.state.buttonClicked}`}
+                  disable={`${!this.state.buttonClicked || this.props.loading}`}
                   className="ro"
                   onClick={(e) => {
                     e.preventDefault();
@@ -1613,26 +1592,39 @@ class FormGenerator extends Component {
                       : fieldStyles.button
                   }
                 >
-                  {!this.state.buttonClicked ? (
-                    <span style={{ mxHeight: 20 }}>
+                  <span
+                    className="flex justify-between items-center"
+                    style={{ mxHeight: 20 }}
+                  >
+                    <span>
                       {this.props.buttonText
                         ? this.props.buttonText
                         : this.props.buttonIcon
                         ? this.props.buttonIcon
                         : "Submit"}
                     </span>
-                  ) : (
-                    <span style={{ minWidth: 27 }} className="rotate">
-                      {/* <AutorenewIcon style={{ width: 16, height: 16 }} /> */}
-                    </span>
-                  )}
+                    {this.props.loading && !this.props.dontUseLoader ? (
+                      <div
+                        style={{
+                          borderRadius: "100%",
+                          borderRight: "2px solid white",
+                          borderBottom: "2px solid white",
+                          minWidth: 20,
+                          minHeight: 20,
+                          width: 20,
+                          height: 20,
+                        }}
+                        className="animate-rotate ml-1"
+                      ></div>
+                    ) : null}
+                  </span>
                 </button>
               </span>
             </div>
           ) : null}
         </form>
         {this.props.serverReport && this.props.reportState ? (
-          <div className="nate-pink-text nate-font-1">
+          <div className="text-red-400 nate-font-1">
             Sorry, login was unsuccessful
           </div>
         ) : null}

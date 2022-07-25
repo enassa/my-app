@@ -1,4 +1,7 @@
-import { getAsObjectFromLocalStorage } from "../../libraries/easy";
+import { getAsObjectFromLocalStorage } from "../../contants/libraries/easy";
+
+export const randomImages = "https://source.unsplash.com/random";
+
 export const roles = [
   "Manager",
   "Kitchen-manager",

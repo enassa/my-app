@@ -47,10 +47,7 @@ export default function ClassicModule(props) {
             showDropDown(false);
           }}
         >
-          <div
-            style={{ bottom: 80 }}
-            className="position-absolute left-20 bottom-40"
-          >
+          <div style={{ bottom: 80 }} className="absolute left-20 bottom-40">
             <SelectHolder
               HANDLE_SELECT={(selectedItemName, selectedItemIcon, e) => {
                 handleSelectedItem(selectedItemName, cardContent, e);

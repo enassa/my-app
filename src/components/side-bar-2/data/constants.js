@@ -13,8 +13,8 @@ import {
   DocumentReportIcon,
 } from "@heroicons/react/solid";
 import { ALL_URLS } from "../../contants/rout-links";
-import { IS_SUPER_ACCOUNT } from "../../../constants/urls";
 import { ChartSquareBarIcon } from "@heroicons/react/outline";
+import { IS_SUPER_ACCOUNT } from "../../../contants/urls/urls";
 console.log(IS_SUPER_ACCOUNT());
 export const navigation = [
   {

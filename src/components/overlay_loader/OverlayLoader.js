@@ -10,7 +10,7 @@ export default class OverlayLoader extends Component {
   render() {
     const myClasses = {
       NULL: null,
-      mainContainer: `d-flex f-row j-center a-center pointer-events-auto fill-entire-page top-0 left-0 z-[300]`,
+      mainContainer: `d-flex f-row justify-center items-center pointer-events-auto fill-entire-page top-0 left-0 z-[300]`,
     };
     const styles = {
       mainContainer: {

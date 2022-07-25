@@ -6,7 +6,7 @@ export default class Casantey extends Component {
   render() {
     return (
       <div
-        className="position-fixed bottom-20 text-white  j-center f-column a-center"
+        className="fixed bottom-20 text-white  justify-center flex-col items-center"
         style={{ fontFamily: fontFamily5, fontSize: 18 }}
       >
         <div>

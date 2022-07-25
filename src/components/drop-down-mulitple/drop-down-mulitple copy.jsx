@@ -62,10 +62,10 @@ export default function DropdownMultiple({
           onMouseOut={() => {
             setHovered("");
           }}
-          className="w-full items-center flex justify-startposition-relative px-4"
+          className="w-full items-center flex justify-startrelative px-4"
         >
           <input
-            className="position-absolute top-0 h-full  pointer-events-none"
+            className="absolute top-0 h-full  pointer-events-none"
             style={{
               transform: "scale(1.5)",
               left: 20,

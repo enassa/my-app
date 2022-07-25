@@ -62,7 +62,7 @@ getFollowUp = (field,index) => {
             const value = field.name
             return <div key={index} 
             style={{display:"flex", width:"100%", flexFlow:"column", borderRadius:20, borderLeft:`${this.state.activeQuestion===value?'5px solid blue':""}`}} 
-            className='nate-white-bg  margin-t-40  margin-b-40 padding-20 elevated-blend'
+            className='bg-white  mt-[40px] mb-[40px]p-[20px] shadow-blend'
             onClick = {() => this.setState({activeQuestion:field.name})}
             >
             <div 
@@ -73,7 +73,7 @@ getFollowUp = (field,index) => {
             </div>
         }
      
-        return <div className='width-100-cent height-auto'> 
+        return <div className='w-full  height-auto'> 
                 {getMainQuestion()}
                 {getSubQuestions()}
         </div>

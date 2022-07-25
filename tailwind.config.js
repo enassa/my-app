@@ -30,10 +30,19 @@ module.exports = {
           from: { transform: "translate(0px,0); opacity: 0.4" },
           to: { transform: "translate(0px,-4px);opacity: 1" },
         },
+        bgChange: {
+          from: {
+            background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
+          },
+          to: {
+            background: "linear-gradient(326deg, #5f0a87 0%, #db5151 74%)",
+          },
+        },
       },
       animation: {
         rotate: "rotate 0.5s linear infinite",
         rise: "rise 0.2s ease 0s 1 normal forwards running",
+        bgChange: "bgChange  2s linear 0s infinite normal forwards running",
       },
       content: {
         link: 'url("/icons/link.svg")',

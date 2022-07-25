@@ -47,12 +47,12 @@ function SelectHolder(props) {
     NULL: null,
     mainContainer: `fill-entire-page d-flex height-auto `,
     subContainer: `height-auto`,
-    contentArea: `pop-up-rise overflow-auto max-height-400 z-high height-auto nate-white-bg position-absolute margin-t-30 width-200 shadow`,
-    listItem: `d-flex j-start f-row a-center width-100-cent height-50 cursor-pointer `,
-    innerSurround: `d-flex j-start f-row a-center width-100-cent height-100-cent cursor-pointer`,
-    listItemHovered: `d-flex j-start f-flow a-center width-100-cent height-50 cursor-pointer`,
-    iconsContainer: `d-flex j-center a-center min-width-50 height-100-cent`,
-    textsContainer: `d-flex j-start a-center width-100-cent height-100-cent`,
+    contentArea: `pop-up-rise overflow-auto max-height-400 z-high height-auto bg-white absolute margin-t-30 width-200 shadow`,
+    listItem: `d-flex justify-start f-row items-center w-full  height-50 cursor-pointer `,
+    innerSurround: `d-flex justify-start f-row items-center w-full  h-full cursor-pointer`,
+    listItemHovered: `d-flex justify-start f-flow items-center w-full  height-50 cursor-pointer`,
+    iconsContainer: `d-flex justify-center items-center min-width-50 h-full`,
+    textsContainer: `d-flex justify-start items-center w-full  h-full`,
     clickToOpen: `cursor-pointer ${ICON_HOVERED ? "anime-bounce-y" : null}`,
   };
   /** Definition of all other constants */

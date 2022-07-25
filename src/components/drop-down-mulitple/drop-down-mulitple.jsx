@@ -94,10 +94,10 @@ export default function DropdownMultiple({
               onClick={() => {
                 addOrRemoveFromSelected(item, index);
               }}
-              className="w-full relative hover:bg-[#7c7a7a29] text-white items-center flex justify-startposition-relative px-4"
+              className="w-full relative hover:bg-[#7c7a7a29] text-white items-center flex justify-startrelative px-4"
             >
               {/* <input
-                className="position-absolute scale-[2] top-0 h-full  "
+                className="absolute scale-[2] top-0 h-full  "
                 style={{
                   transform: "scale(1)",
                   left: 20,

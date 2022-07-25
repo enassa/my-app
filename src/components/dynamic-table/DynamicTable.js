@@ -63,7 +63,7 @@ export default function DynamicTable({ data, fieldsToHide, number }) {
   };
   return (
     <div className="hidden mt-8 sm:block">
-      <div className="align-middle inline-block min-w-full border-b border-gray-200 position-relative">
+      <div className="align-middle inline-block min-w-full border-b border-gray-200 relative">
         <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 ">
           <button
             type="button"
