@@ -581,16 +581,18 @@ export const getParameterByName = (name, url = window.location.href) => {
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
-export const encodeToB64 = (string) => {
-  return btoa(string);
-};
-export const decodeFromB64 = (string) => {
-  return atob(string);
-};
+
 export const replaceUnderscoreWithSpace = (stringToReplace) => {
   let results;
   try {
     results = stringToReplace.replace(/_/g, " ");
+  } catch {}
+  return results;
+};
+export const replaceSpaceWithUnderscore = (stringToReplace) => {
+  let results;
+  try {
+    results = stringToReplace.replace(/ /g, "_");
   } catch {}
   return results;
 };
