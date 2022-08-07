@@ -7,16 +7,24 @@ import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator"
 import { fontFamily3 } from "../../components/contants/ui-constants";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
 import { useNavigate } from "react-router-dom";
+import { useAuthServices } from "./context/auth-context";
+import { ALL_URLS } from "../../contants/urls/rout-links";
+import { useStatusHook } from "../status-page/hook/status-hook";
 
 export default function OrgRegisteration() {
-  const [typeOfUser, setTypeOfUser] = useState();
-  const [loading, setLoading] = useState();
-  const [error, setError] = useState();
-  const videoRef = useRef();
-
   const navigate = useNavigate();
-  const handleSubmit = (data, resetForm, completed) => {
-    console.log(data);
+  const { loading, registerUser } = useAuthServices();
+  const { goToStatusPage } = useStatusHook();
+
+  const handleSubmit = (data) => {
+    delete data.password_confirm;
+    registerUser(data)
+      .then(() => {
+        navigate(ALL_URLS.statusPage.url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -93,28 +101,28 @@ export default function OrgRegisteration() {
                 fields={[
                   {
                     fieldType: FIELDS.input,
-                    name: "Name",
+                    name: "orgName",
                     label: "Name of organization",
                     placeholder: "Name of Organization",
                     required: true,
                   },
                   {
                     fieldType: FIELDS.input,
-                    name: "Email",
+                    name: "email",
                     label: "Organization Email",
                     placeholder: "Mobile number",
                     required: true,
                   },
                   {
                     fieldType: FIELDS.input,
-                    name: "Contact",
-                    label: "Organization Email",
+                    name: "contact",
+                    label: "Organization contact",
                     placeholder: "Mobile number",
                     required: true,
                   },
                   {
                     fieldType: FIELDS.password,
-                    name: "Password",
+                    name: "password",
                     label: "Password",
                     placeholder: "Password",
                     required: true,
@@ -122,7 +130,7 @@ export default function OrgRegisteration() {
                   {
                     fieldType: FIELDS.password,
                     name: "Password_confirm",
-                    label: "Password confirmation",
+                    label: "password confirmation",
                     placeholder: "Password",
                     required: true,
                   },
@@ -136,7 +144,7 @@ export default function OrgRegisteration() {
                     "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
                   borderRadius: "5px",
                 }}
-                loading={true}
+                loading={loading}
                 serverReport={"Error message"}
                 reportState={false}
               />

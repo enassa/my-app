@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuthServices } from "../context/auth-context";
+import { useAuthServices } from "../pages/auth-org/context/auth-context";
 import { getAsObjectFromLocalStorage } from "../libraries/easy";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../components/contants/rout-links";

@@ -5,7 +5,7 @@ export const BASE_URL = {
   dev:
     process.env.NODE_ENV === "production"
       ? process.env.REACT_APP_BASE_URL
-      : "https://staging-api.potbelly.casantey.com",
+      : "http://localhost:3030",
   // dev: "https://1586-154-160-1-173.ngrok.io",
   production: "",
   test: "",
@@ -31,21 +31,26 @@ export const MAP_API_KEY = {
 };
 export const END_POINTS = {
   // Account management staffend points
-  loginToVoteScreen: "/staff/create-staff",
-  loginToVoteResults: "/staff/update-staff",
-  loginToOrganization: "/staff/list",
-  registerOrganization: "/staff/delete-staff",
-  votingScreen: "/staff/reset-password",
-  votingSuccess: "/staff/reset-password",
-  resultScreen: "/staff/initiate-password-reset",
-  viewElection: "/staff/email",
-  vote: "/otp/verifyByEmail",
+  loginToVoteScreen: "/api/election/login/voting-screen",
+  loginToResultsScreen: "/api/election/login/resulst-screen",
+  loginToOrganization: "/api/election/login/organization",
+  registerOrganization: "/api/election/register",
+  confirmEmail: "/api/election/confirm",
+  castVote: "/api/election/vote/cast",
 
-  getElectionList: "/elections/list",
-  updateElection: "elections/update",
-  deleteElection: "/elections/delete",
-  resetElection: "/elections/reset",
-  createElection: "/elections/create",
+  getElectionList: "/api/election/list",
+  getResults: "/api/election/results",
+
+  deleteElection: "/api/election/delete",
+  resetElection: "/api/election/reset",
+  createElection: "/api/election/create",
+
+  // forgot password
+  forgotPassword: "/api/election/forgot-password",
+  verifyLink: "/api/election/link",
+  resetPassword: "/api/election/reset-password",
+
+  // CRUD OPERATION
 };
 
 export const HOME_URL = () => {

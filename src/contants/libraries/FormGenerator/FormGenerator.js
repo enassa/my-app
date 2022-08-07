@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { cssModules, deleteValueFromArray, getWindowWidth } from "../easy";
+import {
+  cssModules,
+  deleteValueFromArray,
+  getWindowWidth,
+  replaceUnderscoreWithSpace,
+} from "../easy";
 import { FIELDS } from "./FormGeneratorFields";
 import styles from "./formgenerator.module.css";
 import { TextField, Autocomplete } from "@mui/material";
@@ -244,9 +249,8 @@ class FormGenerator extends Component {
     if (regexErrors.length !== 0) {
       return 0;
     }
-    this.props.enableConfirmation
-      ? this.setState({ confirmation: !this.state.confirmation })
-      : console.log("");
+    this.props.enableConfirmation &&
+      this.setState({ confirmation: !this.state.confirmation });
     this.setState({ buttonClicked: true });
     this.props.handleOnSubmit(data, this.resetForm, this.actionCompleted);
     requiredFields = [];
@@ -529,7 +533,12 @@ class FormGenerator extends Component {
                   key={index}
                   type={field.fieldType}
                   name={field.name}
-                  defaultValue={field.defaulValue ? field.defaultValue : ""}
+                  value={field?.value}
+                  defaultValue={
+                    field.defaultValue
+                      ? replaceUnderscoreWithSpace(field.defaultValue)
+                      : "33"
+                  }
                   className={mod("form__field")}
                   // placeholder={item.placeholder}
                   onChange={(e) => {
@@ -552,7 +561,7 @@ class FormGenerator extends Component {
                   htmlFor={field.name}
                   className={mod("form__label")}
                 >
-                  {item.label}
+                  {replaceUnderscoreWithSpace(item.label)}
                 </label>
               </div>
             );
@@ -569,20 +578,24 @@ class FormGenerator extends Component {
             width: "100%",
             justifyContent: "space-between",
           }}
+          key={index}
           // style={{display:"flex", width:"100%", flexFlow:"column", borderRadius:20, borderLeft:`${this.state.activeQuestion===value?'5px solid blue':""}`}}
           // className='bg-white d-none mt-[40px] margin-b-20p-[20px] shadow-blend'
           onClick={() => this.setState({ activeQuestion: value })}
         >
           <div key={index} className={mod("form__group")} style={{}}>
             <input
-              key={index}
               style={{
                 fontFamily: "Helvetica Neue",
                 fontSize: this.state.fontSize,
               }}
               type={field.fieldType}
               name={field.name}
-              defaultValue={field.defaulValue ? field.defaultValue : ""}
+              defaultValue={
+                field.defaultValue
+                  ? replaceUnderscoreWithSpace(field.defaultValue)
+                  : ""
+              }
               className={mod("form__field")}
               placeholder={field.placeholder}
               onChange={(e) => {
@@ -600,17 +613,17 @@ class FormGenerator extends Component {
               }}
             />
             <label htmlFor={field.name} className={mod("form__label")}>
-              {field.label}
+              {replaceUnderscoreWithSpace(field.label)}
             </label>
             {
-              <span style={{ color: "red" }}>
+              <span style={{ color: "red", fontSize: 10 }}>
                 {emptyRequiredFields.includes(field.name)
                   ? `The ${field.name} field is required`
                   : null}
               </span>
             }
             {
-              <span style={{ color: "red" }}>
+              <span style={{ color: "red", fontSize: 10 }}>
                 {regexErrors.includes(field.name)
                   ? `Invalid ${field.name} input`
                   : null}
@@ -700,14 +713,14 @@ class FormGenerator extends Component {
                   {item.label}
                 </label>
                 {
-                  <span style={{ color: "red" }}>
+                  <span style={{ color: "red", fontSize: 10 }}>
                     {emptyRequiredFields.includes(field.name)
                       ? `The ${field.name} field is required`
                       : null}
                   </span>
                 }
                 {
-                  <span style={{ color: "red" }}>
+                  <span style={{ color: "red", fontSize: 10 }}>
                     {regexErrors.includes(field.name)
                       ? `Invalid ${field.name} input`
                       : null}
@@ -1392,7 +1405,8 @@ class FormGenerator extends Component {
         for (let j = 0; j < fields[index].groupItems.length; j++) {
           nameOfField = fields[index].groupItems[j].name;
           // Create an object with all fields innitialy empty so that we will set it as the innitial state of all fieds
-          innitialData[nameOfField] = "";
+          innitialData[nameOfField] =
+            fields[index].groupItems[j].defaultValue || "";
           if (fields[index].groupItems[j].required) {
             requiredFields.includes(nameOfField)
               ? console.log("")
@@ -1414,7 +1428,7 @@ class FormGenerator extends Component {
         // Create an object with all fields innitialy empty so that we will set it as the innitial state of all fieds
         // Prevent banner field from adding to form data
         if (nameOfField !== "banner") {
-          innitialData[nameOfField] = "";
+          innitialData[nameOfField] = fields[index].defaultValue || "";
         }
         if (fields[index].required) {
           requiredFields.push(nameOfField);
@@ -1592,6 +1606,20 @@ class FormGenerator extends Component {
                       : fieldStyles.button
                   }
                 >
+                  {this.props.loading && !this.props.dontUseLoader ? (
+                    <div
+                      style={{
+                        borderRadius: "100%",
+                        borderRight: "2px solid white",
+                        borderBottom: "2px solid white",
+                        minWidth: 20,
+                        minHeight: 20,
+                        width: 20,
+                        height: 20,
+                      }}
+                      className="animate-rotate ml-1"
+                    ></div>
+                  ) : null}
                   <span
                     className="flex justify-between items-center"
                     style={{ mxHeight: 20 }}
@@ -1603,20 +1631,6 @@ class FormGenerator extends Component {
                         ? this.props.buttonIcon
                         : "Submit"}
                     </span>
-                    {this.props.loading && !this.props.dontUseLoader ? (
-                      <div
-                        style={{
-                          borderRadius: "100%",
-                          borderRight: "2px solid white",
-                          borderBottom: "2px solid white",
-                          minWidth: 20,
-                          minHeight: 20,
-                          width: 20,
-                          height: 20,
-                        }}
-                        className="animate-rotate ml-1"
-                      ></div>
-                    ) : null}
                   </span>
                 </button>
               </span>

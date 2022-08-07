@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import Sidebar2 from "../side-bar-2/Sidebar2";
 import { useSideBarContext } from "../side-bar-2/context/side-bar-provide";
 import { Outlet } from "react-router";
-import { useAuthServices } from "../../context/auth-context";
+import { useAuthServices } from "../../pages/auth-org/context/auth-context";
 import DateRangePicker from "../date-range-picker/date-range-picker";
 import { getAsObjectFromLocalStorage } from "../../libraries/easy";
 import { useKitchenServices } from "../../context/kitchen-body-context";

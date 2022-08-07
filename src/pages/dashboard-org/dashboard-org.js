@@ -1,5 +1,9 @@
 import { Apartment } from "@mui/icons-material";
 import React from "react";
+import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
+import PopUpButton from "../../components/popup-button/popup-button";
+import { useNavigate } from "react-router-dom";
+import { ALL_URLS } from "../../contants/urls/rout-links";
 
 export default function OrgDashboard() {
   const election = [
@@ -15,10 +19,32 @@ export default function OrgDashboard() {
       positions: [],
     },
   ];
-  const ejectElections = () => {};
+  const { elections, openElection } = useElectionServices();
+  const navigate = useNavigate();
+  const ejectElections = () => {
+    return elections.map((item, index) => {
+      return (
+        <div
+          key={index}
+          className="w-full cursor-pointer rounded-sm bg-blue-50 mb-4 px-3 h-100 min-h-[200px] shadow flex justify-start items-center"
+        >
+          <div className="w-1/2">{item.GeneralInfo.Title}</div>
+          <div className="w-1/4"></div>
+          <div className="w-1/4 flex justify-end px-2 items-center">
+            <PopUpButton
+              handleClick={() => {
+                openElection(item);
+              }}
+              buttonText="View"
+            />
+          </div>
+        </div>
+      );
+    });
+  };
   return (
     <div className="w-full h-full bg-white flex justify-start flex-col">
-      <div className="w-full h-[200px] flex flex-col justify-between items-start shadow-lg bg-white p-3">
+      <div className="w-full h-[200px] min-h-[200px] flex flex-col justify-between items-start shadow-lg bg-white p-3">
         <div className="flex w-full justify-between items-center px-2">
           <span className="flex items-center">
             <Apartment />
@@ -26,13 +52,19 @@ export default function OrgDashboard() {
               Achimota senior high school
             </h1>
           </span>
-          <button className="text-gray-100 shadow-lg p-2 bg-black rounded-lg">
-            Create election
-          </button>
+          <PopUpButton
+            handleClick={() => {
+              navigate(ALL_URLS.createElection.url);
+            }}
+            buttonText="Crete election"
+          />
         </div>
       </div>
-      <div className="w-full h-full flex flex-col items-center bg-gray-50">
-        <div className="h-full w-full"></div>
+      <div className="w-full h-full flex flex-col justify-start overflow-y-auto items-center bg-gray-50">
+        <div className="h-auto w-full  p-3 flex justify-start  flex-col items-center  ">
+          {ejectElections()}
+        </div>
+        jj
       </div>
     </div>
   );

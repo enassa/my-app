@@ -2,42 +2,56 @@ export const baseRoute = {
   route: "/home",
   url: "/home",
 };
+
+export const votingScreenHome = {
+  route: "/vhome",
+  url: "/v/vhome",
+};
+export const resultScreenHome = {
+  route: "/rhome",
+  url: "/r/rhome",
+};
 export const ALL_URLS = {
   base: {
     route: "/",
     actual: "/",
     successful: "/successful",
     failed: "/failed",
+    url: "/",
   },
+  // ORGANIZATION FIELDS
   home: {
     route: baseRoute.route,
     actual: baseRoute.url,
   },
-
   // auth urls
   registerOrganization: {
     route: "/register",
     url: "/register",
   },
+  statusPage: {
+    route: "/status-page",
+    url: "/status-page",
+  },
   setPassword: {
     route: "/set-new-password",
     url: "/set-new-password",
-  },
-  loginToVoteScreen: {
-    route: "/vote-login/:org_id/:election_id",
-    url: "/vote-login/null/null",
-  },
-  loginToVoteResults: {
-    route: "/results-login/:org_id/:election_id",
-    url: "/results/null/null",
   },
   loginToOrganization: {
     route: "/login",
     url: "/login",
   },
-  orgDashoboard: {
-    route: "dashboard/:org_id",
-    url: baseRoute.route + "/dashboard/org_id",
+  succesfulRegistration: {
+    route: "/registation-success",
+    url: "/registation-success",
+  },
+  succesfullEmailVerification: {
+    route: "/verification-success",
+    url: "/verification-success",
+  },
+  succesfulPasswordReset: {
+    route: "/resetpassword-success",
+    url: "/resetpassword-success",
   },
   verifyEmail: {
     route: "/verify-email",
@@ -51,10 +65,7 @@ export const ALL_URLS = {
     route: "/verify-otp",
     url: "/verify-otp",
   },
-  votingScreen: {
-    route: "voting/:org_id/:election_id",
-    url: "/verify-otp",
-  },
+
   voteSuccessful: {
     route: "/vote-successful",
     url: "/vote-successful",
@@ -63,17 +74,59 @@ export const ALL_URLS = {
     route: "/vote-failed",
     url: "/voting-failed",
   },
-  resultsScreen: {
-    route: "/results-view/:org_id/:election_id",
-    url: "/results-view/null/null",
+
+  // protected routes
+  orgDashoboard: {
+    route: "dashboard/:org_id",
+    url: baseRoute.route + "/dashboard/org_id",
   },
   createElection: {
-    route: "/create-election/:org_id",
-    url: "/create-election/null",
+    route: "create-election",
+    url: baseRoute.route + "/create-election",
   },
   viewElectionDashboard: {
-    route: "/view-election/:org_id/:tab",
-    url: "/view-election/null/null",
+    route: "view-election/:tab",
+    url: baseRoute.route + "/view-election",
   },
+
+  // EXTERNALS
+  // external auth routes
+  loginToVoteScreen: {
+    route: "vote-login/:org_id/:election_id",
+    url: "v/vote-login/org_id/election_id",
+  },
+  loginToResultsScreen: {
+    route: "results-login/:org_id/:election_id",
+    url: "r/results-login/org_id/election_id",
+  },
+
+  voteScreenUrls: {
+    route: "/v",
+    url: "/v",
+  },
+  resultsScreenUrls: {
+    route: "/r",
+    url: "/r",
+  },
+
+  // protected externals routes
+  resultScreenHome: {
+    route: "rhome",
+    url: "r/rhome",
+  },
+  resultsScreen: {
+    route: "results-screen",
+    url: resultScreenHome.url + "/results-screen",
+  },
+
+  votingScreenHome: {
+    route: "vhome",
+    url: "v/vhome",
+  },
+  votingScreen: {
+    route: "voting-screen",
+    url: votingScreenHome.url + "/voting-screen",
+  },
+
   anyOther: "*",
 };

@@ -16,7 +16,7 @@ export default function LandingPage() {
   };
 
   return (
-    <divc className={`w-full h-full flex justify-start flex-col`}>
+    <div className={`w-full h-full flex justify-start flex-col`}>
       <div
         style={{ background: "linear-gradient(270deg,#e4bc2a,#db5151)" }}
         className="w-full h-[300px] bg-red-500 justify-center flex items-center"
@@ -66,6 +66,28 @@ export default function LandingPage() {
             }}
             outerStyles={{ marginBottom: "40px" }}
           />
+          <PopUpButton
+            handleClick={() => {
+              navigate(ALL_URLS.loginToVoteScreen.url);
+            }}
+            buttonText="Vote"
+            innerStyles={{
+              padding: "20px 70px",
+              background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
+            }}
+            outerStyles={{ marginBottom: "40px" }}
+          />
+          <PopUpButton
+            handleClick={() => {
+              navigate(ALL_URLS.loginToResultsScreen.url);
+            }}
+            buttonText="Results"
+            innerStyles={{
+              padding: "20px 70px",
+              background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
+            }}
+            outerStyles={{ marginBottom: "40px" }}
+          />
         </div>
         {/* <div  style={{width:"309px"}} className={` w-1/2 height-80-cent cursor-pointer rounded-lg  bg-white shadow-blend`}></div>
                     background-color: #a4508b;
@@ -73,6 +95,6 @@ export default function LandingPage() {
 
                     <div  style={{width:"309px"}} className={` w-1/2 height-80-cent cursor-pointer rounded-lg  bg-white shadow-blend`}></div> */}
       </div>
-    </divc>
+    </div>
   );
 }
