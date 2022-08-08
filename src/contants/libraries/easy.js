@@ -573,11 +573,20 @@ export const convertDegreeToPercent = (value) => {
   converted = converted * 100;
   return converted;
 };
-export const encodeToB64 = (string) => {
-  return btoa(string);
-};
+
 export const decodeFromB64 = (string) => {
-  return atob(string);
+  let decodedStr = "";
+  try {
+    decodedStr = atob(string);
+  } catch {}
+  return decodedStr;
+};
+export const encodeToB64 = (string) => {
+  let encodedStr = "";
+  try {
+    encodedStr = atob(string);
+  } catch {}
+  return encodedStr;
 };
 export const getParameterByName = (name, url = window.location.href) => {
   name = name.replace(/[\[\]]/g, "\\$&");
