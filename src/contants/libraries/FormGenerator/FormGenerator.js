@@ -534,6 +534,7 @@ class FormGenerator extends Component {
                   type={field.fieldType}
                   name={field.name}
                   value={field?.value}
+                  disabled={field.disabled}
                   defaultValue={
                     field.defaultValue
                       ? replaceUnderscoreWithSpace(field.defaultValue)
@@ -583,12 +584,19 @@ class FormGenerator extends Component {
           // className='bg-white d-none mt-[40px] margin-b-20p-[20px] shadow-blend'
           onClick={() => this.setState({ activeQuestion: value })}
         >
-          <div key={index} className={mod("form__group")} style={{}}>
+          <div
+            key={index}
+            className={
+              mod("form__group") + ` ${field.locked ? "bg-gray-50  px-3" : ""}`
+            }
+            style={{}}
+          >
             <input
               style={{
                 fontFamily: "Helvetica Neue",
                 fontSize: this.state.fontSize,
               }}
+              disabled={field.disabled || field.locked}
               type={field.fieldType}
               name={field.name}
               defaultValue={
@@ -1592,7 +1600,7 @@ class FormGenerator extends Component {
               >
                 <button
                   disable={`${!this.state.buttonClicked || this.props.loading}`}
-                  className="ro"
+                  className=""
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1617,7 +1625,7 @@ class FormGenerator extends Component {
                         width: 20,
                         height: 20,
                       }}
-                      className="animate-rotate ml-1"
+                      className="animate-rotate mr-2"
                     ></div>
                   ) : null}
                   <span

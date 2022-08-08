@@ -20,15 +20,31 @@ import VoteScreenHelper from "./pages/voting-screen/vote-screen-helper";
 import ResultScreenHelper from "./pages/results-screen/results-screen-helper";
 import CreateElectionWrapper from "./pages/create-election/create-election-wrapper";
 import StatusPage from "./pages/status-page/status-page";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <Router>
+      <ToastContainer />
       {/* <ToastContainer /> */}
       <Routes>
         <Route path={ALL_URLS.base.route} element={<LandingPage />} />
 
-        <Route path={ALL_URLS.statusPage.route} element={<StatusPage />} />
+        <Route
+          path={ALL_URLS.succesfulPasswordReset.route}
+          element={<StatusPage />}
+        />
+        <Route
+          path={ALL_URLS.succesfulRegistration.route}
+          element={<StatusPage />}
+        />
+        <Route
+          path={ALL_URLS.succesfullEmailVerification.route}
+          element={<StatusPage />}
+        />
+        <Route path={ALL_URLS.confirmEmail.route} element={<StatusPage />} />
+        <Route path={ALL_URLS.verifyLink.route} element={<PasswordReset />} />
 
         {/* ORG ROUTES */}
         <Route

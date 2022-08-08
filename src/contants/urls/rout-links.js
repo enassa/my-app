@@ -42,8 +42,8 @@ export const ALL_URLS = {
     url: "/login",
   },
   succesfulRegistration: {
-    route: "/registation-success",
-    url: "/registation-success",
+    route: "/registration-success",
+    url: "/registration-success",
   },
   succesfullEmailVerification: {
     route: "/verification-success",
@@ -65,7 +65,14 @@ export const ALL_URLS = {
     route: "/verify-otp",
     url: "/verify-otp",
   },
-
+  confirmEmail: {
+    route: "/confirm/:email/:token",
+    url: "/confirm/null/null",
+  },
+  verifyLink: {
+    route: "/link/:email/:token",
+    url: "/link/null/null",
+  },
   voteSuccessful: {
     route: "/vote-successful",
     url: "/vote-successful",

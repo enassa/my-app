@@ -17,23 +17,12 @@ export const TOKEN = {
       ? process.env.REACT_APP_TOKEN
       : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQT1RCRUxMWSIsImlzcyI6IlN5c19BZG1pbiIsImV4cCI6MTY2NDkwNDYxNn0.zNOAmUOxb956hGilcBwYFbcw4tCbBV_FnMLB4A75gcE",
 };
-export const MAP_API_KEY = {
-  dev:
-    process.env.NODE_ENV === "production"
-      ? "AIzaSyA7sWsutmfPAZN8O67oMyhep71hQkENqDo"
-      : // : "AIzaSyCNkHiAo8PPxV0NHTtW0u0mNYhLW8QUEB8",
-        "AIzaSyA7sWsutmfPAZN8O67oMyhep71hQkENqDo",
-  // dev:
-  //   process.env.NODE_ENV === "production"
-  //     ? process.env.REACT_MAP_API_KEY
-  //     : // : "AIzaSyCNkHiAo8PPxV0NHTtW0u0mNYhLW8QUEB8",
-  //       "AIzaSyAMGYi9QygVX0B4Jwer_VaNP8Q9XMh_sWo",
-};
+
 export const END_POINTS = {
   // Account management staffend points
   loginToVoteScreen: "/api/election/login/voting-screen",
   loginToResultsScreen: "/api/election/login/resulst-screen",
-  loginToOrganization: "/api/election/login/organization",
+  loginToOrganization: "/api/election/login",
   registerOrganization: "/api/election/register",
   confirmEmail: "/api/election/confirm",
   castVote: "/api/election/vote/cast",

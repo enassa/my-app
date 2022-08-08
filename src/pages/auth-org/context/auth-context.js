@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { saveObjectInLocalStorage } from "../../../contants/libraries/easy";
 import { BASE_URL, END_POINTS, TOKEN } from "../../../contants/urls/urls";
-// import { errorToast, successToast } from "../../../components/toast/toastify";
+import { errorToast, successToast } from "../../../components/toast/toastify";
 
 export const useAuthServices = () => {
   const [loading, setLoading] = useState(false);
@@ -30,12 +30,12 @@ export const useAuthServices = () => {
     setLoginStatus(true);
     setUser(data);
     saveObjectInLocalStorage("userData", data);
-    return true;
+    return data;
   };
 
   const processVerification = (data) => {
     saveObjectInLocalStorage("verifiedUserData", data);
-    return { ok: true, data: data };
+    return data;
   };
   const processOTP = (data) => {
     saveObjectInLocalStorage("otpData", data);
@@ -59,20 +59,19 @@ export const useAuthServices = () => {
       body: method !== "GET" && !!data ? JSON.stringify(data) : undefined,
     })
       .then(async (response) => {
-        console.log(response);
+        // console.log(response);
+        const responseData = await response?.json();
         if (response.ok) {
-          const responseData = await response.json();
-          console.log(responseData);
+          // console.log(responseData);
           // if (action === "verify") {
           //   return processVerification(responseData);
           // } else if (action === "otp") {
           //   return processOTP(responseData);
           // }
-
-          if (responseData.success) {
+          if (responseData.success === true) {
             if (action === "auth") {
               console.log(responseData);
-              return processAuthentication(responseData.data);
+              return processAuthentication(responseData);
             } else if (action === "verify") {
               return processVerification(responseData);
             } else if (action === "getData") {
@@ -81,15 +80,22 @@ export const useAuthServices = () => {
               return responseData.data;
             }
           } else {
-            // errorToast("Authentication was not successful");
+            // Okay is true but success is false
+            return responseData;
           }
         } else {
-          // erroroast("Authentication was not successful");
-          throw new Error(response?.statusText);
+          // Okay is false and success is false
+          return responseData;
         }
       })
-
       .catch((error) => {
+        // Request couldn't go through at all. eg no internet
+        return {
+          error: error,
+          message: "Uknown error, check your internet connnection",
+          ok: false,
+          success: false,
+        };
         // errorToast(
         //   "Authentication failed, please check your internet connection"
         // );
@@ -101,7 +107,7 @@ export const useAuthServices = () => {
   };
 
   const loginUser = async (data) => {
-    return request(`${END_POINTS.login}`, "POST", data, "auth");
+    return request(`${END_POINTS.loginToOrganization}`, "POST", data, "auth");
   };
 
   const logOut = (data) => {
@@ -111,8 +117,8 @@ export const useAuthServices = () => {
     localStorage.removeItem("userData");
   };
 
-  const verifyEmail = async (email) => {
-    return request(`${END_POINTS.verifyEmail}/${email}`, "GET", null, "verify");
+  const forgotPassword = async (data) => {
+    return request(`${END_POINTS.forgotPassword}`, "POST", data, "verify");
   };
 
   const initiatePasswordReset = async (data) => {
@@ -123,6 +129,7 @@ export const useAuthServices = () => {
       "verify"
     );
   };
+
   const resetPassword = async (data) => {
     return request(`${END_POINTS.resetPassword}`, "PUT", data, "verify");
   };
@@ -131,6 +138,7 @@ export const useAuthServices = () => {
     // alert("heyy");
     return request(END_POINTS.setNewPassword, "PUT", data, "verify");
   };
+
   const verifyLink = async (data) => {
     return request(END_POINTS.verifyLink, "POST", data, "verify");
   };
@@ -146,6 +154,7 @@ export const useAuthServices = () => {
   const verifyVoterId = async (id, data) => {
     return request(`${END_POINTS.updateStaff}/${id}`, "POST", data);
   };
+
   return {
     isLoggedIn,
     loading,
@@ -153,8 +162,8 @@ export const useAuthServices = () => {
     logOut,
     verifyLink,
     loginUser,
-    verifyEmail,
     initiateLogin,
+    forgotPassword,
     registerUser,
     confirmEmail,
     resetPassword,

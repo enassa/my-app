@@ -8,11 +8,27 @@ import { fontFamily3 } from "../../components/contants/ui-constants";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
+import { useAuthServices } from "./context/auth-context";
+import { errorToast } from "../../components/toast/toastify";
 
 export default function OrgLogin() {
   const navigate = useNavigate();
-  const handleSubmit = (data, resetForm, completed) => {
-    navigate(ALL_URLS.orgDashoboard.url);
+  const { loading, loginUser } = useAuthServices();
+
+  const handleSubmit = (data) => {
+    delete data.password_confirm;
+    loginUser(data)
+      .then((res) => {
+        console.log(res);
+        if (res?.success) {
+          navigate(ALL_URLS.orgDashoboard.url);
+        } else {
+          errorToast(res?.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -25,7 +41,7 @@ export default function OrgLogin() {
                 </video> */}
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[500000] flex flex-col justify-center items-center"
+        className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
         <div className="fixed top-0 left-0 w-full ">
           <SimpleNavbar
@@ -80,7 +96,7 @@ export default function OrgLogin() {
             }}
             className="w-full h-[5px] animate-bgChange"
           ></div>
-          <div className="w-[400px] h-[500px] j-space-around items-center flex flex-col  bg-white shadow-blend p-[30px]">
+          <div className="w-[400px] h-[400px] j-space-around items-center flex flex-col  bg-white shadow-blend p-[30px]">
             <div
               style={{ fontSize: 20, fontFamily: fontFamily3, color: "black" }}
               className="flex justify-center items-center mb-[40px]"
@@ -92,15 +108,15 @@ export default function OrgLogin() {
                 fields={[
                   {
                     fieldType: FIELDS.input,
-                    name: "Email",
+                    name: "email",
                     label: "Email",
-                    placeholder: "Mobile number",
+                    placeholder: "Email",
                     required: true,
                   },
 
                   {
                     fieldType: FIELDS.password,
-                    name: "Password",
+                    name: "password",
                     label: "Password",
                     placeholder: "Password",
                     required: true,
@@ -115,13 +131,19 @@ export default function OrgLogin() {
                     "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
                   borderRadius: "5px",
                 }}
-                loading={true}
+                loading={loading}
               />
               <div
                 style={{ fontFamily: fontFamily3 }}
                 className="justify-between"
               >
-                <span style={{ color: "#FEA797" }} className="cursor-pointer">
+                <span
+                  onClick={() => {
+                    navigate(ALL_URLS.verifyEmail.url);
+                  }}
+                  style={{ color: "#FEA797" }}
+                  className="cursor-pointer"
+                >
                   Forgot password?
                 </span>
               </div>

@@ -25,7 +25,7 @@ export default function VoterIdVerification() {
                 </video> */}
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[500000] flex flex-col justify-center items-center"
+        className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
         <div
           style={{

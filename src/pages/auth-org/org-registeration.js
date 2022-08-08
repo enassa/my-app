@@ -10,17 +10,22 @@ import { useNavigate } from "react-router-dom";
 import { useAuthServices } from "./context/auth-context";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useStatusHook } from "../status-page/hook/status-hook";
+import { errorToast } from "../../components/toast/toastify";
 
 export default function OrgRegisteration() {
   const navigate = useNavigate();
   const { loading, registerUser } = useAuthServices();
-  const { goToStatusPage } = useStatusHook();
 
   const handleSubmit = (data) => {
     delete data.password_confirm;
     registerUser(data)
-      .then(() => {
-        navigate(ALL_URLS.statusPage.url);
+      .then((res) => {
+        console.log(res);
+        if (res?.success) {
+          navigate(ALL_URLS.succesfulRegistration.url);
+        } else {
+          errorToast(res?.message);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -34,7 +39,7 @@ export default function OrgRegisteration() {
     >
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[500000] flex flex-col justify-center items-center"
+        className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
         <div className="fixed top-0 left-0 w-full ">
           <SimpleNavbar
