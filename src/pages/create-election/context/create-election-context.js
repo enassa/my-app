@@ -1,7 +1,18 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { deepCloneObject } from "../../../contants/libraries/easy";
-import { BASE_URL, END_POINTS, TOKEN } from "../../../contants/urls/urls";
+import {
+  deepCloneObject,
+  getAsObjectFromLocalStorage,
+  saveObjectInLocalStorage,
+} from "../../../contants/libraries/easy";
+import {
+  BASE_URL,
+  END_POINTS,
+  ORG_CODE,
+  ORG_EMAIL,
+  ORG_NAME,
+  TOKEN,
+} from "../../../contants/urls/urls";
 // import toast from "../components/toast/toast";
 // import { errorToast } from "../components/toast/toastify";
 import {
@@ -14,13 +25,16 @@ import {
   contestDefBluePrint,
 } from "../../../components/contants/ui-data";
 import { dummyElection } from "../../../components/contants/dummy-data";
+import { useElectionServices } from "../../../redux/slices/election-slice/election-hook";
 
 const ElectionContext = React.createContext(undefined);
 const ElectionProvider = ({ children }) => {
+  const { createElectionAsync } = useElectionServices();
   const [loading, setLoading] = useState(false);
 
   const [bluePrintState, updateBluePrintState] = useState(
-    deepCloneObject(electionBluePrint)
+    undefined
+    // deepCloneObject(electionBluePrint)
   );
 
   const voterIdPrint = deepCloneObject(voterIdBluePrint);
@@ -30,6 +44,16 @@ const ElectionProvider = ({ children }) => {
   const generalInfoPrint = deepCloneObject(generalBlueInfoPrint);
 
   useEffect(() => {
+    let electionObjectCache = getAsObjectFromLocalStorage("bluePrintState");
+    if (bluePrintState === undefined && electionObjectCache === undefined) {
+      updateBluePrintState(deepCloneObject(electionBluePrint));
+    }
+    if (bluePrintState === undefined && electionObjectCache !== undefined) {
+      updateBluePrintState(electionObjectCache);
+    }
+    setTimeout(() => {
+      saveObjectInLocalStorage("bluePrintState", bluePrintState);
+    }, 200);
     console.log(bluePrintState);
   }, [bluePrintState]);
 
@@ -41,6 +65,7 @@ const ElectionProvider = ({ children }) => {
         ...oldGeneralInfo,
         [field]: data,
       },
+      Title: data,
     };
     updateBluePrintState(newBluePrint);
   };
@@ -148,7 +173,7 @@ const ElectionProvider = ({ children }) => {
     );
     if (indexOfItemToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
 
-    oldContestantDefinition.splice(indexOfItemToEdit, 1, data);
+    oldContestantDefinition?.splice(indexOfItemToEdit, 1, data);
     let newBluePrint = {
       ...bluePrintState,
       ContestantDefinition: oldContestantDefinition,
@@ -208,6 +233,8 @@ const ElectionProvider = ({ children }) => {
   };
 
   const deletePosition = (data) => {
+    // remove cached active portfolio
+    localStorage.removeItem("activePortfolio");
     let mainBluePrint = deepCloneObject(bluePrintState);
     const deleteAssociatedContestants = async () => {
       let oldContestants = bluePrintState.Contestants;
@@ -242,6 +269,18 @@ const ElectionProvider = ({ children }) => {
     updateBluePrintState(undefined);
   };
 
+  // API calls
+  const createElection = (data) => {
+    createElectionAsync({
+      electionData: {
+        ...bluePrintState,
+        Password: "",
+        OrganizationId: ORG_CODE(),
+        OrganizationName: ORG_NAME(),
+        OrganizationEmail: ORG_EMAIL(),
+      },
+    });
+  };
   return (
     <ElectionContext.Provider
       value={{
@@ -262,6 +301,8 @@ const ElectionProvider = ({ children }) => {
         updatePosition,
 
         resetElectionPrint,
+
+        createElection,
 
         bluePrintState,
         generalInfoPrint,

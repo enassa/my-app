@@ -99,12 +99,12 @@ export const ALL_URLS = {
   // EXTERNALS
   // external auth routes
   loginToVoteScreen: {
-    route: "vote-login/:org_id/:election_id",
-    url: "v/vote-login/org_id/election_id",
+    route: "vote-login/:org_id/:election_id/:token",
+    url: "v/vote-login/org_id/election_id/token",
   },
   loginToResultsScreen: {
-    route: "results-login/:org_id/:election_id",
-    url: "r/results-login/org_id/election_id",
+    route: "results-login/:org_id/:election_id/:token",
+    url: "r/results-login/org_id/election_id/token",
   },
 
   voteScreenUrls: {
@@ -125,7 +125,6 @@ export const ALL_URLS = {
     route: "results-screen",
     url: resultScreenHome.url + "/results-screen",
   },
-
   votingScreenHome: {
     route: "vhome",
     url: "v/vhome",

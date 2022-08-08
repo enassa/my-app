@@ -6,9 +6,10 @@ import { fontFamily5 } from "../../contants/ui-contants/ui-constants";
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { fontFamily3 } from "../../components/contants/ui-constants";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
+import { decodeFromB64 } from "../../contants/libraries/easy";
 // Id: "U7T8U5YX",
 // OrganizationId: "23DGF34J",
 // OrganizationName: "Achimota senior High School",
@@ -26,6 +27,9 @@ import { useElectionServices } from "../../redux/slices/election-slice/election-
 //   },
 export default function VoteScreenLogin() {
   const { votingElection } = useElectionServices();
+
+  const params = useParams();
+  const decodedEmail = decodeFromB64(params?.email);
 
   const navigate = useNavigate();
   const handleSubmit = (data, resetForm, completed) => {

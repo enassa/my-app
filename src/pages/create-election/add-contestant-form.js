@@ -55,24 +55,25 @@ export default function AddContestantForm({
     },
   ];
 
-  info.map((item, index) => {
-    if (
-      item.Title === "ImageInfo" ||
-      item.Title === "Image" ||
-      item.Title === "ImageUrl" ||
-      item.Title === "Ballot_Number"
-    )
+  Array.isArray(info) &&
+    info?.map((item, index) => {
+      if (
+        item.Title === "ImageInfo" ||
+        item.Title === "Image" ||
+        item.Title === "ImageUrl" ||
+        item.Title === "Ballot_Number"
+      )
+        return null;
+      fields.push({
+        fieldType: FIELDS.input,
+        name: replaceSpaceWithUnderscore(item.Title),
+        label: item.Title,
+        placeholder: item.Title,
+        required: true,
+        defaultValue: "",
+      });
       return null;
-    fields.push({
-      fieldType: FIELDS.input,
-      name: replaceSpaceWithUnderscore(item.Title),
-      label: item.Title,
-      placeholder: item.Title,
-      required: true,
-      defaultValue: "",
     });
-    return null;
-  });
   const handleFormSubmit = (formData, resetFunc, completed) => {
     if (tempImage.ImageInfo === undefined) {
       setImageError({ state: true, message: "Image is required" });

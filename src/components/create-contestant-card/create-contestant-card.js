@@ -77,7 +77,6 @@ export default function CreateContestantCard({
     setEditMode(false);
   };
   const handleFormSubmit = (formData, resetFunc, completed) => {
-    console.log("not edited", data);
     let editedContestdantData = {
       ...data,
       Info: {
@@ -93,12 +92,10 @@ export default function CreateContestantCard({
     };
     updateContestant(editedContestdantData);
     closeForm();
-    console.log("edited", editedContestdantData);
   };
   const processFiles = (field, files) => {
     const ImageInfo = files[0];
     const ImageUrl = ImageInfo ? URL.createObjectURL(ImageInfo) : "";
-    console.log(ImageInfo, ImageUrl);
     if (tempImage.ImageUrl === ImageUrl) return;
     setTempImage({ ImageUrl, ImageInfo, edited: true });
   };
@@ -107,7 +104,6 @@ export default function CreateContestantCard({
     let contestantDef = bluePrintState?.ContestantDefinition?.find(
       (item) => item.Title === ContestantDefTitle
     );
-    console.log(contestantDef?.Show);
     if (!!contestantDef) return contestantDef?.Show;
   };
   return (

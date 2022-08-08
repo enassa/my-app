@@ -53,7 +53,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 index,
                 icon: <Article />,
                 name: `Title`,
-                value: bluePrintState.GeneralInfo.Title,
+                value: bluePrintState?.GeneralInfo.Title,
               }}
               handleOnChange={(name, value, validationState) => {
                 updateGeneralInfo("Title", value);
@@ -75,11 +75,11 @@ export default function GeneralInfoForm({ handleNavigation }) {
   };
   const ejectContestantDef = () => {
     const allContestantDefinitions = !!bluePrintState
-      ? bluePrintState.ContestantDefinition
+      ? bluePrintState?.ContestantDefinition
       : [];
     return allContestantDefinitions
-      .filter((item) => item?.Invisible !== true)
-      .map((item, count) => {
+      ?.filter((item) => item?.Invisible !== true)
+      ?.map((item, count) => {
         return (
           <DefinitionCard
             disabled={item.Title === "Name" || item.Title === "Image"}
@@ -101,7 +101,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
   };
   const ejectPositions = () => {
     const allPositions = !!bluePrintState ? bluePrintState.Positions : [];
-    return allPositions.map((item, index) => {
+    return allPositions?.map((item, index) => {
       return (
         <PortfolioCard
           error={errors.includes(`Position${item.Id}`)}
@@ -141,19 +141,19 @@ export default function GeneralInfoForm({ handleNavigation }) {
       foundErrors.push("Title");
     }
     console.log(
-      bluePrintState.GeneralInfo,
-      bluePrintState.GeneralInfo,
+      bluePrintState?.GeneralInfo,
+      bluePrintState?.GeneralInfo,
       bluePrintState
     );
     if (
-      bluePrintState.GeneralInfo.Starting === undefined ||
-      bluePrintState.GeneralInfo.Starting === ""
+      bluePrintState?.GeneralInfo.Starting === undefined ||
+      bluePrintState?.GeneralInfo.Starting === ""
     ) {
       foundErrors.push("Starting");
     }
     if (
-      bluePrintState.GeneralInfo.Ending === undefined ||
-      bluePrintState.GeneralInfo.Ending === ""
+      bluePrintState?.GeneralInfo.Ending === undefined ||
+      bluePrintState?.GeneralInfo.Ending === ""
     ) {
       foundErrors.push("Ending");
     }
@@ -178,7 +178,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
     }
     handleNavigation(1);
   };
-  console.log(bluePrintState.GeneralInfo.Starting);
+  console.log(bluePrintState?.GeneralInfo.Starting);
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">

@@ -1,5 +1,6 @@
 import { PictureAsPdf, TextDecrease } from "@mui/icons-material";
 import { getAsObjectFromLocalStorage } from "../../contants/libraries/easy";
+import { ORG_CODE, ORG_NAME } from "../../contants/urls/urls";
 export const randomImages = "https://source.unsplash.com/random";
 export const dummyImage = "../../assets/images/nice.jpeg";
 export const User = () => {
@@ -7,15 +8,17 @@ export const User = () => {
   if (!!userData) {
     return userData;
   }
-  return { name: "", role: "" };
+  return { name: "", orgCode: "", role: "" };
 };
 export const electionBluePrint = {
   Id: "",
   OrganizationId: "",
   OrganizationName: "",
+  OrganizationEmail: "",
   DateCreated: "",
   CreatedBy: "",
   Title: "",
+  Password: "",
   NumberOfVoters: 0,
   TotalVoted: 0,
   GeneralInfo: {

@@ -85,22 +85,20 @@ export const useAuthServices = () => {
           }
         } else {
           // Okay is false and success is false
+          errorToast("Uknown error, Please contact administrator");
           return responseData;
+          // throw new Error();
         }
       })
       .catch((error) => {
-        // Request couldn't go through at all. eg no internet
+        console.log(error);
         return {
           error: error,
           message: "Uknown error, check your internet connnection",
           ok: false,
           success: false,
         };
-        // errorToast(
-        //   "Authentication failed, please check your internet connection"
-        // );
       })
-
       .finally(() => {
         setLoading(false);
       });

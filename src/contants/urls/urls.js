@@ -10,14 +10,6 @@ export const BASE_URL = {
   production: "",
   test: "",
 };
-export const TOKEN = {
-  // dev: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQT1RCRUxMWSIsImlzcyI6IlN5c19BZG1pbiIsImV4cCI6MTY2NDM2ODE0NX0.IwaAZPtmov7X1fvJAYzdFL0o2Xrg02gDXNZpMkWzHHY",
-  dev:
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_TOKEN
-      : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQT1RCRUxMWSIsImlzcyI6IlN5c19BZG1pbiIsImV4cCI6MTY2NDkwNDYxNn0.zNOAmUOxb956hGilcBwYFbcw4tCbBV_FnMLB4A75gcE",
-};
-
 export const END_POINTS = {
   // Account management staffend points
   loginToVoteScreen: "/api/election/login/voting-screen",
@@ -32,7 +24,6 @@ export const END_POINTS = {
 
   deleteElection: "/api/election/delete",
   resetElection: "/api/election/reset",
-  createElection: "/api/election/create",
 
   // forgot password
   forgotPassword: "/api/election/forgot-password",
@@ -40,32 +31,15 @@ export const END_POINTS = {
   resetPassword: "/api/election/reset-password",
 
   // CRUD OPERATION
+  createElection: "/api/elections/create",
 };
 
-export const HOME_URL = () => {
-  console.log("++++++++++++++", User().role);
-  switch (User().role) {
-    case "Manager":
-      return "ALL_URLS.mainDashboard.url";
-    default:
-      return "/";
-  }
-};
+export const ORG_CODE = () => User()?.data?.orgCode;
 
-export const ORG_CODE = () => User()?.organizationCode;
+export const ORG_NAME = () => User()?.data?.orgName;
 
-export const BRANCH = () => User()?.branch;
+export const ORG_EMAIL = () => User()?.data?.email;
 
-export const ORG_NAME = () => User()?.organizationName;
+export const ORG_CONTACT = () => User()?.data?.contact;
 
-export const IS_SUPER_ACCOUNT = () => User()?.role === "Super";
-
-export const EMAIL = () => User()?.email;
-
-export const USERNAME = () => User()?.name;
-
-export const ORG_LOGO = () => User()?.organizationLogoUrl;
-
-// export const MAIN_LOGO = () => logo;
-
-export const secondsPerFetch = 999999999;
+export const TOKEN = () => User()?.token;

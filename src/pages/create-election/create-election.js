@@ -10,10 +10,21 @@ import ContestantCreation from "./contestant-creation";
 import ElectionProvider from "./context/create-election-context";
 import GeneralInfoForm from "./general-info-form";
 import PreviewPage from "./preview-page";
+import {
+  localStorageGet,
+  localStorageSave,
+} from "../../contants/libraries/easy";
+import { useEffect } from "react";
 
 function CreateElection() {
-  const [activeStep, setActiveStep] = useState(1);
+  const activeStepCache = localStorageGet("activeStep");
+  let step = parseInt(activeStepCache);
+  const [activeStep, setActiveStep] = useState(step ? step : 1);
   const totalNumberOfSteps = 3;
+
+  useEffect(() => {
+    localStorageSave("activeStep", activeStep);
+  }, [activeStep]);
 
   const handleNavigation = (direction) => {
     switch (direction) {
@@ -131,6 +142,7 @@ function CreateElection() {
                 backgroundColor: "#2463EB",
               }}
               handleClick={() => {
+                localStorage.removeItem("bluePrintState");
                 if (activeStep < totalNumberOfSteps) {
                   setActiveStep(activeStep + 1);
                 }

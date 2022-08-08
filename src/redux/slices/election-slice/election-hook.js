@@ -11,6 +11,7 @@ import {
 } from "./election-slice";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../../contants/urls/rout-links";
+import { errorToast, successToast } from "../../../components/toast/toastify";
 
 export const useElectionServices = () => {
   const [loading, setLoading] = useState(false);
@@ -53,41 +54,39 @@ export const useElectionServices = () => {
     })
       .then(async (response) => {
         // console.log(response);
+        const responseData = await response?.json();
         if (response.ok) {
-          const responseData = await response.json();
-          if (!!responseData) {
-            // console.log(responseData);
+          if (responseData.success) {
+            // request and rction was succesfully
             return responseData;
           } else {
-            // errorToast("Action was not successful");
+            //only request was succesfull but action failed
+            return responseData;
           }
         } else {
-          // toast({
-          //   type: "error",
-          //   title: "Process failed",
-          //   description: response?.message,
-          // });
-          // errorToast("Action was not successful");
-          throw new Error(response?.statusText);
+          // okay is false and success is false
+          errorToast("Uknown error, Please contact administrator");
+          return responseData;
         }
       })
 
       .catch((error) => {
-        // toast({
-        //   type: "error",
-        //   title: "Failed to Process Request",
-        //   description: error?.message,
-        // });
+        errorToast("Uknown error, Please check your internet connection");
+        return {
+          error: error,
+          message: "Uknown error, check your internet connnection",
+          ok: false,
+          success: false,
+        };
       })
-
       .finally(() => {
         setLoading(false);
       });
   };
   const getElectionListAsync = async (organName) => {
     request(`${END_POINTS.getElectionList}`, "GET")
-      .then((resp) => {
-        dispatch(getElections(resp));
+      .then((res) => {
+        dispatch(getElections(res));
       })
       .catch((err) => {})
       .finally(() => {});
@@ -95,15 +94,18 @@ export const useElectionServices = () => {
 
   const createElectionAsync = async (data) => {
     request(END_POINTS.createElection, "POST", data)
-      .then((resp) => {
-        dispatch(createElection(data));
+      .then((res) => {
+        if (res.success) {
+          dispatch(createElection(data));
+        }
+        console.log("election creation", res);
       })
       .catch((err) => {})
       .finally(() => {});
   };
   const updateElectionAsync = async (data) => {
     request(`${END_POINTS.updateElection}`, "PUT", data)
-      .then((resp) => {
+      .then((res) => {
         dispatch(updateElection(data));
       })
       .catch((err) => {})
@@ -111,7 +113,7 @@ export const useElectionServices = () => {
   };
   const resetElectionAsync = async (data) => {
     request(`${END_POINTS.resetElection}`, "PUT", data)
-      .then((resp) => {
+      .then((res) => {
         dispatch(resetElection(data));
       })
       .catch((err) => {})
@@ -119,7 +121,7 @@ export const useElectionServices = () => {
   };
   const deleteElectionAsync = async (data) => {
     request(`${END_POINTS.deleteElection}`, "DELETE", data)
-      .then((resp) => {})
+      .then((res) => {})
       .catch((err) => {})
       .finally(() => {});
   };

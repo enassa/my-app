@@ -11,7 +11,6 @@ import {
 } from "@mui/icons-material";
 import GridLayOut from "../../components/grid_layout/GridLayout";
 import ContestantCard from "../../components/contestant-card/contestant-card";
-import { useElectionServices } from "../create-election/context/create-election-context";
 import { elections } from "../../components/contants/dummy-data";
 
 export default function ResultScreen() {
