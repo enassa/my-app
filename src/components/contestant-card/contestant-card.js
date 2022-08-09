@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import ClickAwayListener from "../click_away_listener/click-away-listener";
-import { ArrowRightAlt, CheckCircle, HowToVote } from "@mui/icons-material";
+import {
+  ArrowRightAlt,
+  CheckCircle,
+  HowToVote,
+  NavigateNext,
+} from "@mui/icons-material";
 export default function ContestantCard({
   showPosition,
   info,
@@ -20,7 +25,7 @@ export default function ContestantCard({
       onMouseOut={() => {
         setHovered(false);
       }}
-      className="w-[200px] animate-rise hover:shadow-2xl hover:animate-rise rounded-2xl h-[200px] shadow-lg bg-yellow-100 py-3 px-2 cursor-pointer flex items-center flex-col relative"
+      className="w-[200px] z-[88] animate-rise hover:shadow-2xl hover:animate-rise rounded-2xl h-[200px] shadow-lg bg-yellow-100 py-3 px-2 cursor-pointer flex items-center flex-col relative"
     >
       {position && (
         <div className="absolute top-[-10px] right-[-35px] bg-blue-500 text-white rounded-full h-10 min-w-[70px] flex justify-center items-center shadow-lg">
@@ -34,7 +39,7 @@ export default function ContestantCard({
       )}
       <div
         style={{ backgroundImage: `url(${info.Image})` }}
-        className="w-[100px] h-[100px] bg-yellow-50 rounded-full fit-bg mb-2"
+        className="w-[100px] h-[100px]  bg-yellow-50 rounded-full fit-bg mb-2"
       ></div>
       <div className="flex flex-col  justify-start items-center">
         <div>
@@ -75,13 +80,13 @@ export default function ContestantCard({
                   {!isLast && (
                     <div
                       style={{ borderRadius: "10px 50px 50px 10px" }}
-                      className="absolute z-[999999] animate-rise bg-blue-500 px-3 py-2 flex right-[-100px]"
+                      className="absolute z-[999999] animate-rise bg-[#5F27CD] px-3 py-2 flex right-[-70px]"
                       onClick={() => {
                         handleNextClick();
                       }}
                     >
-                      <span>Next Vote</span>
-                      <ArrowRightAlt />
+                      <span>Next</span>
+                      <NavigateNext />
                     </div>
                   )}
                 </div>

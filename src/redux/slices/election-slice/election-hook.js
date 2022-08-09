@@ -206,6 +206,7 @@ export const useElectionServices = () => {
         console.log(res);
         if (res.success) {
           successToast(res.message);
+          sessionStorage.removeItem("votingElection");
           return res;
         }
       })

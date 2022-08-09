@@ -13,21 +13,6 @@ import {
   decodeFromB64,
   saveObjectInSession,
 } from "../../contants/libraries/easy";
-// Id: "U7T8U5YX",
-// OrganizationId: "23DGF34J",
-// OrganizationName: "Achimota senior High School",
-// DateCreated: "20-07-2022",
-// CreatedBy: "Assan Ewudzi Nathaniel",
-// VoterIds: [
-//   {
-//     Id: "IH65DFG",
-//     Used: true,
-//     Votes: [],
-//     UsedBy: {},
-//     Election_Id: "U7T8U5YX",
-//     Org_Id: "23DGF34J",
-//     Time: "",
-//   },
 export default function VoteScreenLogin() {
   const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLogin } =
     useElectionServices();
@@ -54,12 +39,6 @@ export default function VoteScreenLogin() {
       electionId,
       token,
     });
-    // .then((res) => {
-    //   console.log("oooo", res);
-    //   if (res?.success) {
-    //     navigate(ALL_URLS.votingScreen.url);
-    //   }
-    // });
   };
 
   return (

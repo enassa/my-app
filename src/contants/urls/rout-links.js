@@ -138,5 +138,5 @@ export const ALL_URLS = {
     url: votingScreenHome.url + "/voting-success",
   },
 
-  anyOther: "*",
+  anyOther: "/*",
 };

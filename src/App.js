@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeItemsFromLocalStorage } from "./contants/libraries/easy";
 import VotingSuccesfull from "./pages/voting-screen/voting-succesfull";
+import PageNotFound from "./pages/page-not-found/page-not-found";
 
 function App() {
   return (
@@ -143,6 +144,7 @@ function App() {
             />
           </Route>
         </Route>
+        <Route path={ALL_URLS.anyOther} element={<PageNotFound />} />
       </Routes>
     </Router>
   );

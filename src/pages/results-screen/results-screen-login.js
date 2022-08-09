@@ -11,40 +11,46 @@ import { fontFamily5 } from "../../contants/ui-contants/ui-constants";
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { fontFamily3 } from "../../components/contants/ui-constants";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
-// Id: "U7T8U5YX",
-// OrganizationId: "23DGF34J",
-// OrganizationName: "Achimota senior High School",
-// DateCreated: "20-07-2022",
-// CreatedBy: "Assan Ewudzi Nathaniel",
-// VoterIds: [
-//   {
-//     Id: "IH65DFG",
-//     Used: true,
-//     Votes: [],
-//     UsedBy: {},
-//     Election_Id: "U7T8U5YX",
-//     Org_Id: "23DGF34J",
-//     Time: "",
-//   },
+import {
+  decodeFromB64,
+  saveObjectInSession,
+} from "../../contants/libraries/easy";
+
 export default function ResultScreenLogin() {
-  const { votingElection } = useElectionServices();
+  const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLogin } =
+    useElectionServices();
+  const location = useLocation();
+  saveObjectInSession("cachedUrl", { url: location.pathname });
+  const params = useParams();
+  const orgCode = decodeFromB64(params?.orgCode);
+  const electionId = decodeFromB64(params?.electionId);
+  const token = params?.token;
 
   const navigate = useNavigate();
   const handleSubmit = (data, resetForm, completed) => {
-    navigate(ALL_URLS.resultsScreen.url);
+    if (
+      data?.voterId !== "" &&
+      orgCode !== "" &&
+      electionId !== "" &&
+      orgCode &&
+      token !== ""
+    ) {
+    }
+    verifyVoterIdAsync({
+      voterId: data?.voterId,
+      orgCode,
+      electionId,
+      token,
+    });
   };
-
   return (
     <div
       style={{ backgroundImage: `url(${randomImages})` }}
       className="w-full  fit-bg h-full bg-gray-500 flex  flex-col justify-start items-center"
     >
-      {/* <video ref={this.videoRef} loop autoPlay muted  style={{position:'fixed', right: 0, bottom: 0, minWidth: '100vw', minHeight: '100vh'}} >
-                    <source src={bgvideo} type="video/mp4"/>
-                </video> */}
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
         className="w-full  h-full z-[5] flex flex-col justify-center items-center"
@@ -102,20 +108,6 @@ export default function ResultScreenLogin() {
                     placeholder: "Password",
                     required: true,
                   },
-                  //   {
-                  //     fieldType: FIELDS.password,
-                  //     name: "serial",
-                  //     label: "Enter",
-                  //     placeholder: "Password",
-                  //     required: true,
-                  //   },
-                  //   {
-                  //     fieldType: FIELDS.password,
-                  //     name: "serial",
-                  //     label: "Enter",
-                  //     placeholder: "Password",
-                  //     required: true,
-                  //   },
                 ]}
                 handleOnSubmit={(data, resetFunc, completed) => {
                   handleSubmit(data, resetFunc, completed);

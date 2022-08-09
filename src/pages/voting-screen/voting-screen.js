@@ -28,6 +28,7 @@ import {
 import { errorToast } from "../../components/toast/toastify";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
+import ProgressBar from "../../components/progress bar/ProgressBar";
 
 export default function VotingScreen() {
   const dispatch = useDispatch();
@@ -56,26 +57,38 @@ export default function VotingScreen() {
     saveObjectInSession("votingElection", newVotingElection);
     dispatch(setVotingElection(newVotingElection));
   };
-  const validateVote = () => {
-    const positionIds = Object.keys(votingElection?.Votes);
-    const votesObj = Object.keys(votingElection?.Votes);
-    let notVotedPortfolios = positionIds.every(
-      (item) => votesObj[item] !== undefined
-    );
-    if (notVotedPortfolios) {
-      errorToast("Please select at least one in al portfolios");
-      return false;
-    } else return true;
-    // let
-    // positionIds.
+  let percentageProgress = () => {
+    let notVoted = [];
+    let votesNow = votingElection?.Votes;
+    Object.keys(votesNow || {}).map((item) => {
+      if (votesNow[item] !== undefined) {
+        notVoted.push(item);
+      }
+    });
+
+    const difference = notVoted?.length / votingElection?.Positions?.length;
+    const percentage = difference * 100;
+    return percentage;
   };
+  // const validateVote = () => {
+  //   const positionIds = Object.keys(votingElection?.Votes);
+  //   const votesObj = Object.keys(votingElection?.Votes);
+  //   let notVotedPortfolios = positionIds.every(
+  //     (item) => votesObj[item] !== undefined
+  //   );
+  //   if (notVotedPortfolios) {
+  //     errorToast("Please select at least one in al portfolios");
+  //     return false;
+  //   } else return true;
+  //   // let
+  //   // positionIds.
+  // };
   const submitVote = () => {
     castVoteAsync({ voteData: votingElection });
     navigate(ALL_URLS.voteSuccess.url);
   };
-
   const ejectContestants = () => {
-    // Filter for contestants with the active position's Id
+    // filter for contestants with the active position's Id
     let contestants = Array.isArray(votingElection?.Contestants)
       ? votingElection.Contestants.filter(
           (contestant) =>
@@ -128,10 +141,10 @@ export default function VotingScreen() {
     if (cachedVotingObj !== undefined && votingElection === undefined) {
       dispatch(setVotingElection(cachedVotingObj));
     }
-    // window.addEventListener("beforeunload", (event) => {
-    //   event.returnValue = `Are you sure you want to leave?`;
-    //   console.log(event);
-    // });
+    window.addEventListener("beforeunload", (event) => {
+      event.returnValue = `Are you sure you want to leave?`;
+      console.log(event);
+    });
   }, []);
 
   // Maintain active position on refresh
@@ -143,9 +156,18 @@ export default function VotingScreen() {
   return (
     <div className="flex justify-start flex-col p-4">
       <div className="w-full flex items-center  h-[100px]">
-        <div className=" bg-blue-600 mr-3 cursor-pointer w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg"></div>
-        <div className="cursor-pointer overflow-hidden flex items-center w-1/2 h-[50px] shadow-lg">
-          <div className="h-full w-[200px] bg-blue-600 flex items-center">
+        <div className="  mr-3 cursor-pointer flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
+          <ProgressBar
+            circular
+            progressThickness={7}
+            progressColor={"#5F27CD"}
+            containerColor="#E2E2E2"
+            radius={40}
+            progressPercentage={percentageProgress()}
+          />
+        </div>
+        <div className="cursor-pointer overflow-hidden flex items-center w-1/2 h-[50px] rounded-lg shadow-lg">
+          <div className="h-full w-[200px] bg-[#5F27CD] flex items-center">
             <HowToVote className="text-white ml-2" />
             <div className="h-full w-full text-white flex justify-center items-center">
               {activePosition}
@@ -159,10 +181,17 @@ export default function VotingScreen() {
             <span>{votingElection?.Positions[activePosition - 1]?.Title}</span>
           </div>
         </div>
-        <div className="cursor-pointer ml-4 overflow-hidden pr-4  justify-end flex items-center w-1/2 h-[50px] ">
-          <div className="h-full pl-2 flex items-center">
-            <div className="h-full whitespace-nowrap  text-gray-700 flex justify-end items-center">
-              <HowToReg /> <span> VOTER ID:</span> <strong> 3423432423</strong>
+        <div className="cursor-pointer ml-4 overflow-hidden pr-4 shadow-lg rounded-lg  justify-between flex items-center w-1/2 h-[50px] ">
+          <div className="h-full pl-2 flex items-center ">
+            <div className="h-full whitespace-nowrap  text-[#5F27CD]  flex justify-end items-center">
+              {/* <span> Title:</span>  */}
+              <strong> {votingElection?.Title}</strong>
+            </div>
+          </div>
+          <div className="h-full pl-2 flex items-center ">
+            <div className="h-full whitespace-nowrap  text-[#5F27CD]  flex justify-end items-center">
+              <HowToReg /> <span> VOTER ID:</span>{" "}
+              <strong> {votingElection?.voterId}</strong>
             </div>
           </div>
         </div>
@@ -211,7 +240,7 @@ export default function VotingScreen() {
               <PopUpButton
                 noText={true}
                 innerStyles={{
-                  backgroundColor: "#2463EB",
+                  backgroundColor: "#5F27CD",
                   display: "flex",
                   minWith: "100px",
                   minHeight: "100px",
@@ -225,8 +254,12 @@ export default function VotingScreen() {
                   // if (activePosition < totalNumberOfPosition) {
                   //   setActivePosition(activePosition + 1);
                   // }
-                  if (validateVote()) {
+                  if (percentageProgress() === 100) {
                     submitVote();
+                  } else {
+                    errorToast(
+                      "Please select at least one from all portfolios"
+                    );
                   }
                 }}
               >
