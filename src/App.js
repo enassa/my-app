@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
@@ -22,6 +22,8 @@ import CreateElectionWrapper from "./pages/create-election/create-election-wrapp
 import StatusPage from "./pages/status-page/status-page";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { removeItemsFromLocalStorage } from "./contants/libraries/easy";
+import VotingSuccesfull from "./pages/voting-screen/voting-succesfull";
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
           path={ALL_URLS.succesfullEmailVerification.route}
           element={<StatusPage />}
         />
+
         <Route path={ALL_URLS.confirmEmail.route} element={<StatusPage />} />
         <Route path={ALL_URLS.verifyLink.route} element={<PasswordReset />} />
 
@@ -109,6 +112,10 @@ function App() {
             <Route
               path={ALL_URLS.votingScreen.route}
               element={<VotingScreen />}
+            />
+            <Route
+              path={ALL_URLS.voteSuccess.route}
+              element={<VotingSuccesfull />}
             />
           </Route>
         </Route>

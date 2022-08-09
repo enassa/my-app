@@ -11,6 +11,7 @@ import {
 import {
   createElection,
   setOpenedElection,
+  setVotingElection,
   resetOpenedElection,
   resetElection,
   updateElection,
@@ -20,9 +21,9 @@ import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../../contants/urls/rout-links";
 import { errorToast, successToast } from "../../../components/toast/toastify";
 import {
-  generateShortId,
   generateSuperShortId,
-  generateVeryShortId,
+  saveObjectInLocalStorage,
+  saveObjectInSession,
 } from "../../../contants/libraries/easy";
 
 export const useElectionServices = () => {
@@ -162,12 +163,36 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
+  const setUpPositionsForVoting = async (allPositions) => {
+    // Here we create an object of Position Ids and then when a vote is casted
+    // we assign the contestant chosen to the Position Id to get the total vote object
+    if (allPositions.length > 0) {
+      let obj = {};
+      await allPositions.map((position) => {
+        const property = position?.Id;
+        obj[property] = undefined;
+      });
+      return obj;
+    }
+  };
   const verifyVoterIdAsync = async (data) => {
     request(`${END_POINTS.verifyVoterId}`, "POST", data)
       .then((res) => {
-        console.log(res);
         if (res?.success) {
-          navigate(ALL_URLS.votingScreen.url);
+          //Set up voting obejct and if setup is complete, proceed
+          const Votes = setUpPositionsForVoting(res.data.Positions).then(
+            (voteSetUp) => {
+              const readyVotingElection = {
+                ...res.data,
+                Votes: voteSetUp,
+              };
+              // save setup in local storage so that even if user refreshes, vote process can continue
+              saveObjectInSession("votingElection", readyVotingElection);
+              // update state that contains the voting setup
+              dispatch(setVotingElection(readyVotingElection));
+              navigate(ALL_URLS.votingScreen.url);
+            }
+          );
         } else {
           errorToast(res.message);
         }
@@ -175,11 +200,12 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
-  const castVoteIdAsync = async (data) => {
-    request(`${END_POINTS.verifyVoterId}`, "POST", data)
+  const castVoteAsync = async (data) => {
+    request(`${END_POINTS.castVote}`, "PUT", data)
       .then((res) => {
+        console.log(res);
         if (res.success) {
-          successToast("Vote casted successfully");
+          successToast(res.message);
           return res;
         }
       })
@@ -219,7 +245,7 @@ export const useElectionServices = () => {
     openElection,
     closeElection,
     verifyVoterIdAsync,
-    castVoteIdAsync,
+    castVoteAsync,
     resultsLogin,
     election,
     loading,

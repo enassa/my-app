@@ -57,3 +57,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#pulser {
+  /* position: absolute;
+    min-width: 100vw;
+    min-height: 100vh; */
+  background: red;
+  animation-name: pulser;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  z-index: 0;
+}
+
+@keyframes pulser {
+  0% {
+    background-color: red;
+  }
+  49% {
+    background-color: red;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: white;
+  }
+}

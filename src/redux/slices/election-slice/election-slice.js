@@ -12,7 +12,7 @@ import { API_URL, elections } from "../../../components/contants/dummy-data";
 const initialState = {
   elections: [...elections],
   openedElection: undefined,
-  votingElection: elections[0],
+  votingElection: undefined,
 };
 
 export const createElectionSlice = createSlice({
@@ -35,6 +35,9 @@ export const createElectionSlice = createSlice({
     resetOpenedElection: (state, action) => {
       state.openedElection = undefined;
     },
+    setVotingElection: (state, action) => {
+      state.votingElection = action.payload;
+    },
   },
 });
 export const {
@@ -42,6 +45,7 @@ export const {
   createElection,
   updateElection,
   setOpenedElection,
+  setVotingElection,
   resetElection,
   resetOpenedElection,
   votingElection,

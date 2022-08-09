@@ -189,6 +189,7 @@ export default class PopUpButton extends Component {
       >
         <button style={innerStyle} className={innerClass}>
           {this.props.icon ? this.props.icon : null}
+
           {buttonText ? (
             <span
               style={{
@@ -204,10 +205,13 @@ export default class PopUpButton extends Component {
               ) : null}
             </span>
           ) : (
-            <span style={{ display: "flex", justifyContent: "center" }}>
-              Submit
-            </span>
+            !this.props.noText && (
+              <span style={{ display: "flex", justifyContent: "center" }}>
+                Submit
+              </span>
+            )
           )}
+          {this.props.children}
         </button>
         <div style={dropDownStyle} className={myClasses.contentArea}>
           {this.ejectItems()}

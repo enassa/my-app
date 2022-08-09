@@ -730,6 +730,16 @@ export const getDistanceBetweenTwoPoints = (startObj, endObj) => {
     );
   return d;
 };
+export const removeItemsFromLocalStorage = (itemsArr) => {
+  for (let i = 0; i < itemsArr.length; i++) {
+    localStorage.removeItem(itemsArr[i]);
+  }
+};
+export const removeItemsFromSessionStorage = (itemsArr) => {
+  for (let i = 0; i < itemsArr.length; i++) {
+    sessionStorage.removeItem(itemsArr[i]);
+  }
+};
 export const generateShortId = () => {
   var S4 = function () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);

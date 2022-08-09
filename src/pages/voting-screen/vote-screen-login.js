@@ -6,10 +6,13 @@ import { fontFamily5 } from "../../contants/ui-contants/ui-constants";
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { fontFamily3 } from "../../components/contants/ui-constants";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
-import { decodeFromB64 } from "../../contants/libraries/easy";
+import {
+  decodeFromB64,
+  saveObjectInSession,
+} from "../../contants/libraries/easy";
 // Id: "U7T8U5YX",
 // OrganizationId: "23DGF34J",
 // OrganizationName: "Achimota senior High School",
@@ -28,7 +31,8 @@ import { decodeFromB64 } from "../../contants/libraries/easy";
 export default function VoteScreenLogin() {
   const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLogin } =
     useElectionServices();
-
+  const location = useLocation();
+  saveObjectInSession("cachedUrl", { url: location.pathname });
   const params = useParams();
   const orgCode = decodeFromB64(params?.orgCode);
   const electionId = decodeFromB64(params?.electionId);
@@ -36,7 +40,6 @@ export default function VoteScreenLogin() {
 
   const navigate = useNavigate();
   const handleSubmit = (data, resetForm, completed) => {
-    console.log(data);
     if (
       data?.voterId !== "" &&
       orgCode !== "" &&

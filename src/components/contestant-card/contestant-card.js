@@ -69,13 +69,13 @@ export default function ContestantCard({
               className="w-full h-full flex justify-center items-center bg-backdrop2 z-[9000]   animate-rise shadow-blend rounded-lg top-[30px] "
             >
               {selected ? (
-                <div className="text-white  text-md flex flex-col justify-center items-center">
+                <div className="text-white   text-md flex flex-col justify-center items-center">
                   <CheckCircle style={{ fontSize: 80 }} />
                   <span>{info.Name}</span>
                   {!isLast && (
                     <div
                       style={{ borderRadius: "10px 50px 50px 10px" }}
-                      className="absolute animate-rise bg-blue-500 px-3 py-2 flex right-[-100px]"
+                      className="absolute z-[999999] animate-rise bg-blue-500 px-3 py-2 flex right-[-100px]"
                       onClick={() => {
                         handleNextClick();
                       }}
