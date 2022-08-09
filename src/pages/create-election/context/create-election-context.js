@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   deepCloneObject,
+  generateShortId,
   getAsObjectFromLocalStorage,
   saveObjectInLocalStorage,
 } from "../../../contants/libraries/easy";
@@ -30,7 +31,7 @@ import { useElectionServices } from "../../../redux/slices/election-slice/electi
 const ElectionContext = React.createContext(undefined);
 const ElectionProvider = ({ children }) => {
   const { createElectionAsync } = useElectionServices();
-  const [loading, setLoading] = useState(false);
+  const [loadingLocal, setLoading] = useState(false);
 
   const [bluePrintState, updateBluePrintState] = useState(
     undefined
@@ -268,9 +269,22 @@ const ElectionProvider = ({ children }) => {
   const resetElectionPrint = () => {
     updateBluePrintState(undefined);
   };
+  const createVoterIds = async (numberOfVoters) => {
+    setLoading(true);
+    let voterIds = [];
+    for (let i = 0; i < numberOfVoters; i++) {
+      let value = generateShortId();
+      if (!voterIds.includes(value)) {
+        voterIds.push(value);
+      }
+    }
+    return voterIds;
+  };
 
   // API calls
-  const createElection = (data) => {
+  const createElection = async (data) => {
+    let NumberOfVoters = 5000;
+    let VoterIds = await createVoterIds(NumberOfVoters);
     createElectionAsync({
       electionData: {
         ...bluePrintState,
@@ -278,13 +292,15 @@ const ElectionProvider = ({ children }) => {
         OrganizationId: ORG_CODE(),
         OrganizationName: ORG_NAME(),
         OrganizationEmail: ORG_EMAIL(),
+        NumberOfVoters: 5000,
+        VoterIds,
       },
     });
   };
   return (
     <ElectionContext.Provider
       value={{
-        loading,
+        loadingLocal,
         updateGeneralInfo,
         updateDate,
         updateSuperInfo,

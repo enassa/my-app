@@ -17,7 +17,6 @@ export const END_POINTS = {
   loginToOrganization: "/api/election/login",
   registerOrganization: "/api/election/register",
   confirmEmail: "/api/election/confirm",
-  castVote: "/api/election/vote/cast",
 
   getElectionList: "/api/election/list",
   getResults: "/api/election/results",
@@ -32,6 +31,13 @@ export const END_POINTS = {
 
   // CRUD OPERATION
   createElection: "/api/elections/create",
+
+  // -----voting------
+  verifyVoterId: "/api/elections/verify-voter",
+  castVote: "/api/elections/vote",
+
+  // ----results
+  verifyElectionPassword: "api/elections/results-login",
 };
 
 export const ORG_CODE = () => User()?.data?.orgCode;

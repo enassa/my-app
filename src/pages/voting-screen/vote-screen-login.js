@@ -26,14 +26,37 @@ import { decodeFromB64 } from "../../contants/libraries/easy";
 //     Time: "",
 //   },
 export default function VoteScreenLogin() {
-  const { votingElection } = useElectionServices();
+  const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLogin } =
+    useElectionServices();
 
   const params = useParams();
-  const decodedEmail = decodeFromB64(params?.email);
+  const orgCode = decodeFromB64(params?.orgCode);
+  const electionId = decodeFromB64(params?.electionId);
+  const token = params?.token;
 
   const navigate = useNavigate();
   const handleSubmit = (data, resetForm, completed) => {
-    navigate(ALL_URLS.votingScreen.url);
+    console.log(data);
+    if (
+      data?.voterId !== "" &&
+      orgCode !== "" &&
+      electionId !== "" &&
+      orgCode &&
+      token !== ""
+    ) {
+    }
+    verifyVoterIdAsync({
+      voterId: data?.voterId,
+      orgCode,
+      electionId,
+      token,
+    });
+    // .then((res) => {
+    //   console.log("oooo", res);
+    //   if (res?.success) {
+    //     navigate(ALL_URLS.votingScreen.url);
+    //   }
+    // });
   };
 
   return (
@@ -46,7 +69,7 @@ export default function VoteScreenLogin() {
                 </video> */}
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[500000] flex flex-col justify-center items-center"
+        className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
         <div
           style={{
@@ -96,7 +119,7 @@ export default function VoteScreenLogin() {
                 fields={[
                   {
                     fieldType: FIELDS.input,
-                    name: "votersId",
+                    name: "voterId",
                     label: "Enter voters Id",
                     placeholder: "Mobile number",
                     required: true,
@@ -118,7 +141,7 @@ export default function VoteScreenLogin() {
                     "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
                   borderRadius: "5px",
                 }}
-                loading={true}
+                loading={loading}
                 buttonText="Verify Id"
               />
               <div

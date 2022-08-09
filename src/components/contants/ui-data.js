@@ -45,9 +45,8 @@ export const voterIdBluePrint = {
   Used: true,
   Votes: [], // all the votes the use casted
   UsedBy: {},
-  Election_Id: "",
-  Org_Id: "",
   Time: "",
+  Compromised: false,
 };
 export const contestantBluePrint = {
   Id: null,

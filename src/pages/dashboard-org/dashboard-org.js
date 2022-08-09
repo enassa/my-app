@@ -22,25 +22,28 @@ export default function OrgDashboard() {
   const { elections, openElection } = useElectionServices();
   const navigate = useNavigate();
   const ejectElections = () => {
-    return elections.map((item, index) => {
-      return (
-        <div
-          key={index}
-          className="w-full cursor-pointer rounded-sm bg-blue-50 mb-4 px-3 h-100 min-h-[200px] shadow flex justify-start items-center"
-        >
-          <div className="w-1/2">{item.GeneralInfo.Title}</div>
-          <div className="w-1/4"></div>
-          <div className="w-1/4 flex justify-end px-2 items-center">
-            <PopUpButton
-              handleClick={() => {
-                openElection(item);
-              }}
-              buttonText="View"
-            />
+    return (
+      Array.isArray(elections) &&
+      elections.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="w-full cursor-pointer rounded-sm bg-blue-50 mb-4 px-3 h-100 min-h-[200px] shadow flex justify-start items-center"
+          >
+            <div className="w-1/2">{item?.GeneralInfo?.Title}</div>
+            <div className="w-1/4"></div>
+            <div className="w-1/4 flex justify-end px-2 items-center">
+              <PopUpButton
+                handleClick={() => {
+                  openElection(item);
+                }}
+                buttonText="View"
+              />
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      })
+    );
   };
   return (
     <div className="w-full h-full bg-white flex justify-start flex-col">

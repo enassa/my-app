@@ -98,6 +98,10 @@ function App() {
             element={<VoteScreenLogin />}
           />
           {/* Protected routes voting screen routes */}
+          {/* <Route
+            path={ALL_URLS.votingScreenHome.route}
+            element={<VotingScreenHome />}
+          /> */}
           <Route
             path={ALL_URLS.votingScreenHome.route}
             element={<VotingScreenHome />}

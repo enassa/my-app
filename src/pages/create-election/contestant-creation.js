@@ -1,22 +1,19 @@
-import { SupervisedUserCircle } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useCreateElectionServices } from "./context/create-election-context";
 import GridLayOut from "../../components/grid_layout/GridLayout";
-import ContestantCard from "../../components/contestant-card/contestant-card";
-import { dummyElection, elections } from "../../components/contants/dummy-data";
 import CreateContestantCard from "../../components/create-contestant-card/create-contestant-card";
-import { PlusCircleIcon } from "@heroicons/react/outline";
 import AddContestantForm from "./add-contestant-form";
 import {
   getAsObjectFromLocalStorage,
-  localStorageGet,
-  localStorageSave,
   saveObjectInLocalStorage,
 } from "../../contants/libraries/easy";
 import { useEffect } from "react";
+import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
+import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
 
 export default function ContestantCreation({ handleNavigation }) {
-  const { bluePrintState, createElection } = useCreateElectionServices();
+  const { loadingLocal, bluePrintState } = useCreateElectionServices();
+  const { createElectionAsync, loading } = useElectionServices();
 
   const activePortfolioCache = getAsObjectFromLocalStorage("activePortfolio");
 
@@ -92,11 +89,15 @@ export default function ContestantCreation({ handleNavigation }) {
     );
   };
   const handleCreateElection = () => {
-    handleNavigation(1);
-    createElection();
+    createElectionAsync(bluePrintState);
   };
   return (
     <div className="w-full h-full flex justify-start">
+      {loadingLocal || loading ? (
+        <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
+          {<OverlayLoader loaderText="Creating election..." />}
+        </div>
+      ) : null}
       <div
         onClick={() => {
           if (validateForm()) {

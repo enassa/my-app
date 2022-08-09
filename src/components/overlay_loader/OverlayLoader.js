@@ -26,6 +26,9 @@ export default class OverlayLoader extends Component {
         ) : (
           <Loader loaderIcon={<CakeIcon style={{ color: "orange" }} />} />
         )}
+        {this.props.loaderText && (
+          <span className="text-white mt-3">{this.props.loaderText}</span>
+        )}
       </div>
     );
   }

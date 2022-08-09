@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BASE_URL, END_POINTS, TOKEN } from "../../../contants/urls/urls";
+import {
+  BASE_URL,
+  END_POINTS,
+  ORG_CODE,
+  ORG_EMAIL,
+  ORG_NAME,
+  TOKEN,
+} from "../../../contants/urls/urls";
 import {
   createElection,
   setOpenedElection,
@@ -12,6 +19,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../../contants/urls/rout-links";
 import { errorToast, successToast } from "../../../components/toast/toastify";
+import {
+  generateShortId,
+  generateSuperShortId,
+  generateVeryShortId,
+} from "../../../contants/libraries/easy";
 
 export const useElectionServices = () => {
   const [loading, setLoading] = useState(false);
@@ -91,12 +103,37 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
-
+  const createVoterIds = async (numberOfVoters) => {
+    setLoading(true);
+    let voterIds = [];
+    for (let i = 0; i < numberOfVoters; i++) {
+      let value = generateSuperShortId();
+      if (!voterIds.includes(value)) {
+        voterIds.push(value);
+      }
+    }
+    return voterIds;
+  };
   const createElectionAsync = async (data) => {
-    request(END_POINTS.createElection, "POST", data)
+    let NumberOfVoters = 5000;
+    let VoterIds = await createVoterIds(NumberOfVoters);
+    let electionData = {
+      ...data,
+      Password: "",
+      OrganizationId: ORG_CODE(),
+      OrganizationName: ORG_NAME(),
+      OrganizationEmail: ORG_EMAIL(),
+      NumberOfVoters: 5000,
+      VoterIds,
+    };
+
+    request(END_POINTS.createElection, "POST", { electionData })
       .then((res) => {
         if (res.success) {
           dispatch(createElection(data));
+          successToast("Election created successfully ");
+          console.log("election creation", res);
+          return res;
         }
         console.log("election creation", res);
       })
@@ -125,6 +162,40 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
+  const verifyVoterIdAsync = async (data) => {
+    request(`${END_POINTS.verifyVoterId}`, "POST", data)
+      .then((res) => {
+        console.log(res);
+        if (res?.success) {
+          navigate(ALL_URLS.votingScreen.url);
+        } else {
+          errorToast(res.message);
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
+  const castVoteIdAsync = async (data) => {
+    request(`${END_POINTS.verifyVoterId}`, "POST", data)
+      .then((res) => {
+        if (res.success) {
+          successToast("Vote casted successfully");
+          return res;
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
+  const resultsLogin = async (data) => {
+    request(`${END_POINTS.verifyVoterId}`, "POST", data)
+      .then((res) => {
+        if (res.success) {
+          return res;
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
   const resetElectionSetup = () => {
     setUpElection({});
   };
@@ -147,6 +218,9 @@ export const useElectionServices = () => {
     updateElectionSetUp,
     openElection,
     closeElection,
+    verifyVoterIdAsync,
+    castVoteIdAsync,
+    resultsLogin,
     election,
     loading,
     elections,
