@@ -9,57 +9,57 @@ export default function InputField({ handleOnChange, inputData, error }) {
   const [validation, setValidation] = useState({ state: false });
   const [inputValue, setInputValue] = useState("");
 
-  const checkValidation = (value, message) => {
-    //   CHECK IF ITS REQUIRED BUT EMPTY
-    if (inputData.required && value === "") {
-      handleOnChange(inputData.name, value, {
-        name: inputData.name,
-        state: false,
-        message: `${inputData.name} is required`,
-      });
-      setValidation({ state: false, message: `${inputData.name} is required` });
-      return;
-    }
-    // CHECK IF IS REQUIRED BUT INPUT IS NOT EMPTY AND THE FIELD DOES NOT REQUIRE REGEX VALIDATION
-    else if (inputData.required && value !== "" && inputData.pattern === "") {
-      handleOnChange(inputData.name, value, {
-        name: inputData.name,
-        state: true,
-        message: `${inputData.name} is required`,
-      });
-      setValidation({ state: true, message: `${inputData.name} is required` });
-    }
-    //  CHECK IF PATTERN IS REQUIRED AND INPUT MATCHES PATTERN
-    else {
-      setValidation({ state: true, message: `` });
-      if (inputData.pattern === "") return;
-      if (checkRegex(value, inputData.pattern)) {
-        handleOnChange(inputData.name, value, {
-          name: inputData.name,
-          state: true,
-          message: ``,
-        });
-        setValidation({ state: true, message: "" });
-        return;
-      }
-      handleOnChange(inputData.name, value, {
-        name: inputData.name,
-        state: false,
-        message,
-      });
-      setValidation({ state: false, message: inputData.helperText });
-    }
-  };
+  // const checkValidation = (value, message) => {
+  //   //   CHECK IF ITS REQUIRED BUT EMPTY
+  //   if (inputData.required && value === "") {
+  //     handleOnChange(inputData.name, value, {
+  //       name: inputData.name,
+  //       state: false,
+  //       message: `${inputData.name} is required`,
+  //     });
+  //     setValidation({ state: false, message: `${inputData.name} is required` });
+  //     return;
+  //   }
+  //   // CHECK IF IS REQUIRED BUT INPUT IS NOT EMPTY AND THE FIELD DOES NOT REQUIRE REGEX VALIDATION
+  //   else if (inputData.required && value !== "" && inputData.pattern === "") {
+  //     handleOnChange(inputData.name, value, {
+  //       name: inputData.name,
+  //       state: true,
+  //       message: `${inputData.name} is required`,
+  //     });
+  //     setValidation({ state: true, message: `${inputData.name} is required` });
+  //   }
+  //   //  CHECK IF PATTERN IS REQUIRED AND INPUT MATCHES PATTERN
+  //   else {
+  //     setValidation({ state: true, message: `` });
+  //     if (inputData.pattern === "") return;
+  //     if (checkRegex(value, inputData.pattern)) {
+  //       handleOnChange(inputData.name, value, {
+  //         name: inputData.name,
+  //         state: true,
+  //         message: ``,
+  //       });
+  //       setValidation({ state: true, message: "" });
+  //       return;
+  //     }
+  //     handleOnChange(inputData.name, value, {
+  //       name: inputData.name,
+  //       state: false,
+  //       message,
+  //     });
+  //     setValidation({ state: false, message: inputData.helperText });
+  //   }
+  // };
   //   const handleOnChange = (value) => {
   //     setinputValuee(value)
   //   }
 
-  useEffect(() => {
-    checkValidation(inputValue);
-    // return () => {
-    // };
-  }, [inputValue]);
-
+  // useEffect(() => {
+  //   checkValidation(inputValue);
+  //   // return () => {
+  //   // };
+  // }, [inputValue]);
+  console.log(inputData.value);
   return (
     <div
       key={`pf${inputData?.index}`}
@@ -89,13 +89,15 @@ export default function InputField({ handleOnChange, inputData, error }) {
               name={inputData.name}
               onChange={(e) => {
                 // e.stopPropagation()
-                setInputValue(e.target.value);
+                handleOnChange(inputData?.name, e.target.value);
                 // checkValidation(e.target.value);
               }}
-              onBlur={(e) => {
-                e.stopPropagation();
-                checkValidation(e.target.value);
-              }}
+              // onBlur={(e) => {
+              //   e.stopPropagation();
+              //   handleOnChange(e.target.value);
+              //   // checkValidation(e.target.value);
+              // }}
+              type={inputData?.type}
               style={{
                 border: 0,
                 color: "#1e1e1e",
@@ -103,7 +105,7 @@ export default function InputField({ handleOnChange, inputData, error }) {
                 w: "100%",
                 outline: "none",
               }}
-              value={inputData.value}
+              value={inputData?.value}
             />
           </div>
         </div>

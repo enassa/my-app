@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ArrowDownward,
   ArrowDropDown,
@@ -12,13 +12,20 @@ import {
 import GridLayOut from "../../components/grid_layout/GridLayout";
 import ContestantCard from "../../components/contestant-card/contestant-card";
 import { elections } from "../../components/contants/dummy-data";
+import { getAsObjectFromSession } from "../../contants/libraries/easy";
+import ResultsCard from "../../components/results-card/results-card";
+import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
+import ProgressBar from "../../components/progress bar/ProgressBar";
+import { useEffect } from "react";
 
 export default function ResultScreen() {
   // const { openedElection } = useElectionServices();
-  const openedElection = elections[0];
+  const { loading, logoutAsync, getLatesResultsAsync, electionResults } =
+    useElectionServices();
+  let resultsCache = getAsObjectFromSession("resultsData");
+  const openedElection = electionResults ?? {};
   const [activeResults, setActiveResults] = useState([0]);
   const [hovered, setHovered] = useState(false);
-  // console.log(openedElection);
   const addOrRemoveFromSelected = (index) => {
     let newItems = [];
     if (activeResults.includes(index)) {
@@ -29,9 +36,9 @@ export default function ResultScreen() {
     newItems = [...activeResults, index];
     setActiveResults([...newItems]);
   };
+
   const ejectContestants = () => {
     // CHEK IF AN ELECTION IS OPENDED AND IF IT HAS POSITIONS
-
     let positions =
       !!openedElection && Array.isArray(openedElection?.Positions)
         ? openedElection?.Positions
@@ -43,10 +50,9 @@ export default function ResultScreen() {
         ? openedElection.Contestants
         : [];
       console.log(contestants);
-      console.log(item);
-      let contestantsForThePosition = contestants.filter(
+      let contestantsForThePosition = contestants?.filter(
         (contestant) =>
-          contestant.Position.toLowerCase() === item.title.toLowerCase()
+          contestant?.Position.toLowerCase() === item?.Title?.toLowerCase()
       );
       let dropDown = activeResults.includes(index);
       return (
@@ -58,7 +64,7 @@ export default function ResultScreen() {
               }}
               className="whitespace-nowrap cursor-pointer bg-blue-500 flex justify-between py-2 pl-3 text-white rounded-sm px-2 w-[200px] mr-2"
             >
-              {item.title}
+              {item?.Title}
               <>{dropDown ? <ArrowDropUp /> : <ArrowDropDown />}</>
             </span>
             <div className="w-full bg-slate-500 h-[0.5px]"></div>
@@ -73,14 +79,15 @@ export default function ResultScreen() {
                 gridTemplateColumns: "repeat(4,1fr)",
                 justifyContent: "center",
                 padding: 40,
+                backgroundColor: "#DFDFDF",
               }}
             >
               {contestantsForThePosition
-                .sort((a, b) => b.VotesCount - a.VotesCount)
+                .sort((a, b) => b?.VotesCount - a?.VotesCount)
                 .map((contestant, count) => {
-                  console.log(contestant);
+                  console.log("=====", contestant);
                   return (
-                    <ContestantCard
+                    <ResultsCard
                       key={count}
                       info={contestant}
                       position={count + 1}
@@ -94,9 +101,27 @@ export default function ResultScreen() {
       // sort((a, b) => a - b)
     });
   };
+  let percentageProgress =
+    (parseInt(resultsCache?.TotalVoted) /
+      parseInt(resultsCache?.NumberOfVoters)) *
+    100;
+  console.log(percentageProgress);
+  const myref = useRef();
+  let checkFirst = myref.current;
+
+  useEffect(() => {
+    if (electionResults === undefined && !loading) {
+      getLatesResultsAsync({
+        orgCode: resultsCache?.orgCode,
+        electionId: resultsCache?.electionId,
+        token: resultsCache?.token,
+      });
+    }
+    checkFirst++;
+  }, []);
   return (
     <div className="w-full h-full flex flex-col ">
-      <div className="w-full flex flex-col shadow-lg p-5">
+      <div className="w-full flex flex-col border-b border-gray-50 p-5">
         <div
           onMouseOver={() => setHovered(true)}
           onMouseOut={() => {
@@ -104,30 +129,51 @@ export default function ResultScreen() {
           }}
           className="h-full whitespace-nowrap  text-gray-700 flex justify-end items-center"
         >
-          <HowToReg /> <span> VOTER ID:</span> <strong> 3423432423</strong>
+          <HowToReg /> <span> Election Id: &nbsp;</span>{" "}
+          <strong> {resultsCache?.electionId}</strong>
         </div>
         <div className="w-full flex items-center  h-[100px] mb-2">
-          <div className=" bg-blue-600 mr-3 cursor-pointer w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg"></div>
-          <div className="cursor-pointer overflow-hidden flex items-center w-1/2 h-[50px] shadow-lg">
-            <div className="h-full w-[200px] bg-blue-600 flex items-center">
-              <HowToVote className="text-white ml-2" />
-              <div className="h-full w-full text-white flex justify-center items-center">
-                {openedElection.TotalVoted}
+          <div className="  mr-3 cursor-pointer flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
+            <ProgressBar
+              circular
+              progressThickness={7}
+              progressColor={"#5F27CD"}
+              containerColor="#E2E2E2"
+              radius={40}
+              progressPercentage={percentageProgress}
+            />
+          </div>{" "}
+          <div className="cursor-pointer overflow-hidden flex rounded-lg items-center w-1/2 h-[50px] shadow-lg">
+            <div className="h-full w-auto whitespace-nowrap bg-blue-600 flex items-center ">
+              <HowToVote className="text-white ml-2 mr-3" />
+              <div className="h-full mr-2 font-extrabold  w-full text-white flex justify-center items-center">
+                {resultsCache?.TotalVoted}
               </div>
-              <span className="w-2 bg-white h-1/2"></span>
-              <div className="h-full mr-2 text-white w-full flex justify-center items-center">
-                {openedElection.NumberOfVoters}
+              {/* <span className="w-2 bg-white h-1/2"></span> */}
+              <span className="w-auto mr-2  whitespace-nowrap text-white  h-1/2 ">
+                out of
+              </span>
+              <div className="h-full mr-2 font-extrabold text-white w-full flex justify-center items-center">
+                {resultsCache?.NumberOfVoters}
               </div>
+              <span className="w-auto mr-2  whitespace-nowrap text-white  h-1/2 ">
+                votes recorded
+              </span>
             </div>
             <div className="h-full w-full flex justify-center items-center ">
-              <span>{openedElection.GeneralInfo.Title}</span>
+              <span>{resultsCache?.Title}</span>
             </div>
           </div>
           <div className="cursor-pointer hover:bg-blue-50 hover:text-blue-600  hover:rounded-md transition-all duration-200  overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg">
             <Download />
             <span className="text-xs">Download</span>
           </div>
-          <div className="cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:rounded-md  ml-3 overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg">
+          <div
+            onClick={() => {
+              window.location.reload();
+            }}
+            className="cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:rounded-md  ml-3 overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg"
+          >
             <Refresh />
             <span className="text-xs">Refresh</span>
           </div>
@@ -135,7 +181,7 @@ export default function ResultScreen() {
             <div className="h-full pl-2 flex items-center">
               <div
                 onClick={() => {
-                  // logoutUser()
+                  logoutAsync("/", ["resultsData"]);
                 }}
                 className="h-full hover:text-red-500 ml-2 whitespace-nowrap  text-gray-700 flex justify-end items-center"
               >

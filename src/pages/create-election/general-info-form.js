@@ -49,14 +49,16 @@ export default function GeneralInfoForm({ handleNavigation }) {
             <InputField
               inputData={{
                 label: item,
-                required: errors.includes(`Title`),
+                required: errors.includes(item),
                 index,
                 icon: <Article />,
-                name: `Title`,
-                value: bluePrintState?.GeneralInfo.Title,
+                name: item,
+                value: !!bluePrintState?.GeneralInfo
+                  ? bluePrintState?.GeneralInfo[item]
+                  : "",
               }}
               handleOnChange={(name, value, validationState) => {
-                updateGeneralInfo("Title", value);
+                updateGeneralInfo(item, value);
                 setError([]);
               }}
             />
@@ -74,9 +76,10 @@ export default function GeneralInfoForm({ handleNavigation }) {
     );
   };
   const ejectContestantDef = () => {
-    const allContestantDefinitions = !!bluePrintState
+    const allContestantDefinitions = !!bluePrintState?.ContestantDefinition
       ? bluePrintState?.ContestantDefinition
       : [];
+    // console.log(bluePrintState?.ContestantDefinition);
     return allContestantDefinitions
       ?.filter((item) => item?.Invisible !== true)
       ?.map((item, count) => {
@@ -140,6 +143,12 @@ export default function GeneralInfoForm({ handleNavigation }) {
     if (bluePrintState.GeneralInfo.Title === "") {
       foundErrors.push("Title");
     }
+    if (bluePrintState.GeneralInfo.Password === "") {
+      foundErrors.push("Password");
+    }
+    if (bluePrintState.GeneralInfo.Number_Of_Voters === "") {
+      foundErrors.push("Number_Of_Voters");
+    }
     console.log(
       bluePrintState?.GeneralInfo,
       bluePrintState?.GeneralInfo,
@@ -178,7 +187,6 @@ export default function GeneralInfoForm({ handleNavigation }) {
     }
     handleNavigation(1);
   };
-  console.log(bluePrintState?.GeneralInfo.Starting);
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">

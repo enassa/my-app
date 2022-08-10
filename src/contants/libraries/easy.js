@@ -731,13 +731,17 @@ export const getDistanceBetweenTwoPoints = (startObj, endObj) => {
   return d;
 };
 export const removeItemsFromLocalStorage = (itemsArr) => {
-  for (let i = 0; i < itemsArr.length; i++) {
-    localStorage.removeItem(itemsArr[i]);
+  if (!!itemsArr) {
+    for (let i = 0; i < itemsArr.length; i++) {
+      localStorage.removeItem(itemsArr[i]);
+    }
   }
 };
 export const removeItemsFromSessionStorage = (itemsArr) => {
-  for (let i = 0; i < itemsArr.length; i++) {
-    sessionStorage.removeItem(itemsArr[i]);
+  if (!!itemsArr) {
+    for (let i = 0; i < itemsArr.length; i++) {
+      sessionStorage.removeItem(itemsArr[i]);
+    }
   }
 };
 export const generateShortId = () => {

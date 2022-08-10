@@ -13,7 +13,7 @@ export const BASE_URL = {
 export const END_POINTS = {
   // Account management staffend points
   loginToVoteScreen: "/api/election/login/voting-screen",
-  loginToResultsScreen: "/api/election/login/resulst-screen",
+  loginToResultsScreen: "/api/elections/results-login",
   loginToOrganization: "/api/election/login",
   registerOrganization: "/api/election/register",
   confirmEmail: "/api/election/confirm",
@@ -37,7 +37,8 @@ export const END_POINTS = {
   castVote: "/api/elections/vote",
 
   // ----results
-  verifyElectionPassword: "api/elections/results-login",
+  verifyElectionPassword: "/api/elections/results-login",
+  getLatestResults: "/api/elections/latest",
 };
 
 export const ORG_CODE = () => User()?.data?.orgCode;

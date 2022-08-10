@@ -19,7 +19,7 @@ export const electionBluePrint = {
   CreatedBy: "",
   Title: "",
   Password: "",
-  NumberOfVoters: 0,
+  Number_Of_Voters: 4,
   TotalVoted: 0,
   GeneralInfo: {
     Title: "",
@@ -55,7 +55,7 @@ export const contestantBluePrint = {
   Info: {},
   Position: "",
   PositionId: null,
-  VotesCount: null,
+  VotesCount: 0,
   Votes: [],
 };
 export const extraInfoBluePrint = {
@@ -80,6 +80,8 @@ export const generalBlueInfoPrint = {
   Time_Zone: "UTC",
   Starting: "",
   Ending: "",
+  Password: "",
+  Number_Of_Voters: 0,
 };
 export const contestDefBluePrint = {
   Id: 1,

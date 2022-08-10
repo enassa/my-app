@@ -16,12 +16,15 @@ import {
   resetElection,
   updateElection,
   getElections,
+  setElectionResults,
 } from "./election-slice";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../../contants/urls/rout-links";
 import { errorToast, successToast } from "../../../components/toast/toastify";
 import {
   generateSuperShortId,
+  removeItemsFromLocalStorage,
+  removeItemsFromSessionStorage,
   saveObjectInLocalStorage,
   saveObjectInSession,
 } from "../../../contants/libraries/easy";
@@ -32,6 +35,9 @@ export const useElectionServices = () => {
   const elections = useSelector((state) => state.election.elections);
   const openedElection = useSelector((state) => state.election.openedElection);
   const votingElection = useSelector((state) => state.election.votingElection);
+  const electionResults = useSelector(
+    (state) => state.election.electionResults
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,6 +90,8 @@ export const useElectionServices = () => {
       })
 
       .catch((error) => {
+        console.log(error);
+
         errorToast("Uknown error, Please check your internet connection");
         return {
           error: error,
@@ -92,7 +100,7 @@ export const useElectionServices = () => {
           success: false,
         };
       })
-      .finally(() => {
+      .finally((res) => {
         setLoading(false);
       });
   };
@@ -116,15 +124,15 @@ export const useElectionServices = () => {
     return voterIds;
   };
   const createElectionAsync = async (data) => {
-    let NumberOfVoters = 5000;
+    let NumberOfVoters = data?.NumberOfVoters || 5;
     let VoterIds = await createVoterIds(NumberOfVoters);
     let electionData = {
       ...data,
-      Password: "",
+      Password: data?.Password || "data",
       OrganizationId: ORG_CODE(),
       OrganizationName: ORG_NAME(),
       OrganizationEmail: ORG_EMAIL(),
-      NumberOfVoters: 5000,
+      NumberOfVoters: NumberOfVoters,
       VoterIds,
     };
 
@@ -207,21 +215,58 @@ export const useElectionServices = () => {
         if (res.success) {
           successToast(res.message);
           sessionStorage.removeItem("votingElection");
+          navigate(ALL_URLS.voteSuccess.url);
+          return res;
+        } else {
+          errorToast(res.message);
           return res;
         }
       })
       .catch((err) => {})
       .finally(() => {});
   };
-  const resultsLogin = async (data) => {
-    request(`${END_POINTS.verifyVoterId}`, "POST", data)
+  const resultsLoginAsync = async (data) => {
+    console.log(data);
+    request(`${END_POINTS.verifyElectionPassword}`, "POST", data)
       .then((res) => {
         if (res.success) {
+          saveObjectInSession("resultsData", res.data);
+          navigate(ALL_URLS.resultsScreen.url);
+          return res;
+        } else {
+          errorToast(res.message);
           return res;
         }
       })
       .catch((err) => {})
       .finally(() => {});
+  };
+  const getLatesResultsAsync = (data) => {
+    request(`${END_POINTS.getLatestResults}`, "POST", { ...data })
+      .then((res) => {
+        if (res.success) {
+          successToast(res.message);
+          saveObjectInSession("resultsData", res.data);
+          navigate(ALL_URLS.resultsScreen.url);
+          console.log(res.data);
+          dispatch(setElectionResults(res.data));
+          return res;
+        } else {
+          errorToast(res.message);
+          return res;
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
+  const logoutAsync = (homeUrl, sessionItems, localStorageItems, all) => {
+    removeItemsFromLocalStorage(localStorageItems);
+    removeItemsFromSessionStorage(sessionItems);
+    if (all === true) {
+      localStorage.clear();
+      sessionStorage.clear();
+    }
+    navigate(homeUrl);
   };
   const resetElectionSetup = () => {
     setUpElection({});
@@ -247,11 +292,14 @@ export const useElectionServices = () => {
     closeElection,
     verifyVoterIdAsync,
     castVoteAsync,
-    resultsLogin,
+    resultsLoginAsync,
+    logoutAsync,
+    getLatesResultsAsync,
     election,
     loading,
     elections,
     openedElection,
     votingElection,
+    electionResults,
   };
 };

@@ -29,6 +29,7 @@ import { errorToast } from "../../components/toast/toastify";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import ProgressBar from "../../components/progress bar/ProgressBar";
+import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
 
 export default function VotingScreen() {
   const dispatch = useDispatch();
@@ -85,7 +86,6 @@ export default function VotingScreen() {
   // };
   const submitVote = () => {
     castVoteAsync({ voteData: votingElection });
-    navigate(ALL_URLS.voteSuccess.url);
   };
   const ejectContestants = () => {
     // filter for contestants with the active position's Id
@@ -155,6 +155,11 @@ export default function VotingScreen() {
 
   return (
     <div className="flex justify-start flex-col p-4">
+      {loading ? (
+        <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
+          {<OverlayLoader loaderText="Creating election..." />}
+        </div>
+      ) : null}
       <div className="w-full flex items-center  h-[100px]">
         <div className="  mr-3 cursor-pointer flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
           <ProgressBar

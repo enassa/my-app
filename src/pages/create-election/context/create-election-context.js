@@ -44,17 +44,19 @@ const ElectionProvider = ({ children }) => {
   const extraInfoPrint = deepCloneObject(extraInfoBluePrint);
   const generalInfoPrint = deepCloneObject(generalBlueInfoPrint);
 
+  let electionObjectCache = () => getAsObjectFromLocalStorage("bluePrintState");
   useEffect(() => {
-    let electionObjectCache = getAsObjectFromLocalStorage("bluePrintState");
-    if (bluePrintState === undefined && electionObjectCache === undefined) {
+    if (bluePrintState === undefined && electionObjectCache() === undefined) {
       updateBluePrintState(deepCloneObject(electionBluePrint));
+      return;
     }
-    if (bluePrintState === undefined && electionObjectCache !== undefined) {
-      updateBluePrintState(electionObjectCache);
+    if (bluePrintState === undefined && electionObjectCache() !== undefined) {
+      updateBluePrintState(electionObjectCache());
+      return;
     }
-    setTimeout(() => {
-      saveObjectInLocalStorage("bluePrintState", bluePrintState);
-    }, 200);
+    saveObjectInLocalStorage("bluePrintState", bluePrintState);
+    // setTimeout(() => {
+    // }, 200);
     console.log(bluePrintState);
   }, [bluePrintState]);
 
@@ -66,7 +68,8 @@ const ElectionProvider = ({ children }) => {
         ...oldGeneralInfo,
         [field]: data,
       },
-      Title: data,
+      [field]: data,
+      // Pass
     };
     updateBluePrintState(newBluePrint);
   };

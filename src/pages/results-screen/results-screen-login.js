@@ -20,10 +20,10 @@ import {
 } from "../../contants/libraries/easy";
 
 export default function ResultScreenLogin() {
-  const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLogin } =
+  const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLoginAsync } =
     useElectionServices();
   const location = useLocation();
-  saveObjectInSession("cachedUrl", { url: location.pathname });
+  saveObjectInSession("cachedResultsUrl", { url: location.pathname });
   const params = useParams();
   const orgCode = decodeFromB64(params?.orgCode);
   const electionId = decodeFromB64(params?.electionId);
@@ -31,16 +31,17 @@ export default function ResultScreenLogin() {
 
   const navigate = useNavigate();
   const handleSubmit = (data, resetForm, completed) => {
+    console.log(data);
     if (
-      data?.voterId !== "" &&
+      data?.password !== "" &&
       orgCode !== "" &&
       electionId !== "" &&
       orgCode &&
       token !== ""
     ) {
     }
-    verifyVoterIdAsync({
-      voterId: data?.voterId,
+    resultsLoginAsync({
+      password: data?.password,
       orgCode,
       electionId,
       token,
@@ -103,7 +104,7 @@ export default function ResultScreenLogin() {
                 fields={[
                   {
                     fieldType: FIELDS.input,
-                    name: "Password",
+                    name: "password",
                     label: "Enter election password",
                     placeholder: "Password",
                     required: true,
@@ -118,7 +119,7 @@ export default function ResultScreenLogin() {
                     "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
                   borderRadius: "5px",
                 }}
-                loading={true}
+                loading={loading}
                 buttonText="Login"
               />
               <div

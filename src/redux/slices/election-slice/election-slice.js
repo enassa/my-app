@@ -13,6 +13,7 @@ const initialState = {
   elections: [...elections],
   openedElection: undefined,
   votingElection: undefined,
+  electionResults: undefined,
 };
 
 export const createElectionSlice = createSlice({
@@ -35,6 +36,9 @@ export const createElectionSlice = createSlice({
     resetOpenedElection: (state, action) => {
       state.openedElection = undefined;
     },
+    setElectionResults: (state, action) => {
+      state.electionResults = action.payload;
+    },
     setVotingElection: (state, action) => {
       state.votingElection = action.payload;
     },
@@ -49,5 +53,6 @@ export const {
   resetElection,
   resetOpenedElection,
   votingElection,
+  setElectionResults,
 } = createElectionSlice.actions;
 export default createElectionSlice.reducer;

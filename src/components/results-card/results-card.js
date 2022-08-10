@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ClickAwayListener from "../click_away_listener/click-away-listener";
-import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
 import {
   ArrowRightAlt,
   CheckCircle,
@@ -8,8 +7,7 @@ import {
   NavigateNext,
 } from "@mui/icons-material";
 import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
-
-export default function ContestantCard({
+export default function ResultsCard({
   showPosition,
   info,
   position,
@@ -20,14 +18,9 @@ export default function ContestantCard({
   isLast,
 }) {
   const [hovered, setHovered] = useState();
-  const { votingElection } = useElectionServices();
-  const infoProps = !!info.Info ? Object.keys(info.Info) : [];
-  const checkShowStatus = (ContestantDefTitle) => {
-    console.log(votingElection);
-    let contestantDef = votingElection?.ContestantDefinition?.find(
-      (item) => item.Title === ContestantDefTitle
-    );
-    if (!!contestantDef) return contestantDef?.Show;
+  //   console.log("000", VotesCount);
+  const getPositionDesc = (pos) => {
+    let a = {};
   };
   return (
     <div
@@ -46,38 +39,33 @@ export default function ContestantCard({
       )}
       {position && (
         <div className="absolute text-xs top-[40px] right-[-35px] bg-blue-500 text-white rounded-full h-10  min-w-[70px] flex justify-center items-center shadow-lg">
-          <strong>{info.VotesCount || 0}</strong>
+          <strong>
+            {isNaN(parseInt(info.VotesCount)) ? 0 : parseInt(info.VotesCount)}
+          </strong>
         </div>
       )}
       <div
         style={{ backgroundImage: `url(${info?.Info?.ImageUrl})` }}
-        className="w-[100px] h-[100px] min-w-[100px] min-h-[100px]  bg-yellow-50 rounded-full fit-bg mb-2"
+        className="w-[100px] h-[100px]  bg-yellow-50 rounded-full fit-bg mb-2"
       ></div>
       <div className="flex flex-col  justify-start items-center">
         <div>
           {/* <strong className="mb-2">Name: </strong> */}
           <div className="text-center overflow-hidden  text-ellipsis ">
-            {info.Name}
+            {info?.Info?.Name}
           </div>
         </div>
-        {/* {info?.ExtraInfo?.map((extraInfo, index) => {
-          return (
-            <div className="w-full" key={index}>
-              <strong className="mb-2 ">{extraInfo.Title}: </strong>
-              <span>{extraInfo.Value}</span>
-            </div>
-          );
-        })} */}
-        {infoProps?.map((prop, index) => {
-          console.log(prop);
-          if (prop === "ImageInfo" || prop === "ImageUrl") return;
-          if (!checkShowStatus(prop)) return;
+        {Object.keys(info?.Info)?.map((prop, index) => {
+          let obj = info?.Info;
+          if (prop === "ImageUrl") return;
+          if (prop === "Ballot_Number") return;
+          if (prop === "Name") return;
           return (
             <div className="w-full flex flex-col items-center" key={index}>
               {/* <strong className="mb-2 ">
                 {replaceUnderscoreWithSpace(prop)}:{" "}
               </strong> */}
-              <span>{info?.Info[prop]}</span>
+              <span>{obj[prop]}</span>
             </div>
           );
         })}
@@ -97,35 +85,22 @@ export default function ContestantCard({
                 handleClick && handleClick(info);
               }}
               className="w-full h-full flex justify-center items-center bg-backdrop2 z-[9000]   animate-rise shadow-blend rounded-lg top-[30px] "
-            >
-              {selected ? (
-                <div className="text-white   text-md flex flex-col justify-center items-center">
-                  <CheckCircle style={{ fontSize: 80 }} />
-                  <span>{info.Info.Name}</span>
-                  {!isLast && (
-                    <div
-                      style={{ borderRadius: "10px 50px 50px 10px" }}
-                      className="absolute z-[999999] animate-rise bg-[#5F27CD] px-3 py-2 flex right-[-70px]"
-                      onClick={() => {
-                        handleNextClick();
-                      }}
-                    >
-                      <span>Next</span>
-                      <NavigateNext />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="text-white  text-md flex flex-col justify-center items-center">
-                  <HowToVote style={{ fontSize: 30 }} />
-                  <span>Vote</span>
-                  <span>{info.Position}</span>
-                </div>
-              )}
-            </div>
+            ></div>
           </div>
         </ClickAwayListener>
       ) : null}
     </div>
   );
 }
+
+// const b ={0:"th",1:'st',2:"nd",3:"rd",4:"th",5:'th',6:"6th",7:"th",8:"th",9:"th"}
+// let a = [23,12,9,6,7,78,54]
+// let checkPosition = (num) => {
+//   let numToArr =  `${num}`.split('')
+//   let lastNum = numToArr[numToArr.length -1]
+//   return b[`${numToArr[numToArr.length-1]}`]
+// }
+// for(let i = 0; i<a.length; i++){
+//   let num = a[i]
+//   console.log(checkPosition(num))
+//   }
