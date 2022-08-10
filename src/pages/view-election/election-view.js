@@ -1,7 +1,9 @@
 import {
   AccountCircle,
   Apartment,
+  ArrowLeft,
   DateRange,
+  Download,
   HowToVote,
   Info,
   StackedBarChart,
@@ -19,20 +21,6 @@ import Contestants from "./contestant/contestants";
 export default function ElectionView() {
   const [selectedTab, setSelectedTab] = useState();
   const { openedElection } = useElectionServices();
-
-  const election = [
-    {
-      name: "Prephecy results",
-      startDate: "20-07-2022",
-      endDate: "25-07-2022",
-      createdOn: "25-07-2022",
-      createdBy: "25-07-2022",
-      voteCount: 5000,
-      contestantsCount: 50,
-      positionsCount: 30,
-      positions: [],
-    },
-  ];
   const tabs = [
     {
       title: "Results",
@@ -53,7 +41,6 @@ export default function ElectionView() {
       index: 1,
     },
   ];
-  const { blue } = useElectionServices();
   const navigate = useNavigate();
   const ejectTabs = () => {
     return tabs.map((item, index) => {
@@ -88,54 +75,88 @@ export default function ElectionView() {
         break;
     }
   };
-  console.log(openedElection);
   return (
-    <div className="w-full h-full bg-white flex justify-start flex-col">
-      <div className="w-full h-[100px] min-h-[130px] flex flex-col justify-between items-start shadow-lg bg-white p-3">
-        <div className="flex w-full justify-between items-center px-2">
-          <span className="flex items-center">
-            <HowToVote style={{ fontSize: 60 }} className="text" />
-            <div>
-              <h1 className="text-3xl ml-2 font-bold">
-                {openedElection?.GeneralInfo?.Title}
-              </h1>
-              <div className="flex ml-3 text-gray-600 items-center">
-                <DateRange style={{ fontSize: 20 }} className=" text-xs mr-1" />
-                <h4 className=" mr-2">
-                  {openedElection?.GeneralInfo?.StartDate}
-                </h4>{" "}
-                to
-                <span className="mr-2"></span>
-                <h4 className="">{openedElection?.GeneralInfo?.EndDate}</h4>,
+    <div className="w-full h-full bg-white flex items-center flex-col">
+      <div className="w-[90%] h-full bg-white flex justify-start flex-col">
+        <div className="w-full h-[120px] min-h-[150px] flex flex-col justify-between items-start shadow-lg bg-white p-3 pb-5">
+          <div className="flex w-full justify-between items-center px-2">
+            <span className="flex items-center">
+              <HowToVote style={{ fontSize: 60 }} className="text" />
+              <div>
+                <h1 className="text-3xl ml-2 font-bold">
+                  {openedElection?.GeneralInfo?.Title}
+                </h1>
                 <div className="flex ml-3 text-gray-600 items-center">
-                  <Timer style={{ fontSize: 20 }} className=" text-xs mr-1" />
+                  <DateRange
+                    style={{ fontSize: 20 }}
+                    className=" text-xs mr-1"
+                  />
                   <h4 className=" mr-2">
-                    {openedElection?.GeneralInfo?.TimeZone} -
-                  </h4>{" "}
-                  <h4 className=" mr-2">
-                    {openedElection?.GeneralInfo?.StartTime}
+                    {openedElection?.GeneralInfo?.Start_Date}
                   </h4>{" "}
                   to
                   <span className="mr-2"></span>
-                  <h4 className="">{openedElection?.GeneralInfo?.EndTime}</h4>
+                  <h4 className="">{openedElection?.GeneralInfo?.End_Date}</h4>,
+                  <div className="flex ml-3 text-gray-600 items-center">
+                    <Timer style={{ fontSize: 20 }} className=" text-xs mr-1" />
+                    <h4 className=" mr-2">
+                      {openedElection?.GeneralInfo?.TimeZone} -
+                    </h4>{" "}
+                    <h4 className=" mr-2">
+                      {openedElection?.GeneralInfo?.Start_Time}
+                    </h4>{" "}
+                    to
+                    <span className="mr-2"></span>
+                    <h4 className="">
+                      {openedElection?.GeneralInfo?.End_Time}
+                    </h4>
+                  </div>
                 </div>
               </div>
-            </div>
-          </span>
-          <PopUpButton
-            handleClick={() => {
-              navigate(ALL_URLS.orgDashoboard.url);
-            }}
-            buttonText="Download pdf"
-          />
+            </span>
+            <PopUpButton
+              innerStyles={{
+                // borderRadius: "0px",
+                // boxShadow: "0px 0px 0px",
+                backgroundColor: "transparent",
+                color: "black",
+                // display: "flex",
+                // alignItems: "center",
+              }}
+              handleClick={() => {
+                alert("This feature will soon be available");
+                // navigate(ALL_URLS.orgDashoboard.url);
+              }}
+              noText={true}
+            >
+              <Download />
+            </PopUpButton>
+            <PopUpButton
+              handleClick={() => {
+                navigate(ALL_URLS.orgDashoboard.url);
+              }}
+              noText="Back to election list"
+              innerStyles={{
+                borderRadius: "0px",
+                boxShadow: "0px 0px 0px",
+                backgroundColor: "transparent",
+                color: "blue",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <ArrowLeft className="animate-bounce " />
+              <span className="animate-bounce ">Back to election list</span>
+            </PopUpButton>
+          </div>
+          <div className="w-full  h-[20px] pr-5 text-xl  flex justify-between">
+            {ejectTabs()}
+          </div>
         </div>
-        <div className="w-full  h-[20px] pr-5 text-xl  flex justify-between">
-          {ejectTabs()}
-        </div>
-      </div>
-      <div className="w-full h-full flex flex-col justify-start overflow-y-auto items-center bg-gray-50">
-        <div className="h-auto w-full  p-3 flex justify-start  flex-col items-center  ">
-          {getTabContent()}
+        <div className="w-full mt-4 h-full flex flex-col justify-start overflow-y-auto items-center bg-gray-50">
+          <div className="h-auto w-full  p-3 flex justify-start  flex-col items-center  ">
+            {getTabContent()}
+          </div>
         </div>
       </div>
     </div>

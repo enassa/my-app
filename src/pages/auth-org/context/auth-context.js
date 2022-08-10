@@ -70,7 +70,7 @@ export const useAuthServices = () => {
           // }
           if (responseData.success === true) {
             if (action === "auth") {
-              console.log(responseData);
+              // console.log(responseData);
               return processAuthentication(responseData);
             } else if (action === "verify") {
               return processVerification(responseData);

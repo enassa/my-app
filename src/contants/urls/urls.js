@@ -18,7 +18,8 @@ export const END_POINTS = {
   registerOrganization: "/api/election/register",
   confirmEmail: "/api/election/confirm",
 
-  getElectionList: "/api/election/list",
+  getElectionList: "/api/elections/list",
+  getSingleElection: "/api/elections/single",
   getResults: "/api/election/results",
 
   deleteElection: "/api/election/delete",

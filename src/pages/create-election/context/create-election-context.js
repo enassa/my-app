@@ -55,8 +55,6 @@ const ElectionProvider = ({ children }) => {
       return;
     }
     saveObjectInLocalStorage("bluePrintState", bluePrintState);
-    // setTimeout(() => {
-    // }, 200);
     console.log(bluePrintState);
   }, [bluePrintState]);
 

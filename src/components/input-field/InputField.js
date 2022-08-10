@@ -59,7 +59,6 @@ export default function InputField({ handleOnChange, inputData, error }) {
   //   // return () => {
   //   // };
   // }, [inputValue]);
-  console.log(inputData.value);
   return (
     <div
       key={`pf${inputData?.index}`}

@@ -10,7 +10,7 @@ import { API_URL, elections } from "../../../components/contants/dummy-data";
 // import { BASE_URL, TOKEN } from "../../../contants/urls/urls";
 
 const initialState = {
-  elections: [...elections],
+  elections: [],
   openedElection: undefined,
   votingElection: undefined,
   electionResults: undefined,
@@ -20,14 +20,15 @@ export const createElectionSlice = createSlice({
   name: "departmentState",
   initialState,
   reducers: {
-    getElections: (state, action) => {},
+    getElections: (state, action) => {
+      state.elections = action.payload;
+    },
     createElection: (state, action) => {
       state.elections.push(action.payload);
     },
     updateElection: (state, action) => {},
     deleteElection: (state, action) => {},
     setOpenedElection: (state, action) => {
-      // console.log(action.payload);
       state.openedElection = action.payload;
     },
     resetElection: (state, action) => {

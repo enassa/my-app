@@ -57,7 +57,7 @@ export default function ContestantCard({
         <div>
           {/* <strong className="mb-2">Name: </strong> */}
           <div className="text-center overflow-hidden  text-ellipsis ">
-            {info.Name}
+            {info.Info.Name}
           </div>
         </div>
         {/* {info?.ExtraInfo?.map((extraInfo, index) => {
@@ -70,8 +70,14 @@ export default function ContestantCard({
         })} */}
         {infoProps?.map((prop, index) => {
           console.log(prop);
-          if (prop === "ImageInfo" || prop === "ImageUrl") return;
-          if (!checkShowStatus(prop)) return;
+          if (
+            prop === "ImageInfo" ||
+            prop === "ImageUrl" ||
+            prop === "Name" ||
+            prop === "Ballot_Number"
+          )
+            return;
+          if (checkShowStatus(prop)) return;
           return (
             <div className="w-full flex flex-col items-center" key={index}>
               {/* <strong className="mb-2 ">

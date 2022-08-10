@@ -5,6 +5,7 @@ import { useCreateElectionServices } from "./context/create-election-context";
 import { AddCircle, Article, DateRange, HowToVote } from "@mui/icons-material";
 import DefinitionCard from "./components/definition-card";
 import PortfolioCard from "./components/portfolio-card";
+import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
 
 export default function GeneralInfoForm({ handleNavigation }) {
   const [errors, setError] = useState([]);
@@ -62,12 +63,13 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 setError([]);
               }}
             />
-            {errors.includes(`Title`) && (
+            {errors.includes(`${item}`) && (
               <span
                 style={{ fontSize: 11 }}
                 className="text-red-400 w-full pl-[85px] absolute bottom-0"
               >
-                The title of the election is required
+                The {replaceUnderscoreWithSpace(item)} for the election is
+                required
               </span>
             )}
           </div>

@@ -38,7 +38,6 @@ export const useElectionServices = () => {
   const electionResults = useSelector(
     (state) => state.election.electionResults
   );
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const request = async (
@@ -104,10 +103,14 @@ export const useElectionServices = () => {
         setLoading(false);
       });
   };
-  const getElectionListAsync = async (organName) => {
-    request(`${END_POINTS.getElectionList}`, "GET")
+  const getElectionListAsync = async (orgCode, token) => {
+    request(`${END_POINTS.getElectionList}`, "POST", { orgCode, token })
       .then((res) => {
-        dispatch(getElections(res));
+        if (res.success) {
+          let data = !!res.data ? res.data : [];
+          dispatch(getElections(data));
+          successToast(res.message);
+        }
       })
       .catch((err) => {})
       .finally(() => {});
@@ -123,6 +126,26 @@ export const useElectionServices = () => {
     }
     return voterIds;
   };
+  const getSingleElectionAsync = async (orgCode, electionId, token) => {
+    request(`${END_POINTS.getSingleElection}`, "POST", {
+      orgCode,
+      electionId,
+      token,
+    })
+      .then((res) => {
+        if (res.success) {
+          let data = !!res.data ? res.data : [];
+          saveObjectInSession("openedElection", data);
+          console.log(data);
+          dispatch(openElection(data));
+        } else {
+          errorToast("Could not get election");
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
+
   const createElectionAsync = async (data) => {
     let NumberOfVoters = data?.NumberOfVoters || 5;
     let VoterIds = await createVoterIds(NumberOfVoters);
@@ -139,12 +162,10 @@ export const useElectionServices = () => {
     request(END_POINTS.createElection, "POST", { electionData })
       .then((res) => {
         if (res.success) {
-          dispatch(createElection(data));
+          dispatch(createElection(res.data));
           successToast("Election created successfully ");
-          console.log("election creation", res);
           return res;
         }
-        console.log("election creation", res);
       })
       .catch((err) => {})
       .finally(() => {});
@@ -211,7 +232,6 @@ export const useElectionServices = () => {
   const castVoteAsync = async (data) => {
     request(`${END_POINTS.castVote}`, "PUT", data)
       .then((res) => {
-        console.log(res);
         if (res.success) {
           successToast(res.message);
           sessionStorage.removeItem("votingElection");
@@ -226,7 +246,6 @@ export const useElectionServices = () => {
       .finally(() => {});
   };
   const resultsLoginAsync = async (data) => {
-    console.log(data);
     request(`${END_POINTS.verifyElectionPassword}`, "POST", data)
       .then((res) => {
         if (res.success) {
@@ -248,7 +267,6 @@ export const useElectionServices = () => {
           successToast(res.message);
           saveObjectInSession("resultsData", res.data);
           navigate(ALL_URLS.resultsScreen.url);
-          console.log(res.data);
           dispatch(setElectionResults(res.data));
           return res;
         } else {
@@ -272,7 +290,7 @@ export const useElectionServices = () => {
     setUpElection({});
   };
   const openElection = (data) => {
-    dispatch(setOpenedElection({ ...data }));
+    dispatch(setOpenedElection(data));
     navigate(`${ALL_URLS.viewElectionDashboard.url}/results`);
   };
   const closeElection = () => {
@@ -295,6 +313,7 @@ export const useElectionServices = () => {
     resultsLoginAsync,
     logoutAsync,
     getLatesResultsAsync,
+    getSingleElectionAsync,
     election,
     loading,
     elections,

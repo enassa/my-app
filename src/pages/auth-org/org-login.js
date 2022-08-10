@@ -19,7 +19,7 @@ export default function OrgLogin() {
     delete data.password_confirm;
     loginUser(data)
       .then((res) => {
-        console.log(res);
+        console.log("xxxx", res);
         if (res?.success) {
           navigate(ALL_URLS.orgDashoboard.url);
         } else {
