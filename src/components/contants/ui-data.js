@@ -19,7 +19,7 @@ export const electionBluePrint = {
   CreatedBy: "",
   Title: "",
   Password: "",
-  Number_Of_Voters: 4,
+  NumberOfVoters: 4,
   TotalVoted: 0,
   GeneralInfo: {
     Title: "",
@@ -81,7 +81,7 @@ export const generalBlueInfoPrint = {
   Starting: "",
   Ending: "",
   Password: "",
-  Number_Of_Voters: 0,
+  NumberOfVoters: 0,
 };
 export const contestDefBluePrint = {
   Id: 1,

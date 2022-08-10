@@ -68,8 +68,11 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 style={{ fontSize: 11 }}
                 className="text-red-400 w-full pl-[85px] absolute bottom-0"
               >
-                The {replaceUnderscoreWithSpace(item)} for the election is
-                required
+                The{" "}
+                {replaceUnderscoreWithSpace(
+                  item !== "NumberOfVoters" ? item : "Number_of_voters"
+                )}{" "}
+                for the election is required
               </span>
             )}
           </div>
@@ -148,8 +151,8 @@ export default function GeneralInfoForm({ handleNavigation }) {
     if (bluePrintState.GeneralInfo.Password === "") {
       foundErrors.push("Password");
     }
-    if (bluePrintState.GeneralInfo.Number_Of_Voters === "") {
-      foundErrors.push("Number_Of_Voters");
+    if (bluePrintState.GeneralInfo.NumberOfVoters === "") {
+      foundErrors.push("NumberOfVoters");
     }
     console.log(
       bluePrintState?.GeneralInfo,
