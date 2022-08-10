@@ -1599,7 +1599,8 @@ class FormGenerator extends Component {
                 }
               >
                 <button
-                  disable={`${!this.state.buttonClicked || this.props.loading}`}
+                  // disable={`${!this.state.buttonClicked || this.props.loading}`}
+                  disable={this.props.loading}
                   className=""
                   onClick={(e) => {
                     e.preventDefault();
