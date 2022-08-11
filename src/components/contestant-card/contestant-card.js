@@ -80,7 +80,10 @@ export default function ContestantCard({
             return;
           if (!checkShowStatus(prop)) return;
           return (
-            <div className="w-full flex flex-col items-center" key={index}>
+            <div
+              className="w-full text-orange-800 flex flex-col items-center"
+              key={index}
+            >
               {/* <strong className="mb-2 ">
                 {replaceUnderscoreWithSpace(prop)}:{" "}
               </strong> */}
