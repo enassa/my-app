@@ -170,6 +170,28 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
+  const resetElectionAsync = async (data) => {
+    console.log(data.token);
+    let NumberOfVoters = data?.NumberOfVoters || 300;
+    let VoterIds = await createVoterIds(NumberOfVoters);
+    let electionData = {
+      ...data,
+      OrganizationId: ORG_CODE(),
+      VoterIds,
+      Id: data?.Id,
+    };
+    request(END_POINTS.resetElection, "PUT", { electionData, Id: data?.Id })
+      .then((res) => {
+        if (res.success) {
+          window.location.reload();
+          // dispatch(createElection(res.data));
+          successToast("Election reset successfully ");
+          return res;
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
   const updateElectionAsync = async (data) => {
     request(`${END_POINTS.updateElection}`, "PUT", data)
       .then((res) => {
@@ -178,14 +200,14 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
-  const resetElectionAsync = async (data) => {
-    request(`${END_POINTS.resetElection}`, "PUT", data)
-      .then((res) => {
-        dispatch(resetElection(data));
-      })
-      .catch((err) => {})
-      .finally(() => {});
-  };
+  // const resetElectionAsync = async (data) => {
+  //   request(`${END_POINTS.resetElection}`, "PUT", data)
+  //     .then((res) => {
+  //       dispatch(resetElection(data));
+  //     })
+  //     .catch((err) => {})
+  //     .finally(() => {});
+  // };
   const deleteElectionAsync = async (data) => {
     request(`${END_POINTS.deleteElection}`, "DELETE", data)
       .then((res) => {})
@@ -245,6 +267,22 @@ export const useElectionServices = () => {
       .catch((err) => {})
       .finally(() => {});
   };
+  // const resetElectionAsync = async (data) => {
+  //   request(`${END_POINTS.resetElection}`, "PUT", data)
+  //     .then((res) => {
+  //       if (res.success) {
+  //         successToast(res.message);
+  //         sessionStorage.removeItem("votingElection");
+  //         navigate(ALL_URLS.voteSuccess.url);
+  //         return res;
+  //       } else {
+  //         errorToast(res.message);
+  //         return res;
+  //       }
+  //     })
+  //     .catch((err) => {})
+  //     .finally(() => {});
+  // };
   const resultsLoginAsync = async (data) => {
     request(`${END_POINTS.verifyElectionPassword}`, "POST", data)
       .then((res) => {

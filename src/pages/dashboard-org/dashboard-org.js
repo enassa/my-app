@@ -25,7 +25,7 @@ export default function OrgDashboard() {
     },
   ];
 
-  const { elections, openElection, getElectionListAsync } =
+  const { elections, openElection, getElectionListAsync, resetElectionAsync } =
     useElectionServices();
   const navigate = useNavigate();
 
@@ -33,7 +33,6 @@ export default function OrgDashboard() {
     return (
       Array.isArray(elections) &&
       elections.map((item, index) => {
-        console.log(item);
         let percentageProgress =
           (parseInt(item?.TotalVoted) / parseInt(item?.NumberOfVoters)) * 100;
         return (
@@ -41,7 +40,7 @@ export default function OrgDashboard() {
             key={index}
             className="w-full cursor-pointer rounded-sm bg-white mb-4 px-3 h-100 min-h-[200px] shadow flex justify-start items-center"
           >
-            <div className="w-1/2 text-2xl">{item?.GeneralInfo?.Title}</div>
+            <div className="w-1/2 text-2xl">{item?.Title}</div>
             <div className=" bg-gray-100  mr-3  flex flex-col whitespace-nowrap rounded-lg p-3 px-5">
               <span>Total voted: {item?.TotalVoted}</span>
               <span>Expected votes: {item?.NumberOfVoters}</span>
@@ -53,10 +52,22 @@ export default function OrgDashboard() {
                 progressColor={"#5F27CD"}
                 containerColor="#E2E2E2"
                 radius={40}
-                progressPercentage={percentageProgress}
+                progressPercentage={
+                  isNaN(percentageProgress) ? 0 : percentageProgress
+                }
               />
             </div>
             <div className="w-1/2 flex justify-end px-2 items-center">
+              <PopUpButton
+                handleClick={() => {
+                  saveObjectInSession("openedElection", item);
+                  resetElectionAsync(item);
+                }}
+                buttonText="Reset"
+                innerStyles={{
+                  marginRight: 20,
+                }}
+              />
               <PopUpButton
                 handleClick={() => {
                   saveObjectInSession("openedElection", item);

@@ -4,13 +4,15 @@ import GridLayOut from "../../components/grid_layout/GridLayout";
 import CreateContestantCard from "../../components/create-contestant-card/create-contestant-card";
 import AddContestantForm from "./add-contestant-form";
 import {
+  generateSuperShortId,
   getAsObjectFromLocalStorage,
   saveObjectInLocalStorage,
 } from "../../contants/libraries/easy";
 import { useEffect } from "react";
 import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
-
+// import { storage } from ".././../../.firebase";
+// import { ref, uploadBytes } from "firebase/storage";
 export default function ContestantCreation({ handleNavigation }) {
   const { loadingLocal, bluePrintState } = useCreateElectionServices();
   const { createElectionAsync, loading } = useElectionServices();
@@ -88,6 +90,13 @@ export default function ContestantCreation({ handleNavigation }) {
       })
     );
   };
+  // const contestantImages = {}
+  // const uploadImage = () => {
+  //   const imageRef = ref(storage, `orgName/nameOfImage ${generateSuperShortId()}`)
+  //   uploadBytes(imageRef, imagefile).then((res)=>{
+  //     // do something
+  //   })
+  // }
   const handleCreateElection = () => {
     createElectionAsync(bluePrintState);
   };

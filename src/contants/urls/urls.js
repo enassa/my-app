@@ -23,7 +23,6 @@ export const END_POINTS = {
   getResults: "/api/election/results",
 
   deleteElection: "/api/election/delete",
-  resetElection: "/api/election/reset",
 
   // forgot password
   forgotPassword: "/api/election/forgot-password",
@@ -36,6 +35,7 @@ export const END_POINTS = {
   // -----voting------
   verifyVoterId: "/api/elections/verify-voter",
   castVote: "/api/elections/vote",
+  resetElection: "/api/elections/reset",
 
   // ----results
   verifyElectionPassword: "/api/elections/results-login",
