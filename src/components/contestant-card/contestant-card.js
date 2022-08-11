@@ -23,10 +23,10 @@ export default function ContestantCard({
   const { votingElection } = useElectionServices();
   const infoProps = !!info.Info ? Object.keys(info.Info) : [];
   const checkShowStatus = (ContestantDefTitle) => {
-    console.log(votingElection);
     let contestantDef = votingElection?.ContestantDefinition?.find(
       (item) => item.Title === ContestantDefTitle
     );
+    console.log(contestantDef);
     if (!!contestantDef) return contestantDef?.Show;
   };
   return (
@@ -70,6 +70,7 @@ export default function ContestantCard({
         })} */}
         {infoProps?.map((prop, index) => {
           console.log(prop);
+          console.log(prop);
           if (
             prop === "ImageInfo" ||
             prop === "ImageUrl" ||
@@ -77,7 +78,7 @@ export default function ContestantCard({
             prop === "Ballot_Number"
           )
             return;
-          if (checkShowStatus(prop)) return;
+          if (!checkShowStatus(prop)) return;
           return (
             <div className="w-full flex flex-col items-center" key={index}>
               {/* <strong className="mb-2 ">
