@@ -8,6 +8,7 @@ import { User } from "../../components/contants/ui-data";
 import { ORG_CODE, ORG_NAME, TOKEN } from "../../contants/urls/urls";
 import { saveObjectInSession } from "../../contants/libraries/easy";
 import ProgressBar from "../../components/progress bar/ProgressBar";
+import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
 
 export default function OrgDashboard() {
   // console.log(User());
@@ -25,8 +26,13 @@ export default function OrgDashboard() {
     },
   ];
 
-  const { elections, openElection, getElectionListAsync, resetElectionAsync } =
-    useElectionServices();
+  const {
+    loading,
+    elections,
+    openElection,
+    getElectionListAsync,
+    resetElectionAsync,
+  } = useElectionServices();
   const navigate = useNavigate();
 
   const ejectElections = () => {
@@ -89,6 +95,11 @@ export default function OrgDashboard() {
 
   return (
     <div className="w-full h-full flex justify-center">
+      {loading ? (
+        <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
+          {<OverlayLoader loaderText="Reseting election..." />}
+        </div>
+      ) : null}
       <div className="w-[75%] h-full bg-white flex justify-start flex-col">
         <div className="w-full h-[100px] min-h-[100px] mt-[60px] flex flex-col justify-between items-start shadow-lg text-white bg-indigo-500 p-3">
           <div className="flex w-full justify-between items-center px-2">
