@@ -1,15 +1,20 @@
 // import logo from "../assets/imgs/logo.jpeg";
 import { User } from "../../components/contants/ui-data";
 
-export const BASE_URL = {
-  dev:
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_BASE_URL
-      : "http://localhost:3030",
-  // dev: "https://1586-154-160-1-173.ngrok.io",
-  production: "",
-  test: "",
-};
+const devMode = true;
+export const BASE_URL = devMode
+  ? {
+      dev: "https://koinovote.herokuapp.com",
+    }
+  : {
+      dev:
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_BASE_URL
+          : "http://localhost:3030",
+      // dev: "https://1586-154-160-1-173.ngrok.io",
+      production: "",
+      test: "",
+    };
 export const END_POINTS = {
   // Account management staffend points
   loginToVoteScreen: "/api/election/login/voting-screen",

@@ -62,7 +62,7 @@ export default function ResultScreen() {
               onClick={() => {
                 addOrRemoveFromSelected(index);
               }}
-              className="whitespace-nowrap cursor-pointer bg-blue-500 flex justify-between py-2 pl-3 text-white rounded-sm px-2 w-[200px] mr-2"
+              className="whitespace-nowrap cursor-pointer bg-blue-500 flex justify-between py-2 pl-3 text-white rounded-sm px-2 w-auto mr-2"
             >
               {item?.Title}
               <>{dropDown ? <ArrowDropUp /> : <ArrowDropDown />}</>
