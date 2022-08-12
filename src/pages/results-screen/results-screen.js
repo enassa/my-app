@@ -140,7 +140,7 @@ export default function ResultScreen() {
               progressColor={"#5F27CD"}
               containerColor="#E2E2E2"
               radius={40}
-              progressPercentage={percentageProgress}
+              progressPercentage={parseInt(percentageProgress.toFixed(1))}
             />
           </div>{" "}
           <div className="cursor-pointer overflow-hidden flex rounded-lg items-center w-1/2 h-[50px] shadow-lg">

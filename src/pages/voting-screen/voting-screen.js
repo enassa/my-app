@@ -69,7 +69,7 @@ export default function VotingScreen() {
 
     const difference = notVoted?.length / votingElection?.Positions?.length;
     const percentage = difference * 100;
-    return percentage;
+    return parseInt(percentage.toFixed(1));
   };
   // const validateVote = () => {
   //   const positionIds = Object.keys(votingElection?.Votes);
