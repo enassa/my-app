@@ -45,6 +45,7 @@ export const createElectionSlice = createSlice({
     },
   },
 });
+
 export const {
   getElections,
   createElection,
