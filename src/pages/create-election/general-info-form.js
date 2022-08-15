@@ -6,21 +6,21 @@ import { AddCircle, Article, DateRange, HowToVote } from "@mui/icons-material";
 import DefinitionCard from "./components/definition-card";
 import PortfolioCard from "./components/portfolio-card";
 import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
+import ImagetManager from "./image-manager";
+import CategoryManager from "./category-manager/category-manager";
 
 export default function GeneralInfoForm({ handleNavigation }) {
-  const [errors, setError] = useState([]);
-
   const {
     bluePrintState,
     generalInfoPrint,
     updateDate,
-
+    errors,
+    setError,
     updateGeneralInfo,
-
+    validateForm,
     addContestantDef,
     deleteContestantDef,
     updateContestantDef,
-
     addPosition,
     deletePosition,
     updatePosition,
@@ -141,57 +141,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
 
   let StartDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Starting : "";
   let EndDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Ending : "";
-  const validateForm = () => {
-    if (errors.length) setError([]);
-    let foundErrors = [];
 
-    if (bluePrintState.GeneralInfo.Title === "") {
-      foundErrors.push("Title");
-    }
-    if (bluePrintState.GeneralInfo.Password === "") {
-      foundErrors.push("Password");
-    }
-    if (bluePrintState.GeneralInfo.NumberOfVoters === "") {
-      foundErrors.push("NumberOfVoters");
-    }
-    console.log(
-      bluePrintState?.GeneralInfo,
-      bluePrintState?.GeneralInfo,
-      bluePrintState
-    );
-    if (
-      bluePrintState?.GeneralInfo.Starting === undefined ||
-      bluePrintState?.GeneralInfo.Starting === ""
-    ) {
-      foundErrors.push("Starting");
-    }
-    if (
-      bluePrintState?.GeneralInfo.Ending === undefined ||
-      bluePrintState?.GeneralInfo.Ending === ""
-    ) {
-      foundErrors.push("Ending");
-    }
-    !bluePrintState.Positions.length && foundErrors.push(`emptyPortfolio`);
-    // Validate contestant definitions
-    bluePrintState.ContestantDefinition.map((item) => {
-      if (item.Title === "") {
-        foundErrors.push(`ContestantDefinition${item.Id}`);
-      }
-    });
-    bluePrintState.Positions.map((item) => {
-      if (item.Title === "") {
-        foundErrors.push(`Position${item.Id}`);
-      }
-    });
-
-    // if errors stop else move to next page to add contestants
-
-    if (foundErrors.length) {
-      setError([...foundErrors]);
-      return;
-    }
-    handleNavigation(1);
-  };
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">
@@ -270,6 +220,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
               </div>
             </div>
           </div>
+          <CategoryManager />
           <div className="w-full h-auto mb-5 mt-2 flex items-center ">
             <strong className="whitespace-nowrap flex items-center mr-2">
               Portfolios
@@ -286,7 +237,13 @@ export default function GeneralInfoForm({ handleNavigation }) {
               <div className="w-[100%] h-[50px] mr-2  mb-3"></div>
               <div
                 onClick={() => {
-                  addPosition();
+                  let oldPositions = bluePrintState.Positions;
+                  const getIdOfLastPositions = () =>
+                    oldPositions.length
+                      ? oldPositions[oldPositions.length - 1].Id
+                      : -1;
+                  let idOfNewPositions = getIdOfLastPositions() + 1;
+                  addPosition(idOfNewPositions);
                 }}
                 className="w-[50px] ml-3 hover:animate-rise text-gray-300 hover:text-blue-500 justify-end cursor-pointer px-2 h-[50px] flex items-center mb-3"
               >
@@ -294,6 +251,15 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 <AddCircle style={{ fontSize: 30 }} className="mr-2 " />
               </div>
             </div>
+            <div className="w-full h-auto mb-5 mt-2 flex items-center ">
+              <strong className="whitespace-nowrap flex items-center mr-2">
+                Add contestant images to your library
+              </strong>
+            </div>
+            <div className="w-full">
+              <ImagetManager />
+            </div>
+
             <div className="w-[95%] mt-6 flex items-center h-[50px]  mb-3">
               <div className="w-[100%] h-[50px] mr-2  mb-3"></div>
               <div className="w-[50px] ml-3  justify-end cursor-pointer px-2 h-[50px] flex items-center mb-3">
@@ -306,9 +272,9 @@ export default function GeneralInfoForm({ handleNavigation }) {
                     errors.length
                       ? "cursor-not-allowed"
                       : "hover:text-white hover:bg-black"
-                  } bg-gray-500 text-white  rounded-sm px-5 py-2`}
+                  } bg-gray-500 text-white whitespace-nowrap  rounded-sm px-5 py-2`}
                 >
-                  Next
+                  Save and continue
                 </button>
               </div>
             </div>

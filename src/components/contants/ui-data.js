@@ -39,6 +39,28 @@ export const electionBluePrint = {
   Positions: [],
   Contestants: [],
   VoterIds: [],
+  Categories: [
+    {
+      Id: 0,
+      Title: "Gender",
+      Options: [
+        { Id: 0, Title: "Male", disabled: false },
+        { Id: 1, Title: "Female", disabled: false },
+      ],
+      MultipleSelect: false,
+      disabled: false,
+    },
+    {
+      Id: 1,
+      Title: "Houses",
+      Options: [
+        { Id: 0, Title: "Kwapong House", disabled: false },
+        { Id: 1, Title: "Some House", disabled: false },
+      ],
+      MultipleSelect: true,
+      disabled: false,
+    },
+  ],
 };
 export const voterIdBluePrint = {
   Id: "",
@@ -70,6 +92,7 @@ export const positionBluePrint = {
   ContestantCount: "",
   Contestants: [],
   VoteCount: null,
+  Categories: [],
 };
 export const generalBlueInfoPrint = {
   Title: "",
@@ -100,3 +123,23 @@ export const defFieldsOption = [
     icon: <PictureAsPdf />,
   },
 ];
+export const categoryOptionsBluePrint = {
+  Id: 0,
+  Title: "",
+  disabled: false,
+  selected: false,
+};
+export const categoryBluePrint = {
+  Id: 0,
+  Name: "",
+  Options: [{ ...categoryOptionsBluePrint }],
+  MultipleSelect: false,
+  disabled: false,
+  Selected: false,
+};
+export const positionCategoryBluePrint = {
+  Id: 0,
+  Selected: [],
+  MultipleSelect: false,
+  CategoryId: 0,
+};

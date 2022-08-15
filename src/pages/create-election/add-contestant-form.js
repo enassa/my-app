@@ -3,7 +3,11 @@ import { Delete, Edit } from "@mui/icons-material";
 
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
-import { replaceSpaceWithUnderscore } from "../../contants/libraries/easy";
+import {
+  convertImageToDataurl,
+  getSrcFromDataUrl,
+  replaceSpaceWithUnderscore,
+} from "../../contants/libraries/easy";
 import { useCreateElectionServices } from "../../pages/create-election/context/create-election-context";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 
@@ -24,6 +28,7 @@ export default function AddContestantForm({
     state: false,
     message: false,
   });
+  const [trialBlob, setTrialblob] = useState();
   const [tempImage, setTempImage] = useState({
     ImageUrl: "",
     ImageInfo: undefined,
@@ -98,10 +103,16 @@ export default function AddContestantForm({
   const processFiles = (field, files) => {
     let ImageInfo = files[0];
     const ImageUrl = ImageInfo ? URL.createObjectURL(ImageInfo) : "";
-    console.log(ImageInfo, ImageUrl);
-    if (tempImage.ImageUrl === ImageUrl) return;
-    setTempImage({ ImageUrl, ImageInfo });
+    // console.log(ImageInfo, ImageUrl);
+    if (ImageUrl === "") return;
     setImageError({ state: false, message: "" });
+    convertImageToDataurl(ImageUrl, (dataUrl) => {
+      setTempImage({ ImageUrl, ImageInfo: dataUrl });
+      // getSrcFromDataUrl(img, (src) => {
+      //   setTrialblob(src);
+      // });
+      // setTrialblob(img);
+    });
   };
   const closeForm = () => {
     setTempImage({ ImageUrl: "", ImageInfo: undefined });
@@ -113,7 +124,7 @@ export default function AddContestantForm({
       {editMode && (
         <div
           onClick={() => closeForm()}
-          className="w-full h-full fixed z-[5] left-0 top-0 bg-backdrop2"
+          className="w-full h-full  fixed z-[5] left-0 top-0 bg-backdrop2"
         ></div>
       )}
       <div
@@ -122,7 +133,7 @@ export default function AddContestantForm({
         }}
         className={`${
           editMode &&
-          "fixed left-0 pointer-events-none top-0 w-full h-full flex justify-center items-center z-[30]  "
+          "fixed left-0 pointer-events-none top-20 w-full h-full flex justify-center items-center z-[30]  "
         }`}
       >
         <div
@@ -139,9 +150,10 @@ export default function AddContestantForm({
           }
            w-[200px] pointer-events-auto  hover:shadow-2xl rounded-2xl  shadow  px-2 cursor-pointer flex items-center flex-col relative`}
         >
+          {/* <img className="h-[60px] w-[60px]" alt="" src={tempImage.ImageUrl} /> */}
           {editMode ? (
             <div
-              style={{ backgroundImage: `url(${tempImage?.ImageUrl})` }}
+              style={{ backgroundImage: `url(${tempImage.ImageUrl})` }}
               className="w-[100px] mt-3 h-[100px] min-h-[100px] relative min-w-[100px] bg-yellow-50 rounded-full fit-bg mb-2"
             >
               <div

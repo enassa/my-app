@@ -11,10 +11,13 @@ import {
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
 import {
+  convertImageToDataurl,
+  getSrcFromDataUrl,
   replaceSpaceWithUnderscore,
   replaceUnderscoreWithSpace,
 } from "../../contants/libraries/easy";
 import { useCreateElectionServices } from "../../pages/create-election/context/create-election-context";
+import { useEffect } from "react";
 
 export default function CreateContestantCard({
   showPosition,
@@ -31,7 +34,7 @@ export default function CreateContestantCard({
   const imageInput = React.createRef();
   const [hovered, setHovered] = useState();
   const [tempImage, setTempImage] = useState({
-    ImageUrl: data?.Info?.ImageUrl,
+    ImageUrl: data?.Info?.ImageInfo,
     ImageInfo: data?.Info?.ImageInfo,
     edited: false,
   });
@@ -44,6 +47,7 @@ export default function CreateContestantCard({
     updateContestant,
     resetElectionPrint,
   } = useCreateElectionServices();
+
   const info = data?.Info;
   const infoProps = !!info ? Object.keys(info) : [];
 
@@ -71,7 +75,7 @@ export default function CreateContestantCard({
   });
   const closeForm = () => {
     setTempImage({
-      ImageUrl: data?.Info.ImageUrl,
+      ImageUrl: "",
       ImageInfo: data?.Info.ImageInfo,
     });
     setEditMode(false);
@@ -96,8 +100,16 @@ export default function CreateContestantCard({
   const processFiles = (field, files) => {
     const ImageInfo = files[0];
     const ImageUrl = ImageInfo ? URL.createObjectURL(ImageInfo) : "";
-    if (tempImage.ImageUrl === ImageUrl) return;
-    setTempImage({ ImageUrl, ImageInfo, edited: true });
+    console.log(ImageUrl);
+    if (ImageUrl === "") return;
+    convertImageToDataurl(ImageUrl, (dataUrl) => {
+      setTempImage({ ImageUrl, ImageInfo: dataUrl, edited: true });
+      // getSrcFromDataUrl(img, (src) => {
+      //   setTrialblob(src);
+      // });
+      // setTrialblob(img);
+    });
+    // setTempImage({ ImageUrl, ImageInfo, edited: true });
   };
 
   const checkShowStatus = (ContestantDefTitle) => {
@@ -106,6 +118,13 @@ export default function CreateContestantCard({
     );
     if (!!contestantDef) return contestantDef?.Show;
   };
+  // useEffect(() => {
+  //   getSrcFromDataUrl(data?.Info?.ImageInfo, (imageSrc) => {
+  //     console.log(imageSrc);
+  //     setTempImage({ ImageUrl: imageSrc, ImageInfo: data?.Info.ImageInfo });
+  //   });
+  // }, []);
+  // console.log(tempImage.ImageUrl);
   return (
     <>
       {editMode && (
@@ -150,7 +169,9 @@ export default function CreateContestantCard({
             // style={{ backgroundImage: `url(${data.Image})` }}
             style={{
               backgroundImage: `url(${
-                editMode ? tempImage.ImageUrl : data?.Info.ImageUrl
+                tempImage.ImageUrl !== ""
+                  ? tempImage.ImageUrl
+                  : data?.Info.ImageInfo
               })`,
             }}
             className="w-[100px] h-[100px] min-h-[100px] relative min-w-[100px] bg-yellow-50 rounded-full fit-bg mb-2"

@@ -762,3 +762,213 @@ export const generateSuperShortId = () => {
   };
   return S4() + S4();
 };
+export const getBase64Image = async (src, callback, outputFormat) => {
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    let dataURL;
+    canvas.height = img.naturalHeight;
+    canvas.width = img.naturalWidth;
+    ctx.drawImage(img, 0, 0);
+    dataURL = canvas.toDataURL(outputFormat);
+    callback(dataURL);
+  };
+
+  img.src = src;
+  if (img.complete || img.complete === undefined) {
+    img.src =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
+};
+function encodeImageFileAsURL() {
+  var filesSelected = document.getElementById("inputFileToLoad").files;
+  if (filesSelected.length > 0) {
+    var fileToLoad = filesSelected[0];
+
+    var fileReader = new FileReader();
+
+    fileReader.onload = function (fileLoadedEvent) {
+      var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+      var newImage = document.createElement("img");
+      newImage.src = srcData;
+
+      document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+      alert(
+        "Converted Base64 version is " +
+          document.getElementById("imgTest").innerHTML
+      );
+      console.log(
+        "Converted Base64 version is " +
+          document.getElementById("imgTest").innerHTML
+      );
+    };
+    fileReader.readAsDataURL(fileToLoad);
+  }
+}
+
+export const getBase64Image2 = (img) => {
+  // Create an empty canvas element
+  var canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+
+  // Copy the image contents to the canvas
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  // Get the data-URL formatted image
+  // Firefox supports PNG and JPEG. You could check img.src to
+  // guess the original format, but be aware the using "image/jpg"
+  // will re-encode the image.
+  var dataURL = canvas.toDataURL("image/png");
+
+  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+};
+function encodeImageFileAsURL2(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function () {
+    console.log("RESULT", reader.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function getBase64(file, callback) {
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => callback(reader.result));
+
+  reader.readAsDataURL(file);
+}
+
+const uploadProfile = (e) => {
+  let file = e.target.files[0];
+  let reader = new FileReader();
+
+  reader.onloadend = function () {
+    console.log("RESULT", reader.result);
+  };
+  reader.readAsDataURL(file);
+};
+
+function encode() {
+  // Get the file objects that was selected by the user from myinput - a file picker control
+  var selectedfile = document.getElementById("myinput").files;
+  // Check that the user actually selected file/s from the "file picker" control
+  // Note - selectedfile is an array, hence we check it`s length, when length of the array
+  // is bigger than 0 than it means the array containes file objects
+  if (selectedfile.length > 0) {
+    // Set the first file object inside the array to this variable
+    // Note: if multiple files are selected we can itterate on all of the selectedfile array  using a for loop - BUT in order to not make this example complicated we only take the first file object that was selected
+    var imageFile = selectedfile[0];
+    // Set a filereader object to asynchronously read the contents of files (or raw data buffers) stored on the            user's computer, using File or Blob objects to specify the file or data to read.
+    var fileReader = new FileReader();
+    // We declare an event of the fileReader class (onload event) and we register an anonimous function that will be executed when the event is raised. it is "trick" we preapare in order for the onload event to be raised after the last line of this code will be executed (fileReader.readAsDataURL(imageFile);) - please read about events in javascript if you are not familiar with "Events"
+    fileReader.onload = function (fileLoadedEvent) {
+      // AT THIS STAGE THE EVENT WAS RAISED
+      // Here we are getting the file contents - basiccaly the base64 mapping
+      var srcData = fileLoadedEvent.target.result;
+      // We create an image html element dinamically in order to display the image
+      var newImage = document.createElement("img");
+      // We set the source of the image we created
+      newImage.src = srcData;
+      // ANOTHER TRICK TO EXTRACT THE BASE64 STRING
+      // We set the outer html of the new image to the div element
+      document.getElementById("dummy").innerHTML = newImage.outerHTML;
+      // Then we take the inner html of the div and we have the base64 string
+      document.getElementById("txt").value =
+        document.getElementById("dummy").innerHTML;
+    };
+    // This line will raise the fileReader.onload event - note we are passing the file object here as an argument to the function of the event
+    fileReader.readAsDataURL(imageFile);
+  }
+}
+export const getBase642 = (file) =>
+  new Promise(function (resolve, reject) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject("Error: ", error);
+  });
+
+const simpleImageConverter = (e) => {
+  const fr = new FileReader();
+  fr.onloadend = () => document.write(fr.result);
+  fr.readAsDataURL(e.target.files[0]);
+};
+// usage
+// getBase64(file)
+//   .then((result) => {
+//     encoded = result;
+//   })
+//   .catch((e) => console.log(e));
+
+export function convertImageToDataurl(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("get", url);
+  xhr.responseType = "blob";
+  xhr.onload = function () {
+    var fr = new FileReader();
+    fr.onload = function () {
+      callback(this.result);
+    };
+    fr.readAsDataURL(xhr.response); // async call
+  };
+  xhr.send();
+}
+export const convertDataUrlToBlob = (dataUrl, callback) => {
+  var req = new XMLHttpRequest();
+
+  req.open("GET", dataUrl);
+  req.responseType = "arraybuffer"; // Can't use blob directly because of https://crbug.com/412752
+
+  req.onload = function fileLoaded(e) {
+    // If you require the blob to have correct mime type
+    var mime = this.getResponseHeader("content-type");
+
+    callback(new Blob([this.response], { type: mime }));
+  };
+
+  req.send();
+};
+export const getSrcFromDataUrl = (dataUrl, callback) => {
+  var req = new XMLHttpRequest();
+  req.open("GET", dataUrl);
+  req.responseType = "arraybuffer"; // Can't use blob directly because of https://crbug.com/412752
+
+  req.onload = function fileLoaded(e) {
+    // If you require the blob to have correct mime type
+    var mime = this.getResponseHeader("content-type");
+    let fileBlob = new Blob([this.response], { type: mime });
+    // console.log(URL.createObjectURL(fileBlob));
+    callback(URL.createObjectURL(fileBlob));
+  };
+  req.send();
+};
+
+export function bytesToSize(bytes) {
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  if (bytes === 0) return "n/a";
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+  if (i === 0) return `${bytes} ${sizes[i]})`;
+  return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
+}
+// export function recursion(maxCount, callBack) {
+//   console.log(maxCount, callBack);
+//   if (maxCount > 0) {
+//     if (callBack(maxCount)) {
+//       recursion(maxCount - 1);
+//     }
+//   }
+// }
+// getwater(20)
+// dataURLtoBlob(
+//   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",
+//   function (blob) {
+//     console.log(blob);
+//   }
+// );

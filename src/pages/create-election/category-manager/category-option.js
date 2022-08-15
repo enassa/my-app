@@ -1,10 +1,9 @@
-import { Delete, Settings } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { defFieldsOption } from "../../../components/contants/ui-data";
 import DropDownButton from "../../../components/drop-down-button/drop-down-button";
-import CategorySelector from "../category-manager/category-selector";
 
-export default function PortfolioCard({
+export default function CategoryOption({
   data,
   handleChange,
   handleDelete,
@@ -13,45 +12,21 @@ export default function PortfolioCard({
   name,
 }) {
   const [inputValue, setInputValue] = useState(undefined);
-  const [categoryArr, setCategoryArr] = useState();
+
   useEffect(() => {
     if (inputValue === undefined && !!data) {
       setInputValue(data?.Title);
       return;
     }
-    handleChange &&
-      handleChange({ Id: data.Id, Title: inputValue, Category: categoryArr });
-  }, [inputValue, categoryArr]);
+    handleChange && handleChange({ Id: data.Id, Title: inputValue });
+  }, [inputValue]);
 
-  const modifyPositionCategory = (categoryId, optionId, checked, category) => {
-    let allCategories = data?.Category;
-    if (categoryId === "all") {
-    }
-    if (optionId === null && categoryId) {
-      let newCategories = allCategories.filter(
-        (item) => item?.CategoryId !== categoryId
-      );
-      setCategoryArr(newCategories);
-    }
-    if (checked) {
-      allCategories.push({
-        ...category,
-        CategoryId: categoryId,
-      });
-    } else {
-      let indexOfCategory = allCategories.findIndex(
-        (item) => item.CategoryId === categoryId && item.Id === optionId
-      );
-      allCategories.splice(indexOfCategory, 1);
-    }
-    setCategoryArr(allCategories);
-  };
   return (
     <div className="w-[95%] flex items-center h-[50px]  mb-3">
       <div
         className={`${
           error ? "border-red-200 border" : ""
-        } w-[100%] px-2 h-[50px] mr-2 shadow mb-3 flex`}
+        } w-[100%] px-2 h-[50px] mr-2 shadow mb-3 `}
       >
         <input
           name={name}
@@ -67,7 +42,6 @@ export default function PortfolioCard({
             setInputValue(e.target.value);
           }}
         />
-        <CategorySelector data={data} />
       </div>
 
       <div className="w-[50px] ml-3 justify-end cursor-pointer px-2 h-[50px] flex items-center mb-3">

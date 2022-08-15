@@ -24,6 +24,8 @@ import {
   extraInfoBluePrint,
   generalBlueInfoPrint,
   contestDefBluePrint,
+  categoryBluePrint,
+  categoryOptionsBluePrint,
 } from "../../../components/contants/ui-data";
 import { dummyElection } from "../../../components/contants/dummy-data";
 import { useElectionServices } from "../../../redux/slices/election-slice/election-hook";
@@ -32,6 +34,7 @@ const ElectionContext = React.createContext(undefined);
 const ElectionProvider = ({ children }) => {
   const { createElectionAsync } = useElectionServices();
   const [loadingLocal, setLoading] = useState(false);
+  const [errors, setError] = useState([]);
 
   const [bluePrintState, updateBluePrintState] = useState(
     undefined
@@ -55,7 +58,7 @@ const ElectionProvider = ({ children }) => {
       return;
     }
     saveObjectInLocalStorage("bluePrintState", bluePrintState);
-    console.log(bluePrintState);
+    console.log("===", electionObjectCache());
   }, [bluePrintState]);
 
   const updateGeneralInfo = (field, data) => {
@@ -97,7 +100,7 @@ const ElectionProvider = ({ children }) => {
     updateBluePrintState(newBluePrint);
   };
   const updateSuperInfo = (data) => {};
-  // Contestant defintion CRUD operation
+  // Contestant  CRUD operation
   const addContestant = (data) => {
     const oldContestants = bluePrintState?.Contestants;
     const getIdOfLastContDef = () => {
@@ -205,12 +208,13 @@ const ElectionProvider = ({ children }) => {
         : -1;
     };
     let idOfNewPositions = getIdOfLastPositions() + 1;
+    console.log(positionBluePrint);
     let newBluePrint = {
       ...bluePrintState,
       Positions: [
         ...oldPositions, //load old contestant definitions
         {
-          // ...positionBluePrint,
+          ...positionBluePrint,
           Id: idOfNewPositions,
           Title: `Portfolio ${idOfNewPositions + 1}`,
         }, //new contestant definition
@@ -233,7 +237,19 @@ const ElectionProvider = ({ children }) => {
     };
     updateBluePrintState(newBluePrint);
   };
-
+  const updatePositionCategory = (data) => {
+    const oldPositions = bluePrintState?.Positions;
+    let indexOfItemToEdit = oldPositions.findIndex(
+      (item) => item?.Id === data?.Id
+    );
+    if (indexOfItemToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
+    oldPositions.splice(indexOfItemToEdit, 1, data);
+    let newBluePrint = {
+      ...bluePrintState,
+      Positions: oldPositions,
+    };
+    updateBluePrintState(newBluePrint);
+  };
   const deletePosition = (data) => {
     // remove cached active portfolio
     localStorage.removeItem("activePortfolio");
@@ -262,6 +278,106 @@ const ElectionProvider = ({ children }) => {
     let newBluePrint = {
       ...mainBluePrint,
       Positions: newPositions,
+    };
+    updateBluePrintState(newBluePrint);
+  };
+
+  // ---------------------CATERGORY DEFINITION CRUDE----------------
+  const addCategory = (data) => {
+    const oldCategories = bluePrintState?.Categories;
+    const getIdOfLastCategory = () => {
+      return oldCategories.length
+        ? oldCategories[oldCategories.length - 1].Id
+        : -1;
+    };
+    let idOfNewCategory = getIdOfLastCategory() + 1;
+    let newBluePrint = {
+      ...bluePrintState,
+      Categories: [
+        ...oldCategories, //load old contestant definitions
+        {
+          ...categoryBluePrint,
+          Id: idOfNewCategory,
+          Title: `Definition ${idOfNewCategory + 1}`,
+        }, //new contestant definition
+      ],
+    };
+    updateBluePrintState(newBluePrint);
+  };
+
+  const updateCategory = (data) => {
+    const oldCategories = bluePrintState?.Categories;
+    let indexOfItemToEdit = oldCategories.findIndex(
+      (item) => item?.Id === data?.Id
+    );
+    if (indexOfItemToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
+
+    oldCategories?.splice(indexOfItemToEdit, 1, data);
+    let newBluePrint = {
+      ...bluePrintState,
+      Categories: oldCategories,
+    };
+    updateBluePrintState(newBluePrint);
+  };
+
+  const deleteCategory = (data) => {
+    console.log("====", data);
+    // return;
+    const oldCategories = bluePrintState?.Categories;
+    let newCategories = oldCategories.filter((item) => item?.Id !== data?.Id);
+    if (!!!newCategories) return; //if for any reason filtering fails and this is udefined don't continue
+    let newBluePrint = {
+      ...bluePrintState,
+      Categories: newCategories,
+    };
+    updateBluePrintState(newBluePrint);
+  };
+  const addCategoryOption = (data) => {
+    const oldContestantDefinition = bluePrintState?.ContestantDefinition;
+    const getIdOfLastContDef = () => {
+      return oldContestantDefinition.length
+        ? oldContestantDefinition[oldContestantDefinition.length - 1].Id
+        : -1;
+    };
+    let idOfNewContestantDef = getIdOfLastContDef() + 1;
+    let newBluePrint = {
+      ...bluePrintState,
+      ContestantDefinition: [
+        ...oldContestantDefinition, //load old contestant definitions
+        {
+          ...contestDefBluePrint,
+          Id: idOfNewContestantDef,
+          Title: `Definition ${idOfNewContestantDef + 1}`,
+        }, //new contestant definition
+      ],
+    };
+    updateBluePrintState(newBluePrint);
+  };
+
+  const updateCategoryOption = (data) => {
+    const oldContestantDefinition = bluePrintState?.ContestantDefinition;
+    let indexOfItemToEdit = oldContestantDefinition.findIndex(
+      (item) => item?.Id === data?.Id
+    );
+    if (indexOfItemToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
+
+    oldContestantDefinition?.splice(indexOfItemToEdit, 1, data);
+    let newBluePrint = {
+      ...bluePrintState,
+      ContestantDefinition: oldContestantDefinition,
+    };
+    updateBluePrintState(newBluePrint);
+  };
+
+  const deleteCategoryOption = (data) => {
+    const oldContestantDefinition = bluePrintState?.ContestantDefinition;
+    let newContestantDefs = oldContestantDefinition.filter(
+      (item) => item?.Id !== data?.Id
+    );
+    if (!!!newContestantDefs) return; //if for any reason filtering fails and this is udefined don't continue
+    let newBluePrint = {
+      ...bluePrintState,
+      ContestantDefinition: newContestantDefs,
     };
     updateBluePrintState(newBluePrint);
   };
@@ -298,6 +414,71 @@ const ElectionProvider = ({ children }) => {
       },
     });
   };
+  const validateForm = (callBack) => {
+    if (errors.length) setError([]);
+    let foundErrors = [];
+
+    if (bluePrintState.GeneralInfo.Title === "") {
+      foundErrors.push("Title");
+    }
+    if (bluePrintState.GeneralInfo.Password === "") {
+      foundErrors.push("Password");
+    }
+    if (bluePrintState.GeneralInfo.NumberOfVoters === "") {
+      foundErrors.push("NumberOfVoters");
+    }
+    console.log(
+      bluePrintState?.GeneralInfo,
+      bluePrintState?.GeneralInfo,
+      bluePrintState
+    );
+    if (
+      bluePrintState?.GeneralInfo.Starting === undefined ||
+      bluePrintState?.GeneralInfo.Starting === ""
+    ) {
+      foundErrors.push("Starting");
+    }
+    if (
+      bluePrintState?.GeneralInfo.Ending === undefined ||
+      bluePrintState?.GeneralInfo.Ending === ""
+    ) {
+      foundErrors.push("Ending");
+    }
+    !bluePrintState.Positions.length && foundErrors.push(`emptyPortfolio`);
+    // Validate contestant definitions
+    bluePrintState.ContestantDefinition.map((item) => {
+      if (item.Title === "") {
+        foundErrors.push(`ContestantDefinition${item.Id}`);
+      }
+    });
+    bluePrintState.Positions.map((item) => {
+      if (item.Title === "") {
+        foundErrors.push(`Position${item.Id}`);
+      }
+    });
+
+    bluePrintState.Categories.map((item) => {
+      console.log(item);
+      if (item?.Title === "") {
+        foundErrors.push(`Category${item.Id}`);
+      }
+      Array.isArray(
+        item?.Options.map((option) => {
+          if (option.Title === "") {
+            foundErrors.push(`CategoryOption${item?.Id}${option?.Id}`);
+          }
+        })
+      );
+    });
+
+    // if errors stop else move to next page to add contestants
+
+    if (foundErrors.length) {
+      setError([...foundErrors]);
+      return;
+    }
+    callBack();
+  };
   return (
     <ElectionContext.Provider
       value={{
@@ -319,14 +500,26 @@ const ElectionProvider = ({ children }) => {
 
         resetElectionPrint,
 
-        createElection,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        addCategoryOption,
+        updateCategoryOption,
+        deleteCategoryOption,
 
+        validateForm,
+
+        createElection,
+        setError,
+        errors,
         bluePrintState,
         generalInfoPrint,
         contestantPrint,
         positionPrint,
         extraInfoPrint,
         voterIdPrint,
+        categoryBluePrint,
+        categoryOptionsBluePrint,
       }}
     >
       {children}
