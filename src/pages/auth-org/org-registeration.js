@@ -11,6 +11,7 @@ import { useAuthServices } from "./context/auth-context";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useStatusHook } from "../status-page/hook/status-hook";
 import { errorToast } from "../../components/toast/toastify";
+import Koinologo from "../../components/koino-logo/koino-logo";
 
 export default function OrgRegisteration() {
   const navigate = useNavigate();
@@ -35,11 +36,11 @@ export default function OrgRegisteration() {
   return (
     <div
       style={{ backgroundImage: `url(${randomImages})` }}
-      className="w-full  fit-bg h-full bg-gray-500 flex  flex-col justify-start items-center animate-rise"
+      className="w-full  fit-bg h-auto md:h-full bg-gray-500 flex  flex-col justify-start items-center animate-rise overflow-y-scroll"
     >
       <div
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[55] flex flex-col justify-center items-center"
+        className="w-full h-auto sm:h-full  z-[55] flex flex-col justify-center items-center"
       >
         <div className="fixed top-0 left-0 w-full ">
           <SimpleNavbar
@@ -59,40 +60,20 @@ export default function OrgRegisteration() {
           />
         </div>
 
-        <div
-          style={{
-            color: "#333",
-            fontSize: 50,
-            fontWeight: "bolder",
-            fontFamily: fontFamily5,
-          }}
-          className=" fixed left-0 top-[10px] flex justify-center h-[50px] items-center text-lg"
-        >
+        <Koinologo />
+        <div className="flex xsm:mt-[25%] md:mt-[0%]  w-[90%] md:w-auto sm:shadow-blend shadow-none flex-col rounded-lg overflow-hidden">
           <div
-            onClick={() => navigate("/")}
-            className="flex justify-start cursor-pointer ml-4 mt-2 items-center "
-          >
-            <HowToVote
-              style={{ fontSize: 50 }}
-              className="text-3xl w-auto sm:h-10 text-[#5445E5]"
-            />
-            <span className="text-[#5445E5] text-2xl font-bold ">
-              <span className="font-extralight">Koino</span>Vote
-            </span>
-          </div>
-        </div>
-
-        <div className="flex shadow-blend flex-col rounded-lg overflow-hidden">
-          <div
-            style={{
-              background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
-            }}
-            className="w-full h-[5px] animate-bgChange"
+            style={
+              {
+                // background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
+              }
+            }
+            className="w-full h-[5px] "
           ></div>
-          <div className="w-[400px] h-auto j-space-around items-center flex flex-col  bg-white shadow-blend p-[30px]">
+          <div className="md:w-[400px] h-auto j-space-around items-center flex flex-col  bg-transparent xs:bg-white shadow-none sm:shadow-blend p-[30px]">
             <div
               style={{ fontSize: 20, fontFamily: fontFamily3, color: "black" }}
-              className="flex justify-center items-center"
+              className=" hidden sm:flex justify-center items-center"
             >
               <Lock /> Register
             </div>

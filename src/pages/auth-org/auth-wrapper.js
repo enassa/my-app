@@ -12,25 +12,17 @@ import { useAuthServices } from "./context/auth-context";
 import { errorToast } from "../../components/toast/toastify";
 import Koinologo from "../../components/koino-logo/koino-logo";
 
-export default function OrgLogin() {
+export default function AuthWrapper({
+  children,
+  buttonUrl,
+  buttonText,
+  returnText,
+  returnUrl,
+  formHeight,
+  formTitle,
+}) {
   const navigate = useNavigate();
   const { loading, loginUser } = useAuthServices();
-
-  const handleSubmit = (data) => {
-    delete data.password_confirm;
-    loginUser(data)
-      .then((res) => {
-        console.log("xxxx", res);
-        if (res?.success) {
-          navigate(ALL_URLS.orgDashoboard.url);
-        } else {
-          errorToast(res?.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   return (
     <div
@@ -54,15 +46,15 @@ export default function OrgLogin() {
               background: "linear-gradient(270deg,#e4bc2a,#db5151)",
             }}
             handleButtonOneClick={() => {
-              navigate("/register");
+              navigate(buttonUrl || "Sign in");
             }}
-            buttonOneText="Sign Up"
+            buttonOneText={buttonText}
             noLogo={true}
             noMenuList
           />
         </div>
         <Koinologo />
-        <div className="flex w-[90%] md:w-auto xsm:mt-[25%] md:mt-[0%] mb-5 shadow-blend flex-col rounded-lg overflow-hidden">
+        <div className="flex w-[90%] md:w-auto shadow-blend flex-col rounded-lg overflow-hidden">
           <div
             style={
               {
@@ -71,58 +63,35 @@ export default function OrgLogin() {
             }
             className="w-full h-[5px] bg-white manimate-bgChange"
           ></div>
-          <div className="w-full md:w-[400px] h-[400px] j-space-around items-center flex flex-col  md:bg-white  shadow-blend p-[30px]">
+          <div
+            style={{ height: formHeight }}
+            className="w-full md:w-[400px]  j-space-around items-center flex flex-col  md:bg-white  shadow-blend p-[30px]"
+          >
             <div
               style={{ fontSize: 20, fontFamily: fontFamily3, color: "black" }}
               className="flex justify-center items-center mb-[40px]"
             >
-              <Lock /> Login
+              <Lock /> {formTitle}
             </div>
-            <div className="w-full  animate-rise relative">
-              <FormGenerator
-                fields={[
-                  {
-                    fieldType: FIELDS.input,
-                    name: "email",
-                    label: "Email",
-                    placeholder: "Email",
-                    required: true,
-                  },
-
-                  {
-                    fieldType: FIELDS.password,
-                    name: "password",
-                    label: "Password",
-                    placeholder: "Password",
-                    required: true,
-                  },
-                ]}
-                handleOnSubmit={(data, resetFunc, completed) => {
-                  handleSubmit(data, resetFunc, completed);
-                }}
-                buttonStyles={{
-                  backgroundColor: "black",
-                  background:
-                    "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
-                  borderRadius: "5px",
-                }}
-                loading={loading}
-              />
-              <div
-                style={{ fontFamily: fontFamily3 }}
-                className="justify-between absolute bottom-[30px]"
-              >
-                <span
-                  onClick={() => {
-                    navigate(ALL_URLS.verifyEmail.url);
-                  }}
-                  style={{ color: "#8E35E9" }}
-                  className="cursor-pointer"
+            {returnText !== "" && (
+              <div className="w-full  animate-rise relative">
+                {children}
+                <div
+                  style={{ fontFamily: fontFamily3 }}
+                  className="justify-between absolute bottom-[30px]"
                 >
-                  Forgot password?
-                </span>
+                  <span
+                    onClick={() => {
+                      navigate(returnUrl || "#");
+                    }}
+                    style={{ color: "#8E35E9" }}
+                    className="cursor-pointer"
+                  >
+                    {returnText}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

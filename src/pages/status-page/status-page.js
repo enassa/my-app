@@ -141,7 +141,7 @@ export default function StatusPage({ data }) {
           <span className="text-gray-500">Loading...</span>
         </div>
       ) : (
-        <div className="bg-white w-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+        <div className="bg-white w-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8 flex  h-full items-center">
           <div className="max-w-max mx-auto">
             <main className="sm:flex">
               <p
