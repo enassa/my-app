@@ -55,7 +55,7 @@ export default function PageNotFound() {
             aria-hidden="true"
           />
           <a
-            href="https://wa.me/0501595639"
+            href="https://wa.me/+233501595639"
             className="text-sm font-medium text-gray-500 hover:text-gray-600"
           >
             Whatsapp
