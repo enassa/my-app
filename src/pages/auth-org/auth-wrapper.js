@@ -39,25 +39,28 @@ export default function AuthWrapper({
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
         className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
-        {!hideButton && (
-          <div className="fixed top-0 left-0 w-full ">
-            <SimpleNavbar
-              buttonOneStyles={{
-                color: "white",
-                fontSize: 14,
-                cursor: "pointer",
-                fontWeight: "bolder",
-                background: "linear-gradient(270deg,#e4bc2a,#db5151)",
-              }}
-              handleButtonOneClick={() => {
-                navigate(buttonUrl || "Sign in");
-              }}
-              buttonOneText={buttonText}
-              noLogo={true}
-              noMenuList
-            />
-          </div>
-        )}
+        <div
+          className={`fixed top-0 left-0 w-full bg-white ${
+            hideButton ? "h-[60px]" : ""
+          }`}
+        >
+          <SimpleNavbar
+            buttonOneStyles={{
+              color: "white",
+              fontSize: 14,
+              cursor: "pointer",
+              fontWeight: "bolder",
+              background: "linear-gradient(270deg,#e4bc2a,#db5151)",
+            }}
+            handleButtonOneClick={() => {
+              navigate(buttonUrl || "Sign in");
+            }}
+            buttonOneText={buttonText}
+            noLogo={true}
+            noMenuList
+            hideFirstButton={hideButton}
+          />
+        </div>
 
         {!hideLogo && <Koinologo showText={hideButton ? true : false} />}
         <div className="flex w-[90%] md:w-auto shadow-blend flex-col rounded-lg overflow-hidden">
