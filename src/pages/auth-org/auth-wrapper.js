@@ -20,6 +20,9 @@ export default function AuthWrapper({
   returnUrl,
   formHeight,
   formTitle,
+  titleIcon,
+  hideButton,
+  hideLogo,
 }) {
   const navigate = useNavigate();
   const { loading, loginUser } = useAuthServices();
@@ -36,24 +39,27 @@ export default function AuthWrapper({
         style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
         className="w-full  h-full z-[55] flex flex-col justify-center items-center"
       >
-        <div className="fixed top-0 left-0 w-full ">
-          <SimpleNavbar
-            buttonOneStyles={{
-              color: "white",
-              fontSize: 14,
-              cursor: "pointer",
-              fontWeight: "bolder",
-              background: "linear-gradient(270deg,#e4bc2a,#db5151)",
-            }}
-            handleButtonOneClick={() => {
-              navigate(buttonUrl || "Sign in");
-            }}
-            buttonOneText={buttonText}
-            noLogo={true}
-            noMenuList
-          />
-        </div>
-        <Koinologo />
+        {!hideButton && (
+          <div className="fixed top-0 left-0 w-full ">
+            <SimpleNavbar
+              buttonOneStyles={{
+                color: "white",
+                fontSize: 14,
+                cursor: "pointer",
+                fontWeight: "bolder",
+                background: "linear-gradient(270deg,#e4bc2a,#db5151)",
+              }}
+              handleButtonOneClick={() => {
+                navigate(buttonUrl || "Sign in");
+              }}
+              buttonOneText={buttonText}
+              noLogo={true}
+              noMenuList
+            />
+          </div>
+        )}
+
+        {!hideLogo && <Koinologo showText={hideButton ? true : false} />}
         <div className="flex w-[90%] md:w-auto shadow-blend flex-col rounded-lg overflow-hidden">
           <div
             style={
@@ -71,7 +77,7 @@ export default function AuthWrapper({
               style={{ fontSize: 20, fontFamily: fontFamily3, color: "black" }}
               className="flex justify-center items-center mb-[40px]"
             >
-              <Lock /> {formTitle}
+              {titleIcon ? titleIcon : <Lock />} {formTitle}
             </div>
             {returnText !== "" && (
               <div className="w-full  animate-rise relative">

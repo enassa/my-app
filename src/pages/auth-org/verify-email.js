@@ -40,6 +40,7 @@ export default function EmailVerification() {
       buttonText="Sign in"
       buttonUrl={ALL_URLS.loginToOrganization.url}
       formTitle="Email Verification"
+      titleIcon={<Lock />}
     >
       <FormGenerator
         fields={[

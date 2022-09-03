@@ -18,6 +18,7 @@ import {
   decodeFromB64,
   saveObjectInSession,
 } from "../../contants/libraries/easy";
+import AuthWrapper from "../auth-org/auth-wrapper";
 
 export default function ResultScreenLogin() {
   const { loading, verifyVoterIdAsync, castVoteIdAsync, resultsLoginAsync } =
@@ -48,88 +49,32 @@ export default function ResultScreenLogin() {
     });
   };
   return (
-    <div
-      style={{ backgroundImage: `url(${randomImages})` }}
-      className="w-full  fit-bg h-full bg-gray-500 flex  flex-col justify-start items-center"
+    <AuthWrapper
+      formTitle="RESULTS CHECK"
+      titleIcon={<PieChart />}
+      hideButton={true}
     >
-      <div
-        style={{ backgroundColor: "rgb(255,255,255, 0.98)" }}
-        className="w-full  h-full z-[5] flex flex-col justify-center items-center"
-      >
-        <div
-          style={{
-            color: "#333",
-            fontSize: 50,
-            fontWeight: "bolder",
-            fontFamily: fontFamily5,
-          }}
-          className=" fixed left-0 top-[50px] flex justify-center h-[50px] items-center text-lg"
-        >
-          <span
-            onClick={() => {
-              navigate("/");
-            }}
-            className="flex cursor-pointer justify-start items-center px-4"
-          >
-            <HowToVoteTwoTone className="scale-150 mr-3 gradient-icon" />
-            <span
-              style={{
-                background: "linear-gradient(270deg,#e4bc2a,#db5151)",
-                backgroundClip: "text",
-                webkitBackgroundClip: "text",
-                color: "rgba(0,0,0,.2)",
-              }}
-              className="text-"
-            >
-              Vote++
-            </span>{" "}
-          </span>
-        </div>
-        <div className="flex shadow-blend flex-col rounded-lg overflow-hidden">
-          <div
-            style={{
-              background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
-            }}
-            className="w-full h-[5px] animate-bgChange"
-          ></div>
-          <div className="w-[400px] h-[300px] j-space-around items-center flex flex-col  bg-white shadow-blend p-[30px]">
-            <div
-              style={{ fontSize: 20, fontFamily: fontFamily3, color: "black" }}
-              className="flex justify-center items-center mb-[40px]"
-            >
-              <PieChart /> RESULTS CHECK
-            </div>
-            <div className="w-full  animate-rise">
-              <FormGenerator
-                fields={[
-                  {
-                    fieldType: FIELDS.input,
-                    name: "password",
-                    label: "Enter election password",
-                    placeholder: "Password",
-                    required: true,
-                  },
-                ]}
-                handleOnSubmit={(data, resetFunc, completed) => {
-                  handleSubmit(data, resetFunc, completed);
-                }}
-                buttonStyles={{
-                  backgroundColor: "black",
-                  background:
-                    "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
-                  borderRadius: "5px",
-                }}
-                loading={loading}
-                buttonText="Login"
-              />
-              <div
-                style={{ fontFamily: fontFamily3 }}
-                className="justify-between"
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <FormGenerator
+        fields={[
+          {
+            fieldType: FIELDS.password,
+            name: "password",
+            label: "Enter election password",
+            placeholder: "Password",
+            required: true,
+          },
+        ]}
+        handleOnSubmit={(data, resetFunc, completed) => {
+          handleSubmit(data, resetFunc, completed);
+        }}
+        buttonStyles={{
+          backgroundColor: "black",
+          background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
+          borderRadius: "5px",
+        }}
+        loading={loading}
+        buttonText="Login"
+      />
+    </AuthWrapper>
   );
 }
