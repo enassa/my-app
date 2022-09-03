@@ -1,5 +1,6 @@
 import { DoNotDisturb } from "@mui/icons-material";
 import React from "react";
+import { makeCall } from "../../contants/libraries/easy";
 
 /* This example requires Tailwind CSS v2.0+ */
 export default function PageNotFound() {
@@ -41,29 +42,33 @@ export default function PageNotFound() {
         <nav className="flex justify-center space-x-4">
           <a
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              makeCall("+233549546822");
+            }}
             className="text-sm font-medium text-gray-500 hover:text-gray-600"
           >
-            Contact Support
+            Call
           </a>
           <span
             className="inline-block border-l border-gray-300"
             aria-hidden="true"
           />
           <a
-            href="#"
+            href="https://wa.me/0501595639"
             className="text-sm font-medium text-gray-500 hover:text-gray-600"
           >
-            Status
+            Whatsapp
           </a>
           <span
             className="inline-block border-l border-gray-300"
             aria-hidden="true"
           />
           <a
-            href="#"
+            href="https://web.facebook.com/profile.php?id=100009019927936"
             className="text-sm font-medium text-gray-500 hover:text-gray-600"
           >
-            Twitter
+            Facebook
           </a>
         </nav>
       </footer>
