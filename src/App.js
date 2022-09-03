@@ -26,6 +26,7 @@ import { removeItemsFromLocalStorage } from "./contants/libraries/easy";
 import VotingSuccesfull from "./pages/voting-screen/voting-succesfull";
 import PageNotFound from "./pages/page-not-found/page-not-found";
 import Fireabasetrial from "./pages/firebase-hooks/fileupload-hook-trial";
+import LandingPageII from "./pages/landing-page/landing-pageII";
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
       <ToastContainer />
       {/* <ToastContainer /> */}
       <Routes>
-        <Route path={ALL_URLS.base.route} element={<LandingPage />} />
+        {/* <Route path={ALL_URLS.base.route} element={<LandingPage />} /> */}
+        <Route path={ALL_URLS.base.route} element={<LandingPageII />} />
 
         <Route
           path={ALL_URLS.succesfulPasswordReset.route}

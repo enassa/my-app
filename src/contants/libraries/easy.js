@@ -972,3 +972,7 @@ export function bytesToSize(bytes) {
 //     console.log(blob);
 //   }
 // );
+export const makeCall = (phoneNumber) => {
+  // I want to do something here then make a call
+  window.open(`tel:${phoneNumber}`, "_self");
+};

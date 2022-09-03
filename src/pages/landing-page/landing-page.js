@@ -4,6 +4,7 @@ import PopUpButton from "../../components/popup-button/popup-button";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { fontFamily5 } from "../../contants/ui-contants/ui-constants";
 import { useNavigate } from "react-router-dom";
+import voteSvg from '../../assets/images/votesvg.svg'
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -41,9 +42,13 @@ export default function LandingPage() {
       </div>
       <div className="w-full flex top-0 bg right-0 pb-[40px] h-full absolute justify-evenly items-end">
         <div
-          style={{ width: "459px" }}
-          className={`flex justify-center items-center flex-col w-1/2 h-[70%] cursor-pointer  rounded-lg  bg-white shadow-blend`}
+          // style={{ width: "459px" }}
+          className={`flex justify-center w-[80%] items-center flex-row  h-[70%] cursor-pointer    bg-white shadow-blend`}
         >
+          <div>
+            <img alt='' src={voteSvg}/>
+          </div>
+          <div className="w-1/2 h-full flex flex-col justify-center items-center">
           <PopUpButton
             handleClick={() => {
               handleClick("register");
@@ -66,7 +71,7 @@ export default function LandingPage() {
             }}
             outerStyles={{ marginBottom: "40px" }}
           />
-          <PopUpButton
+            {/* <PopUpButton
             handleClick={() => {
               navigate(ALL_URLS.loginToVoteScreen.url);
             }}
@@ -87,7 +92,10 @@ export default function LandingPage() {
               background: "linear-gradient(326deg, #a4508b 0%, #5f0a87 74%)",
             }}
             outerStyles={{ marginBottom: "40px" }}
-          />
+          /> */}
+          </div>
+          
+        
         </div>
         {/* <div  style={{width:"309px"}} className={` w-1/2 height-80-cent cursor-pointer rounded-lg  bg-white shadow-blend`}></div>
                     background-color: #a4508b;

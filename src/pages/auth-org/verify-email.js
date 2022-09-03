@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { HowToVoteTwoTone, Lock } from "@mui/icons-material";
+import { HowToVote, HowToVoteTwoTone, Lock } from "@mui/icons-material";
 import { randomImages } from "../../components/contants/ui-data";
 import SimpleNavbar from "../../components/simple-nav-bar/simple-navbar";
 import { fontFamily5 } from "../../contants/ui-contants/ui-constants";
@@ -67,27 +67,20 @@ export default function EmailVerification() {
             fontWeight: "bolder",
             fontFamily: fontFamily5,
           }}
-          className=" fixed left-0 top-[50px] flex justify-center h-[50px] items-center text-lg"
+          className=" fixed left-0 top-[10px] flex justify-center h-[50px] items-center text-lg"
         >
-          <span
-            onClick={() => {
-              navigate("/");
-            }}
-            className="flex cursor-pointer justify-start items-center px-4"
+          <div
+            onClick={() => navigate("/")}
+            className="flex justify-start cursor-pointer ml-4 mt-2 items-center "
           >
-            <HowToVoteTwoTone className="scale-150 mr-3 gradient-icon" />
-            <span
-              style={{
-                background: "linear-gradient(270deg,#e4bc2a,#db5151)",
-                backgroundClip: "text",
-                webkitBackgroundClip: "text",
-                color: "rgba(0,0,0,.2)",
-              }}
-              className="text-"
-            >
-              Vote++
-            </span>{" "}
-          </span>
+            <HowToVote
+              style={{ fontSize: 50 }}
+              className="text-3xl w-auto sm:h-10 text-[#5445E5]"
+            />
+            <span className="text-[#5445E5] text-2xl font-bold ">
+              <span className="font-extralight">Koino</span>Vote
+            </span>
+          </div>
         </div>
         <div className="flex shadow-blend flex-col rounded-lg overflow-hidden">
           <div

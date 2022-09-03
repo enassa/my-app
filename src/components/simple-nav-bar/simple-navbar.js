@@ -114,7 +114,8 @@ class SimpleNavbar extends Component {
           {
             <div className="h-full flex items-center justify-center">
               <button
-                style={styles.buttonOneStyle}
+                // style={styles.buttonOneStyle}
+                className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                 onClick={() => {
                   this.handleClick("BUTTON_ONE");
                 }}
@@ -124,7 +125,8 @@ class SimpleNavbar extends Component {
               </button>
               {this.props.showButtonTwo ? (
                 <button
-                  style={styles.buttonTwoStyles}
+                  // style={styles.buttonTwoStyles}
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                   onClick={() => {
                     this.handleClick("BUTTON_TWO");
                   }}
