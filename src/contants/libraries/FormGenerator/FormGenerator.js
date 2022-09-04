@@ -626,7 +626,9 @@ class FormGenerator extends Component {
             {
               <span style={{ color: "red", fontSize: 10 }}>
                 {emptyRequiredFields.includes(field.name)
-                  ? `The ${field.name} field is required`
+                  ? `The ${replaceUnderscoreWithSpace(
+                      field.name
+                    )} field is required`
                   : null}
               </span>
             }
@@ -723,7 +725,9 @@ class FormGenerator extends Component {
                 {
                   <span style={{ color: "red", fontSize: 10 }}>
                     {emptyRequiredFields.includes(field.name)
-                      ? `The ${field.name} field is required`
+                      ? `The ${replaceUnderscoreWithSpace(
+                          field.name
+                        )} field is required`
                       : null}
                   </span>
                 }

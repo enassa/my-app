@@ -43,7 +43,7 @@ export default function PasswordReset() {
   }, []);
 
   const handleSubmit = (data) => {
-    delete data.password_confirm;
+    delete data.password_confirmation;
     let newData = {
       token: token,
       ...data,
@@ -158,7 +158,7 @@ export default function PasswordReset() {
 
               {
                 fieldType: FIELDS.password,
-                name: "password_confirm",
+                name: "password_confirmation",
                 label: "Confirm your password",
                 placeholder: "Confirm your Password",
                 required: true,

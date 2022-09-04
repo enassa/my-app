@@ -18,7 +18,7 @@ export default function OrgRegisteration() {
   const { loading, registerUser } = useAuthServices();
 
   const handleSubmit = (data) => {
-    delete data.password_confirm;
+    delete data.password_confirmation;
     registerUser(data)
       .then((res) => {
         console.log(res);
@@ -110,8 +110,8 @@ export default function OrgRegisteration() {
                   },
                   {
                     fieldType: FIELDS.password,
-                    name: "Password_confirm",
-                    label: "password confirmation",
+                    name: "password_confirmation",
+                    label: "Password confirmation",
                     placeholder: "Password",
                     required: true,
                   },
