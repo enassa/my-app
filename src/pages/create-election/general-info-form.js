@@ -266,7 +266,9 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 <button
                   disabled={errors.length}
                   onClick={() => {
-                    validateForm();
+                    validateForm(() => {
+                      handleNavigation(1);
+                    });
                   }}
                   className={` ${
                     errors.length

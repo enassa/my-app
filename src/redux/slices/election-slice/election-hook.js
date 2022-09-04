@@ -161,6 +161,7 @@ export const useElectionServices = () => {
 
     request(END_POINTS.createElection, "POST", { electionData })
       .then((res) => {
+        console.log(res);
         if (res.success) {
           dispatch(createElection(res.data));
           successToast("Election created successfully ");

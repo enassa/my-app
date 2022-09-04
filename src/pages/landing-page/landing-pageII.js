@@ -1,31 +1,16 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import {
-  ArrowUturnLeftIcon,
-  Bars3Icon,
-  ChatBubbleBottomCenterTextIcon,
-  ChatBubbleLeftEllipsisIcon,
-  ChatBubbleLeftRightIcon,
-  DocumentChartBarIcon,
-  HeartIcon,
-  InboxIcon,
-  PencilSquareIcon,
-  QuestionMarkCircleIcon,
-  SparklesIcon,
-  TrashIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import {
   AccessTimeFilled,
   ChildCare,
   ChildCareTwoTone,
+  Close,
   HowToVote,
   Leaderboard,
   Lock,
   LockClockOutlined,
   LockOutlined,
+  Menu,
   SellTwoTone,
   SignalCellular0Bar,
   TipsAndUpdatesOutlined,
@@ -36,83 +21,7 @@ import testifierImg from "../../assets/images/euegne.jpg";
 import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import { makeCall } from "../../contants/libraries/easy";
-const solutions = [
-  {
-    name: "Inbox",
-    description:
-      "Get a better understanding of where your traffic is coming from.",
-    href: "#",
-    icon: InboxIcon,
-  },
-  {
-    name: "Messaging",
-    description: "Speak directly to your customers in a more meaningful way.",
-    href: "#",
-    icon: ChatBubbleBottomCenterTextIcon,
-  },
-  {
-    name: "Live Chat",
-    description: "Your customers' data will be safe and secure.",
-    href: "#",
-    icon: ChatBubbleLeftRightIcon,
-  },
-  {
-    name: "Knowledge Base",
-    description: "Connect with third-party tools that you're already using.",
-    href: "#",
-    icon: QuestionMarkCircleIcon,
-  },
-];
-const features = [
-  {
-    name: "Unlimited Inboxes",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: InboxIcon,
-  },
-  {
-    name: "Manage Team Members",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: UsersIcon,
-  },
-  {
-    name: "Spam Report",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: TrashIcon,
-  },
-  {
-    name: "Compose in Markdown",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: PencilSquareIcon,
-  },
-  {
-    name: "Team Reporting",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: DocumentChartBarIcon,
-  },
-  {
-    name: "Saved Replies",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: ArrowUturnLeftIcon,
-  },
-  {
-    name: "Email Commenting",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: ChatBubbleLeftEllipsisIcon,
-  },
-  {
-    name: "Connect with Customers",
-    description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
-    icon: HeartIcon,
-  },
-];
+
 const metrics = [
   {
     id: 1,
@@ -271,7 +180,7 @@ export default function LandingPageII() {
             <div className="-my-2 -mr-2 md:hidden">
               <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                 <span className="sr-only">Open menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
             </div>
             <Popover.Group as="nav" className="hidden space-x-10 md:flex">
@@ -391,7 +300,7 @@ export default function LandingPageII() {
                     <div className="-mr-2">
                       <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                         <span className="sr-only">Close menu</span>
-                        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                        <Close className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
                     </div>
                   </div>

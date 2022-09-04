@@ -1,0 +1,22 @@
+
+#cm-suggestions {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	position: absolute;
+	display: none;
+	z-index: 9999;
+	margin: 20px 0;
+	font-size: 13px;
+	font-weight: normal;
+	min-width: 11em;
+	border-radius: 0;
+	background: #ffffff; 
+	border: 1px solid  #aaa;
+	color: #333333;
+	padding:0;
+	cursor: pointer;
+	outline: 0;
+}
+
+#cm-suggestions option[selected] {
+	color: #333;
+}

@@ -1,0 +1,131 @@
+@media only screen and (max-width: 1350px) {
+    #download-code {
+        display: none;
+    }
+    .team-up {
+        margin-left: -115px;
+    }
+    .save-button {
+        margin-left: -115px;
+    }
+}
+
+@media only screen and (max-width: 1240px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        margin-left: -230px;
+    }
+    .save-button {
+        margin-left: -230px;
+    }
+}
+
+@media only screen and (max-width: 1120px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        display: none;
+    }
+    .format {
+        display: none;
+    }
+    .save-button {
+        margin-left: -345px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        display: none;
+    }
+    .save-button {
+        margin-left: -460px;
+    }
+    .format {
+        display: none;
+    }
+    #js-menu {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 880px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        display: none;
+    }
+    .save-button {
+        margin-left: -575px;
+    }
+    #js-menu {
+        display: none;
+    }
+    .format {
+        display: none;
+    }
+    .tools-menu {
+        display: none;
+    }
+    .fake-line-3 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        display: none;
+    }
+    .save-button {
+        margin-left: -575px;
+    }
+    #js-menu {
+        display: none;
+    }
+    .tools-menu {
+        display: none;
+    }
+    .run {
+        display: none;
+    }
+    .fake-line-3 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 639px) {
+    #collaborate {
+        display: none;
+    }
+    #code-format {
+        display: none;
+    }
+    #js-menu {
+        display: none;
+    }
+    .tools-menu {
+        display: none;
+    }
+    .save-button {
+        margin-left: -740px;
+    }
+    .run {
+        display: none;
+    }
+    #header-menu {
+        display: none;
+    }
+    .fake-line-3 {
+        display: none;
+    }
+}
