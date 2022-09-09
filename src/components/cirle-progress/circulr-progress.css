@@ -1,0 +1,8 @@
+#progress-circle {
+  background: radial-gradient(white 68%, transparent 51%),
+    conic-gradient(transparent 0deg 220deg, gainsboro 220deg 360deg),
+    conic-gradient(orange 0deg, yellow 90deg, lightgreen 180deg, green);
+
+  /* transition: all 500ms ease-in;
+   will-change: transform; */
+}

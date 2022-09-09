@@ -8,6 +8,8 @@ import PortfolioCard from "./components/portfolio-card";
 import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
 import ImagetManager from "./image-manager";
 import CategoryManager from "./category-manager/category-manager";
+import ImageLibrary from "./../../components/image-library/image-library";
+import { ORG_LIBRARY_ID } from "../../contants/urls/urls";
 
 export default function GeneralInfoForm({ handleNavigation }) {
   const {
@@ -141,7 +143,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
 
   let StartDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Starting : "";
   let EndDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Ending : "";
-
+  const libraryFolder = ORG_LIBRARY_ID();
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">
@@ -257,9 +259,8 @@ export default function GeneralInfoForm({ handleNavigation }) {
               </strong>
             </div>
             <div className="w-full">
-              <ImagetManager />
+              <ImageLibrary libraryFolder={libraryFolder} />
             </div>
-
             <div className="w-[95%] mt-6 flex items-center h-[50px]  mb-3">
               <div className="w-[100%] h-[50px] mr-2  mb-3"></div>
               <div className="w-[50px] ml-3  justify-end cursor-pointer px-2 h-[50px] flex items-center mb-3">

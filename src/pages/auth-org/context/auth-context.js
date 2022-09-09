@@ -142,6 +142,7 @@ export const useAuthServices = () => {
   };
 
   const registerUser = async (data) => {
+    console.log(data);
     return request(`${END_POINTS.registerOrganization}`, "POST", data, "auth");
   };
 

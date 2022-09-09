@@ -12,6 +12,7 @@ import { ALL_URLS } from "../../contants/urls/rout-links";
 import { useStatusHook } from "../status-page/hook/status-hook";
 import { errorToast } from "../../components/toast/toastify";
 import Koinologo from "../../components/koino-logo/koino-logo";
+import { generateSuperShortId } from "../../contants/libraries/easy";
 
 export default function OrgRegisteration() {
   const navigate = useNavigate();
@@ -19,7 +20,11 @@ export default function OrgRegisteration() {
 
   const handleSubmit = (data) => {
     delete data.password_confirmation;
-    registerUser(data)
+    const library = {
+      id: `${data.orgName}_${generateSuperShortId()}`,
+      images: [],
+    };
+    registerUser({ ...data, library })
       .then((res) => {
         console.log(res);
         if (res?.success) {

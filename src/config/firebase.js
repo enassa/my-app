@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyDW8It3KMtjBjhN6cJfaTIk6G4qqgzOHuA",
-  authDomain: "koinovoter.firebaseapp.com",
-  projectId: "koinovoter",
-  storageBucket: "koinovoter.appspot.com",
-  messagingSenderId: "957078603068",
-  appId: "1:957078603068:web:808d66fc29a39478078a39",
-  measurementId: "G-HGNENNLLDL",
+  apiKey: "AIzaSyCwjxan3CwCfpX2eN8x7jCy3k1s7ZWHVtU",
+  authDomain: "koinovote-361416.firebaseapp.com",
+  projectId: "koinovote-361416",
+  storageBucket: "koinovote-361416.appspot.com",
+  messagingSenderId: "70111791974",
+  appId: "1:70111791974:web:355f2a1953180f0ceb16a7",
+  measurementId: "G-1YQNDBKBC1",
 };

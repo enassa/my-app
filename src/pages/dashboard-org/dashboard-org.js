@@ -113,7 +113,7 @@ export default function OrgDashboard() {
               handleClick={() => {
                 navigate(ALL_URLS.createElection.url);
               }}
-              buttonText="Crete election"
+              buttonText="Create election"
             />
           </div>
         </div>

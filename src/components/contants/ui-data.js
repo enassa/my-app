@@ -1,6 +1,10 @@
 import { PictureAsPdf, TextDecrease } from "@mui/icons-material";
-import { getAsObjectFromLocalStorage } from "../../contants/libraries/easy";
+import {
+  generateSuperShortId,
+  getAsObjectFromLocalStorage,
+} from "../../contants/libraries/easy";
 import { ORG_CODE, ORG_NAME } from "../../contants/urls/urls";
+import { generateShortId } from "./../../contants/libraries/easy";
 export const randomImages = "https://source.unsplash.com/random";
 export const dummyImage = "../../assets/images/nice.jpeg";
 export const User = () => {
@@ -8,7 +12,7 @@ export const User = () => {
   if (!!userData) {
     return userData;
   }
-  return { name: "", orgCode: "", role: "" };
+  return { name: "", orgCode: "", role: "", orgName: "", library: {} };
 };
 export const electionBluePrint = {
   Id: "",
@@ -30,6 +34,10 @@ export const electionBluePrint = {
     Time_Zone: "UTC",
     Starting: "",
     Ending: "",
+  },
+  Library: {
+    Id: `${User()?.data?.library?.id}`,
+    Images: User()?.data?.library?.images || [],
   },
   ContestantDefinition: [
     // { Title: "ImageInfo", Id: 0, Type: "Image", Show: false, Invisible: true },
@@ -142,4 +150,8 @@ export const positionCategoryBluePrint = {
   Selected: [],
   MultipleSelect: false,
   CategoryId: 0,
+};
+export const libraryBluePrint = {
+  Id: `${ORG_NAME()}_${generateSuperShortId()}`,
+  Images: [],
 };

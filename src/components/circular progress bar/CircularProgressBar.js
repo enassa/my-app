@@ -54,7 +54,10 @@ export default class CircularProgressBar extends Component {
             ></circle>
           </svg>
         </div>
-        <div className="circular-percentage" style={{ color: progressColor }}>
+        <div
+          className="circular-percentage z-[1] pointer-events-none"
+          style={{ color: progressColor }}
+        >
           {progressPercentage}%
         </div>
       </div>

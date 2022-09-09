@@ -55,4 +55,6 @@ export const ORG_EMAIL = () => User()?.data?.email;
 
 export const ORG_CONTACT = () => User()?.data?.contact;
 
+export const ORG_LIBRARY_ID = () => User()?.data?.library?.id;
+
 export const TOKEN = () => User()?.token;
