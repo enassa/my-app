@@ -173,7 +173,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
               />
             </div>
             {/* <Equalizer className="text-white mr-2" /> */}
-            <strong className="mr-2 ml-2 text-bg">To</strong>
+            <strong className="mr-2 ml-2 text-bg text-gray-400">To</strong>
             <div className="flex items-center ">
               {/* <DateRange style={{ fontSize: 32 }} className="text-white mr-2" /> */}
               <input
