@@ -62,7 +62,7 @@ export default function ContestantCreation({ handleNavigation }) {
             key={index}
             className={`${
               activePortfolio.Id === item.Id
-                ? "bg-blue-500 text-white"
+                ? "bg-blue-100 text-white"
                 : errors.includes(item.Id)
                 ? "bg-red-200 text-red-600"
                 : "hover:bg-blue-50 "
@@ -72,14 +72,14 @@ export default function ContestantCreation({ handleNavigation }) {
               if (errors.length) setError([]);
             }}
           >
-            <div className="w-full text-ellipsis h-full flex justify-start items-center px-2">
+            <div className="w-full text-ellipsis text-blue-700 h-full flex justify-start items-center px-2">
               {index + 1}. {item.Title}
             </div>
             <div
               className={`${
                 errors.includes(item.Id)
                   ? "bg-red-400 text-white"
-                  : "bg-blue-100 text-blue-600"
+                  : "bg-blue-300 text-blue-600"
               } flex justify-center items-center rounded-full ml-3 mr-3 w-[30px] min-w-[30px] min-h-[30px] `}
             >
               {
@@ -122,7 +122,7 @@ export default function ContestantCreation({ handleNavigation }) {
         <span className="">Create</span>
       </div>
       <div className="w-full h-full flex justify-start">
-        <div className="w-[300px] min-w-[300px] h-full py-3 pl-2 bg-white flex  flex-col overflow-y-auto pb-[200px] ">
+        <div className="w-[250px] min-w-[250px] h-full py-3 pl-2 bg-white flex  flex-col overflow-y-auto pb-[200px] ">
           <div className="min-h-[80px] w-full flex justify-center items-center">
             {/* <SupervisedUserCircle
               style={{ fontSize: 30 }}
@@ -130,24 +130,24 @@ export default function ContestantCreation({ handleNavigation }) {
             /> */}
             <div
               style={{ fontSize: 30 }}
-              className="flex justify-center items-center rounded-full ml-3 mr-3 w-[30px] min-w-[30px] min-h-[30px]  text-blue-600"
+              className="flex justify-center items-center rounded-full ml-3 mr-3 w-[30px] min-w-[30px] min-h-[30px]  text-gray-500"
             >
               {bluePrintState?.Positions?.length}
             </div>
-            <strong className="text-blue-600" style={{ fontSize: 20 }}>
+            <strong className="text-gray-500" style={{ fontSize: 20 }}>
               PORTFOLIOS
             </strong>{" "}
           </div>
           {ejectPortFolios()}
         </div>
-        <div className="w-full h-full flex justify-start bg-gray-50 overflow-y-scroll flex-col pb-[200px]">
+        <div className="w-full h-full flex justify-start bg-gray-50 overflow-y-scroll overflow-x-scroll flex-col pb-[200px]">
           {/* <div className="w-full h-50  flex justify-center bg-white items-center">
             <h2 style={{ fontSize: 30 }}>{activePortfolio.Title}</h2>
           </div> */}
           <GridLayOut
             style={{
               gridTemplateColumns: "repeat(4,1fr)",
-              justifyContent: "center",
+              justifyContent: "start",
               padding: 40,
             }}
           >

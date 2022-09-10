@@ -59,11 +59,12 @@ export default function InputField({ handleOnChange, inputData, error }) {
   //   // return () => {
   //   // };
   // }, [inputValue]);
+  const labelForm = replaceUnderscoreWithSpace(inputData?.label);
   return (
     <div
       key={`pf${inputData?.index}`}
       style={{ paddingLeft: 4 }}
-      className=" flex items-center overflow-hidden h-[100px] min-h-[100px] w-full  relative"
+      className=" flex items-center text-gray-500 overflow-hidden h-[100px] min-h-[100px] w-full  relative"
     >
       <div
         style={{ padding: 15 }}
@@ -78,7 +79,7 @@ export default function InputField({ handleOnChange, inputData, error }) {
         >
           {/* <span style={{ color: "#a8aeb4" }}> */}
           <span style={{ color: "" }}>
-            {replaceUnderscoreWithSpace(inputData?.label)}
+            {labelForm === "NumberOfVoters" ? "Number of voters" : labelForm}
           </span>
           <div
             className="flex flex-col  justify-start"
@@ -99,12 +100,12 @@ export default function InputField({ handleOnChange, inputData, error }) {
               type={inputData?.type}
               style={{
                 border: 0,
-                color: "#1e1e1e",
-                fontSize: "1.6rem",
+                fontSize: "1rem",
                 w: "100%",
                 outline: "none",
               }}
               value={inputData?.value}
+              className="text-gray-500"
             />
           </div>
         </div>
