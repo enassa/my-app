@@ -195,7 +195,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
         </div>
         <div className="w-full flex flex-col  px-4  h-auto">
           <div className="w-full  mt-2 flex items-center ">
-            <strong className="whitespace-nowrap flex items-center mr-2">
+            <strong className="whitespace-nowrap text-gray-500 flex items-center mr-2">
               General Info
             </strong>
             <div className="w-full mt-2 h-[2px] flex items-center"></div>
@@ -204,7 +204,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
             {ejectGeneralInfo()}
           </div>
           <div className="w-full h-auto mb-5 mt-2 flex items-center ">
-            <strong className="whitespace-nowrap flex items-center mr-2">
+            <strong className="whitespace-nowrap text-gray-500 flex items-center mr-2">
               Contestant fields
             </strong>
           </div>
@@ -227,7 +227,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
           </div>
           {/* <CategoryManager /> */}
           <div className="w-full h-auto mb-5 mt-2 flex items-center ">
-            <strong className="whitespace-nowrap flex items-center mr-2">
+            <strong className="whitespace-nowrap text-gray-500 flex items-center mr-2">
               Portfolios
             </strong>
           </div>
@@ -253,11 +253,11 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 className="w-[50px] ml-3 hover:animate-rise text-gray-300 hover:text-blue-500 justify-end cursor-pointer px-2 h-[50px] flex items-center mb-3"
               >
                 <span className="whitespace-nowrap mr-3 ">Add Portolio</span>
-                <AddCircle style={{ fontSize: 30 }} className="mr-2 " />
+                <AddCircle style={{ fontSize: 30 }} className="mr-2  " />
               </div>
             </div>
             <div className="w-full h-auto mb-5 mt-2 flex items-center ">
-              <strong className="whitespace-nowrap flex items-center mr-2">
+              <strong className="whitespace-nowrap text-gray-500 flex items-center mr-2">
                 Add contestant images to your library
               </strong>
             </div>
