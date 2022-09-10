@@ -159,7 +159,7 @@ export default function ImageLibrary({
                       : " w-[100px] text-sm"
                   }  text-gray-400 text-ellipsis overflow-hidden`}
                 >
-                  Add
+                  {small ? "Add" : ""}
                 </span>
                 {/* <span>Add</span> */}
               </div>
