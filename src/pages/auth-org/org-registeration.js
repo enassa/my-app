@@ -26,7 +26,6 @@ export default function OrgRegisteration() {
     };
     registerUser({ ...data, library })
       .then((res) => {
-        console.log(res);
         if (res?.success) {
           navigate(ALL_URLS.succesfulRegistration.url);
         } else {

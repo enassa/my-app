@@ -18,6 +18,7 @@ import {
 } from "../../contants/libraries/easy";
 import { useCreateElectionServices } from "../../pages/create-election/context/create-election-context";
 import { useEffect } from "react";
+import { useImageLibrary } from "../image-library/image-library-hook";
 
 export default function CreateContestantCard({
   showPosition,
@@ -31,6 +32,7 @@ export default function CreateContestantCard({
   editing,
   count,
 }) {
+  const { selectedImage, setShowLibrary } = useImageLibrary();
   const imageInput = React.createRef();
   const [hovered, setHovered] = useState();
   const [tempImage, setTempImage] = useState({
@@ -73,13 +75,6 @@ export default function CreateContestantCard({
     });
     return null;
   });
-  const closeForm = () => {
-    setTempImage({
-      ImageUrl: "",
-      ImageInfo: data?.Info.ImageInfo,
-    });
-    setEditMode(false);
-  };
   const handleFormSubmit = (formData, resetFunc, completed) => {
     let editedContestdantData = {
       ...data,
@@ -97,19 +92,20 @@ export default function CreateContestantCard({
     updateContestant(editedContestdantData);
     closeForm();
   };
-  const processFiles = (field, files) => {
-    const ImageInfo = files[0];
-    const ImageUrl = ImageInfo ? URL.createObjectURL(ImageInfo) : "";
-    console.log(ImageUrl);
-    if (ImageUrl === "") return;
-    convertImageToDataurl(ImageUrl, (dataUrl) => {
-      setTempImage({ ImageUrl, ImageInfo: dataUrl, edited: true });
-      // getSrcFromDataUrl(img, (src) => {
-      //   setTrialblob(src);
-      // });
-      // setTrialblob(img);
+  let initialLoad = React.createRef();
+  initialLoad = 0;
+  useEffect(() => {
+    if (initialLoad === 0) return;
+    setTempImage({
+      ImageUrl: selectedImage?.url,
+      ImageInfo: selectedImage?.url,
     });
-    // setTempImage({ ImageUrl, ImageInfo, edited: true });
+  }, [selectedImage]);
+
+  const closeForm = () => {
+    setTempImage({ ImageUrl: "", ImageInfo: undefined });
+    setEditMode(false);
+    setShowLibrary(false);
   };
 
   const checkShowStatus = (ContestantDefTitle) => {
@@ -125,6 +121,7 @@ export default function CreateContestantCard({
   //   });
   // }, []);
   // console.log(tempImage.ImageUrl);
+
   return (
     <>
       {editMode && (
@@ -179,22 +176,11 @@ export default function CreateContestantCard({
             {editMode && (
               <div
                 onClick={() => {
-                  imageInput?.current?.click();
+                  setShowLibrary(true);
                 }}
                 className="absolute animate-rise bottom-2 bg-backdrop hover:bg-backdrop2 p-1 text-white rounded-lg right-0"
               >
                 <Edit />
-                <input
-                  ref={imageInput}
-                  onChange={(e) => processFiles("Image", e.target.files)}
-                  style={{ display: "none" }}
-                  accept={`file_extension|${
-                    false ? null : ".jpg, .png,.jpeg,.JPEG,.JPG"
-                  }`}
-                  type="file"
-                  id="files"
-                  name="files"
-                />
               </div>
             )}
           </div>

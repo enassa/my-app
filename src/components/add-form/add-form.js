@@ -43,7 +43,6 @@ export default function AddForm({ changeFormState, handleFormAction }) {
   const { createUser, loading, trial } = useAccountsServices();
 
   const handleSubmit = (newData) => {
-    console.log(newData);
     const data = {
       ...newData,
       email: newData.email.toLowerCase(),
@@ -51,7 +50,6 @@ export default function AddForm({ changeFormState, handleFormAction }) {
       organizationName: User()?.organizationName,
     };
     createUser(data).then((res) => {
-      console.log(res);
       if (!!res) {
         changeFormState(false);
         if (res?.data) {
@@ -77,7 +75,6 @@ export default function AddForm({ changeFormState, handleFormAction }) {
           } else {
             setIsChef(false);
           }
-          console.log(values);
           return (
             <Form className="w-full min-w-[460px] pointer-events-auto animate-rise">
               <div className="w-full h-3/4 flex flex-col justify-center p-10 ">
@@ -195,9 +192,13 @@ export default function AddForm({ changeFormState, handleFormAction }) {
                             as="select"
                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           >
-                          {IS_SUPER_ACCOUNT() ? branches.map((item, index) => {
-                              return <option key={index}>{item}</option>;
-                            }) : <option>{BRANCH()}</option>}
+                            {IS_SUPER_ACCOUNT() ? (
+                              branches.map((item, index) => {
+                                return <option key={index}>{item}</option>;
+                              })
+                            ) : (
+                              <option>{BRANCH()}</option>
+                            )}
                           </Field>
                         </div>
                       </div>

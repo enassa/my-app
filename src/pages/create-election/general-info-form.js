@@ -258,8 +258,10 @@ export default function GeneralInfoForm({ handleNavigation }) {
                 Add contestant images to your library
               </strong>
             </div>
-            <div className="w-full">
-              <ImageLibrary libraryFolder={libraryFolder} />
+            <div className="w-full flex">
+              <div className="w-full flex justify-start">
+                <ImageLibrary libraryFolder={libraryFolder} />
+              </div>
             </div>
             <div className="w-[95%] mt-6 flex items-center h-[50px]  mb-3">
               <div className="w-[100%] h-[50px] mr-2  mb-3"></div>

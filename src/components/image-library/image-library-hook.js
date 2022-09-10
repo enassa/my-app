@@ -14,23 +14,21 @@ function ImageLibraryProvider({ children }) {
     uploadMultiple,
     deleteFile,
     uploadedImageList,
+    setUploadeImageList,
   } = useFireStorageUploader(firebaseConfig);
   const [selectedImage, setSelected] = useState();
   const [showLibrary, setShowLibrary] = useState(false);
   const [imagesToUpload, setImages] = useState([]);
+  const [enableDelete, setEnableDelete] = useState();
 
-  useEffect(() => {
-    console.log(imagesToUpload);
-  }, [imagesToUpload]);
+  useEffect(() => {}, [imagesToUpload]);
 
   const addToImages = (files) => {
     let modifiedFiles = [];
-    console.log(files.length);
     var formdata = new FormData();
     Array(files.length)
       .fill()
       .map((item, index) => {
-        console.log(files[index]);
         formdata.append(
           "files",
           files[index],
@@ -50,12 +48,33 @@ function ImageLibraryProvider({ children }) {
     setImages([...allImages]);
   };
   const libraryFolder = User().orgName;
-  const handleSelectedImage = (image, callBack) => {
-    setSelected(image);
+  const handleSelectedImage = (imageName, origin) => {
+    let imageSelected;
+    if (origin == "local") {
+      imageSelected = multipleUploaded.uploadedFiles.filter(
+        (item) => item.name === imageName
+      );
+    } else {
+      imageSelected = uploadedImageList.filter(
+        (item) => item.name === imageName
+      );
+    }
+
+    setShowLibrary(false);
+    setSelected(imageSelected[0]);
     // callBack(image);
   };
-  const updateImagesToUpload = (images) => {
-    setImages([...images]);
+  const removeFromImageList = (imageName, origin) => {
+    let newImageList;
+    if (origin == "local") {
+      newImageList = imagesToUpload.filter((image) => image.name !== imageName);
+      setImages([...newImageList]);
+    } else {
+      newImageList = uploadedImageList.filter(
+        (image) => image.name !== imageName
+      );
+      setUploadeImageList([...newImageList]);
+    }
   };
 
   return (
@@ -63,10 +82,10 @@ function ImageLibraryProvider({ children }) {
       value={{
         selectedImage,
         showLibrary,
-        selectedImage,
         deleting,
         addToImages,
         handleSelectedImage,
+        removeFromImageList,
         uploadMultiple,
         imagesToUpload,
         multipleUploaded,
@@ -74,8 +93,9 @@ function ImageLibraryProvider({ children }) {
         deleteFile,
         loading,
         setShowLibrary,
-        updateImagesToUpload,
         getImageList,
+        enableDelete,
+        setEnableDelete,
         uploadedImageList,
       }}
     >
@@ -83,5 +103,13 @@ function ImageLibraryProvider({ children }) {
     </ImageLibraryContext.Provider>
   );
 }
-export const useImageLibrary = () => React.useContext(ImageLibraryContext);
+export const useImageLibrary = (size, shape) => {
+  let contextValues = React.useContext(ImageLibraryContext);
+  return {
+    size,
+    shape,
+    ...contextValues,
+  };
+};
+
 export default ImageLibraryProvider;

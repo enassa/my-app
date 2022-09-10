@@ -11,14 +11,17 @@ import {
 import { useEffect } from "react";
 import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
+import ImageLibrary from "../../components/image-library/image-library";
+import { ORG_LIBRARY_ID } from "../../contants/urls/urls";
+import { useImageLibrary } from "../../components/image-library/image-library-hook";
+import { PhotoAlbum } from "@mui/icons-material";
 // import { storage } from ".././../../.firebase";
 // import { ref, uploadBytes } from "firebase/storage";
 export default function ContestantCreation({ handleNavigation }) {
   const { loadingLocal, bluePrintState } = useCreateElectionServices();
   const { createElectionAsync, loading } = useElectionServices();
-
   const activePortfolioCache = getAsObjectFromLocalStorage("activePortfolio");
-
+  const { selectedImage, showLibrary, setShowLibrary } = useImageLibrary();
   let firstPortFolio =
     !!bluePrintState?.Positions && bluePrintState?.Positions[0];
   let selectedPortfolio =
@@ -100,6 +103,7 @@ export default function ContestantCreation({ handleNavigation }) {
   const handleCreateElection = () => {
     createElectionAsync(bluePrintState);
   };
+  const libraryFolder = ORG_LIBRARY_ID();
   return (
     <div className="w-full h-full flex justify-start">
       {loadingLocal || loading ? (
@@ -113,7 +117,7 @@ export default function ContestantCreation({ handleNavigation }) {
             handleCreateElection();
           }
         }}
-        className="absolute bottom-[10px] z-[99999] rounded-full  hover:bg-blue-400 text-white cursor-pointer px-5 py-7 right-6 bg-blue-500"
+        className="absolute bottom-[10px] z-[99] rounded-full  hover:bg-blue-400 text-white cursor-pointer px-5 py-7 right-6 bg-blue-500"
       >
         <span className="">Create</span>
       </div>
@@ -172,6 +176,27 @@ export default function ContestantCreation({ handleNavigation }) {
                 })}
           </GridLayOut>
         </div>
+      </div>
+      <div
+        className={`${
+          showLibrary ? "right-[0px]" : "right-[-323px]"
+        } transform transition-all fixed right-0 bg-white w-[320px] h-full z-[999] top-0 shadow-blend pb-16`}
+      >
+        {/* <div className="w-full h-[50px] bg-[#e0e0e0] mb-3">
+          <span className="text-gray-500 text-2xl w-full items-center flex justify-center">
+            {" "}
+            <PhotoAlbum className="" />
+            <span>Image Library</span>
+          </span>
+        </div> */}
+        {showLibrary && (
+          <ImageLibrary
+            small={true}
+            square={true}
+            libraryFolder={libraryFolder}
+            enableSelection={true}
+          />
+        )}
       </div>
     </div>
   );

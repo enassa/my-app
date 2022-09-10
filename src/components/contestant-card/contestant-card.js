@@ -69,8 +69,6 @@ export default function ContestantCard({
           );
         })} */}
         {infoProps?.map((prop, index) => {
-          console.log(prop);
-          console.log(prop);
           if (
             prop === "ImageInfo" ||
             prop === "ImageUrl" ||

@@ -16,9 +16,8 @@ export default class DateRangePicker extends Component {
   }
   getYYYMMDDFormat = (date) => {};
   sendChange = () => {
-    this.props.handleChange
-      ? this.props.handleChange(this.state.startDate, this.state.endDate)
-      : console.log(this.state.startDate, this.state.endDate);
+    this.props.handleChange &&
+      this.props.handleChange(this.state.startDate, this.state.endDate);
   };
   handleChange = (changeType, date) => {
     if (changeType === "start") {

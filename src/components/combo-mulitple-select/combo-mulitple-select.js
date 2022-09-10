@@ -94,7 +94,6 @@ export default function ComboMultipleSelect(props) {
           >
             <DropdownMultiple
               getSelected={(selected) => {
-                console.log(selected);
                 setPopUpState(false);
                 returnSelected(selected);
               }}

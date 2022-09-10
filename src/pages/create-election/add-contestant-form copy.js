@@ -1,28 +1,50 @@
 import React, { useState } from "react";
-import { Edit } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 
 import FormGenerator from "../../contants/libraries/FormGenerator/FormGenerator";
 import { FIELDS } from "../../contants/libraries/FormGenerator/FormGeneratorFields";
-import { replaceSpaceWithUnderscore } from "../../contants/libraries/easy";
+import {
+  convertImageToDataurl,
+  getSrcFromDataUrl,
+  replaceSpaceWithUnderscore,
+} from "../../contants/libraries/easy";
 import { useCreateElectionServices } from "../../pages/create-election/context/create-election-context";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { useImageLibrary } from "../../components/image-library/image-library-hook";
-import { useEffect } from "react";
 
-export default function AddContestantForm({ data, editing, resetErrors }) {
-  const { selectedImage, setShowLibrary } = useImageLibrary();
-
+export default function AddContestantForm({
+  showPosition,
+  data,
+  position,
+  voterCard,
+  handleClick,
+  selected,
+  handleNextClick,
+  isLast,
+  editing,
+  resetErrors,
+}) {
+  const imageInput = React.createRef();
   const [imageError, setImageError] = useState({
     state: false,
     message: false,
   });
+  const [trialBlob, setTrialblob] = useState();
   const [tempImage, setTempImage] = useState({
     ImageUrl: "",
     ImageInfo: undefined,
   });
   const [editMode, setEditMode] = useState(editing);
 
-  const { addContestant, bluePrintState } = useCreateElectionServices();
+  const {
+    deleteContestant,
+    addContestant,
+    editContestant,
+    resetElectionPrint,
+    contestantPrint,
+    extraInfoPrint,
+    bluePrintState,
+  } = useCreateElectionServices();
 
   const info = bluePrintState?.ContestantDefinition;
   //   console.log("===print", contestantPrint.Info);
@@ -40,7 +62,7 @@ export default function AddContestantForm({ data, editing, resetErrors }) {
   ];
 
   Array.isArray(info) &&
-    info?.map((item) => {
+    info?.map((item, index) => {
       if (
         item.Title === "ImageInfo" ||
         item.Title === "Image" ||
@@ -58,7 +80,7 @@ export default function AddContestantForm({ data, editing, resetErrors }) {
       });
       return null;
     });
-  const handleFormSubmit = (formData, resetFunc) => {
+  const handleFormSubmit = (formData, resetFunc, completed) => {
     if (tempImage.ImageInfo === undefined) {
       setImageError({ state: true, message: "Image is required" });
       return;
@@ -79,17 +101,23 @@ export default function AddContestantForm({ data, editing, resetErrors }) {
     setTempImage({ ImageInfo: undefined, ImageUrl: "" });
     console.log("edited", newContestdantData);
   };
-  useEffect(() => {
-    setTempImage({
-      ImageUrl: selectedImage?.url,
-      ImageInfo: selectedImage?.url,
+  const processFiles = (field, files) => {
+    let ImageInfo = files[0];
+    const ImageUrl = ImageInfo ? URL.createObjectURL(ImageInfo) : "";
+    // console.log(ImageInfo, ImageUrl);
+    if (ImageUrl === "") return;
+    setImageError({ state: false, message: "" });
+    convertImageToDataurl(ImageUrl, (dataUrl) => {
+      setTempImage({ ImageUrl, ImageInfo: dataUrl });
+      // getSrcFromDataUrl(img, (src) => {
+      //   setTrialblob(src);
+      // });
+      // setTrialblob(img);
     });
-  }, [selectedImage]);
-
+  };
   const closeForm = () => {
     setTempImage({ ImageUrl: "", ImageInfo: undefined });
     setEditMode(false);
-    setShowLibrary(false);
   };
 
   return (
@@ -127,16 +155,26 @@ export default function AddContestantForm({ data, editing, resetErrors }) {
           {editMode ? (
             <div
               style={{ backgroundImage: `url(${tempImage.ImageUrl})` }}
-              className="w-[100px] mt-3 h-[100px] min-h-[100px] relative min-w-[100px] bg-gray-100 rounded-full fit-bg mb-2"
+              className="w-[100px] mt-3 h-[100px] min-h-[100px] relative min-w-[100px] bg-yellow-50 rounded-full fit-bg mb-2"
             >
               <div
                 onClick={() => {
-                  setShowLibrary(true);
-                  // imageInput?.current?.click();
+                  imageInput?.current?.click();
                 }}
                 className="absolute animate-rise bottom-2 bg-backdrop hover:bg-backdrop2 p-1 text-white rounded-lg right-0"
               >
                 <Edit />
+                <input
+                  ref={imageInput}
+                  onChange={(e) => processFiles("Image", e.target.files)}
+                  style={{ display: "none" }}
+                  accept={`file_extension|${
+                    false ? null : ".jpg, .png,.jpeg,.JPEG,.JPG"
+                  }`}
+                  type="file"
+                  id="files"
+                  name="files"
+                />
               </div>
               {imageError.state && (
                 <span

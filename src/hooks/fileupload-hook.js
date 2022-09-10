@@ -100,11 +100,14 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
       return { error: "path of bucket directory required" };
     return listAll(imageListRef)
       .then((response) => {
-        console.log("----", response.items);
-        response.items.forEach((item) => {
+        response.items.forEach((item, index) => {
+          const nameOfFile = response.items[index]._location.path.split("/")[1];
           getDownloadURL(item)
             .then((url) => {
-              setUploadeImageList((prev) => [...prev, url]);
+              setUploadeImageList((prev) => [
+                ...prev,
+                { url, name: nameOfFile },
+              ]);
               return {
                 data: { url },
                 success: true,
@@ -168,7 +171,6 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
         "state_changed",
         // Track progress
         (snapshot) => {
-          console.log("state changed");
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
@@ -210,7 +212,7 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
             .then((url) => {
               let list = multipleUploaded.uploadedFiles;
               let fileNames = multipleUploaded.uploadedFileNames;
-              list.push(url);
+              list.push({ url, name: currentFile.name });
               fileNames.push(currentFile?.name);
               setMultipleUploadTracker({
                 ...multipleUploaded,
@@ -294,5 +296,6 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
     uploadAndAddToImageList,
     uploadMultiple,
     deleteFile,
+    setUploadeImageList,
   };
 };
