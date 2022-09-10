@@ -280,7 +280,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
                     errors.length
                       ? "cursor-not-allowed"
                       : "hover:text-white hover:bg-black"
-                  } bg-gray-500 text-white whitespace-nowrap  rounded-sm px-5 py-2`}
+                  } bg-gray-500 text-white whitespace-nowrap  rounded-lg px-5 py-2`}
                 >
                   Save and continue
                 </button>
