@@ -147,13 +147,16 @@ export default function GeneralInfoForm({ handleNavigation }) {
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">
-        <div className="w-full h-[60px] bg-blue-500 flex justify-between items-center px-3">
+        <div className="w-full h-[60px] bg-blue-100 flex justify-between items-center px-3">
           <div className="w-full h-full flex items-center">
-            <HowToVote className="text-white" />
+            <HowToVote className="text-blue-500" />
           </div>
           <div className="w-full h-full flex items-center justify-end">
             <div className="flex items-center">
-              <DateRange style={{ fontSize: 32 }} className="text-white mr-2" />
+              <DateRange
+                style={{ fontSize: 32 }}
+                className="text-blue-500 mr-2"
+              />
               <input
                 className={`${
                   errors.includes("Starting") && "text-red-400 "
@@ -222,7 +225,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
               </div>
             </div>
           </div>
-          <CategoryManager />
+          {/* <CategoryManager /> */}
           <div className="w-full h-auto mb-5 mt-2 flex items-center ">
             <strong className="whitespace-nowrap flex items-center mr-2">
               Portfolios

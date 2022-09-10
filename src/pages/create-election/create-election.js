@@ -15,13 +15,16 @@ import {
   localStorageSave,
 } from "../../contants/libraries/easy";
 import { useEffect } from "react";
+import { ORG_CODE } from "../../contants/urls/urls";
+import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
 
 function CreateElection() {
   const activeStepCache = localStorageGet("activeStep");
   let step = parseInt(activeStepCache);
   const [activeStep, setActiveStep] = useState(step ? step : 1);
   const totalNumberOfSteps = 3;
-
+  const { loading, logoutAsync, getLatesResultsAsync, electionResults } =
+    useElectionServices();
   useEffect(() => {
     localStorageSave("activeStep", activeStep);
   }, [activeStep]);
@@ -63,22 +66,32 @@ function CreateElection() {
         break;
     }
   };
+  const getStepName = () => {
+    switch (activeStep) {
+      case 1:
+        return "General info";
+      case 2:
+        return "Create contestants";
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col">
       <div className="w-full flex flex-col shadow-lg px-4">
-        <div
+        {/* <div
           // onMouseOver={() => setHovered(true)}
           onMouseOut={() => {
             // setHovered(false);
           }}
           className="h-full whitespace-nowrap  text-gray-700 flex justify-end items-center"
         >
-          <HowToReg /> <span> ORG ID:</span> <strong> 3423432423</strong>
-        </div>
-        <div className="w-full flex items-center  h-[100px] ">
+          <HowToReg /> <span> ORG ID:</span> <strong> {ORG_CODE()}</strong>
+        </div> */}
+        <div className="w-full flex items-center  h-[60px] ">
           <div className="cursor-pointer overflow-hidden flex items-center w-1/2 h-[50px] ">
-            <div className="h-full w-[200px] bg-blue-600 flex items-center">
+            <div className="h-[30px] w-[200px] bg-blue-500 rounded-lg flex items-center">
               <StackedBarChart className="text-white ml-2" />
               <div className="h-full w-full text-white flex justify-center items-center">
                 {activeStep}
@@ -89,20 +102,26 @@ function CreateElection() {
               </div>
             </div>
             <div className="h-full w-full flex justify-start pl-2 items-center ">
-              <ArrowRightAlt />
-              <strong className="text-3xl">General info</strong>
+              {/* <ArrowRightAlt /> */}
+              <strong className="text-2xl text-gray-500">
+                {getStepName()}
+              </strong>
             </div>
           </div>
 
           <div className="cursor-pointer ml-4 overflow-hidden pr-4  justify-end flex items-center w-1/2 h-[50px] ">
             <div className="h-full pl-2 flex items-center">
+              <div className="h-full pl-2 flex items-center text-blue-500">
+                <HowToReg /> <span> ORG ID:</span>{" "}
+                <strong> {ORG_CODE()}</strong>
+              </div>
               <div
                 onClick={() => {
-                  // logoutUser()
+                  logoutAsync("/", ["resultsData"]);
                 }}
                 className="h-full hover:text-red-500 ml-2 whitespace-nowrap  text-gray-700 flex justify-end items-center"
               >
-                <Logout /> <span> Logout</span>{" "}
+                <Logout className="text-gray-500 hover:text-gray-600 ml-3" />
               </div>
             </div>
           </div>
