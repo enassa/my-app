@@ -27,6 +27,7 @@ import VotingSuccesfull from "./pages/voting-screen/voting-succesfull";
 import PageNotFound from "./pages/page-not-found/page-not-found";
 import Fireabasetrial from "./pages/firebase-hooks/fileupload-hook-trial";
 import LandingPageII from "./pages/landing-page/landing-pageII";
+import ResultsPrint from "./pages/results-screen/results-print";
 
 function App() {
   return (
@@ -148,6 +149,7 @@ function App() {
           </Route>
         </Route>
         <Route path={ALL_URLS.anyOther} element={<PageNotFound />} />
+        <Route path={ALL_URLS.printResults.route} element={<ResultsPrint />} />
         <Route path={"/firebase"} element={<Fireabasetrial />} />
       </Routes>
     </Router>

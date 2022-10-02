@@ -7,10 +7,14 @@ class GridLayOut extends Component {
   }
   render() {
     const styles = {
-      ...this.props.style,
+      ...this.props?.style,
     };
     return (
-      <div style={styles} className={style["main-container"]}>
+      <div
+        // className={`${this.props?.ClassName}`}
+        style={styles}
+        className={`${this.props.className} ${style["main-container"]}`}
+      >
         {this.props.children}
       </div>
     );

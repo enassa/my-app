@@ -137,6 +137,10 @@ export const ALL_URLS = {
     route: "voting-success",
     url: votingScreenHome.url + "/voting-success",
   },
+  printResults: {
+    route: "/print-results",
+    url: "/print-results",
+  },
 
   anyOther: "*",
 };

@@ -45,19 +45,66 @@ export default function VotingScreen() {
     : [];
   const totalNumberOfPosition = votingElection?.Positions?.length;
 
-  const castVote = (vote, portfolio) => {
+  // const castVote = (vote, portfolio) => {
+  //   console.log(votingElection);
+  //   // console.log(vote, portfolio);
+  //   let newBluePrint = {
+  //     ...votingElection?.Votes,
+  //     [portfolio]: vote,
+  //   };
+  //   let newVotingElection = {
+  //     ...votingElection,
+  //     Votes: newBluePrint,
+  //   };
+  //   // Save update to voting election in local storage
+  //   saveObjectInSession("votingElection", newVotingElection);
+  //   dispatch(setVotingElection(newVotingElection));
+  // };
+  const castVote = (vote, portfolioId) => {
+    console.log(votingElection);
+    // console.log(vote, portfolio);
+    let votingPortfolio;
+    let newVotes;
+    const maxNumberOfVotes =
+      votingElection.Positions[activePosition - 1].Settings.maxSelection;
+    const oldVotesForPortfolio = votingElection.Votes[portfolioId] || [];
+    const voteExist = oldVotesForPortfolio?.findIndex(
+      (item) => item.Id === vote.Id
+    );
+
+    if (votingElection.Votes[portfolioId] === undefined) {
+      votingPortfolio = { [portfolioId]: [] };
+    } else {
+      votingPortfolio = votingElection.Votes;
+    }
+
+    if (voteExist === -1) {
+      //vote doesn't exist so add it if settings check is right
+      if (oldVotesForPortfolio.length < maxNumberOfVotes) {
+        newVotes = [...votingPortfolio[portfolioId], vote];
+      } else {
+        errorToast(`Maximum number of ${maxNumberOfVotes} voters selected`);
+        return;
+      }
+    } else {
+      //vot exist so
+      newVotes = oldVotesForPortfolio.filter((item) => item.Id !== vote.Id);
+    }
+    console.log(newVotes);
     let newBluePrint = {
       ...votingElection?.Votes,
-      [portfolio]: vote,
+      [portfolioId]: newVotes,
     };
     let newVotingElection = {
       ...votingElection,
       Votes: newBluePrint,
     };
+    // console.log(newVotingElection);
     // Save update to voting election in local storage
     saveObjectInSession("votingElection", newVotingElection);
     dispatch(setVotingElection(newVotingElection));
   };
+
   let percentageProgress = () => {
     let notVoted = [];
     let votesNow = votingElection?.Votes;
@@ -85,12 +132,13 @@ export default function VotingScreen() {
   //   // positionIds.
   // };
   const submitVote = () => {
+    let votedPortVolios = Object.keys(votingElection.Votes);
     castVoteAsync({ voteData: votingElection });
   };
   const ejectContestants = () => {
     // filter for contestants with the active position's Id
     let contestants = Array.isArray(votingElection?.Contestants)
-      ? votingElection.Contestants.filter(
+      ? votingElection.Contestants?.filter(
           (contestant) =>
             contestant.Position === allPositions[activePosition - 1]?.Title
         )
@@ -112,8 +160,12 @@ export default function VotingScreen() {
             votingElection.Votes[idOfActivePosition];
 
           // Compare the id of the vote made object with the id of this contestant
-          let isSelected = voteMadeForTheCurrentPosition?.Id === contestant?.Id;
+          // let isSelected = voteMadeForTheCurrentPosition?.Id === contestant?.Id;
 
+          // Compare the id of the vote made object with the id of this contestant
+          let isSelected = votingElection.Votes[idOfActivePosition]?.find(
+            (item) => item.Id === contestant?.Id
+          );
           return (
             <ContestantCard
               selected={isSelected}

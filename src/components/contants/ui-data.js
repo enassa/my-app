@@ -14,6 +14,26 @@ export const User = () => {
   }
   return { name: "", orgCode: "", role: "", orgName: "", library: {} };
 };
+export const portfolioTypes = [
+  {
+    Id: 0,
+    title: "single",
+    maxSelection: 1,
+    minSelection: 1,
+    description:
+      "A normal portfolio where users can select only contestant from the list",
+    optional: false,
+  },
+  {
+    Id: 2,
+    title: "multiple",
+    maxSelection: 1,
+    minSelection: 1,
+    description:
+      "A type of portfolio where users are mandated to select a minimum and maximum number of contestant",
+    optional: false,
+  },
+];
 export const electionBluePrint = {
   Id: "",
   OrganizationId: "",
@@ -95,12 +115,13 @@ export const extraInfoBluePrint = {
   Invisible: true,
 };
 export const positionBluePrint = {
-  Id: 1,
+  Id: 0,
   Title: "",
   ContestantCount: "",
   Contestants: [],
   VoteCount: null,
   Categories: [],
+  Settings: portfolioTypes[0],
 };
 export const generalBlueInfoPrint = {
   Title: "",

@@ -19,8 +19,12 @@ export default function PortfolioCard({
       setInputValue(data?.Title);
       return;
     }
-    handleChange &&
-      handleChange({ Id: data.Id, Title: inputValue, Category: categoryArr });
+    if (categoryArr === undefined) {
+      setCategoryArr(data.Categories);
+    } else {
+      handleChange &&
+        handleChange({ ...data, Title: inputValue, Categories: categoryArr });
+    }
   }, [inputValue, categoryArr]);
 
   const modifyPositionCategory = (categoryId, optionId, checked, category) => {

@@ -5,6 +5,7 @@ import {
   CheckCircle,
   HowToVote,
   NavigateNext,
+  Star,
 } from "@mui/icons-material";
 import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
 export default function ResultsCard({
@@ -33,7 +34,8 @@ export default function ResultsCard({
       className="w-[200px] z-[88] animate-rise hover:shadow-2xl hover:animate-rise rounded-2xl h-[200px] shadow-lg bg-yellow-100 py-3 px-2 cursor-pointer flex items-center flex-col relative"
     >
       {position && (
-        <div className="absolute top-[-10px] right-[-35px] bg-blue-500 text-white rounded-full h-10 min-w-[70px] flex justify-center items-center shadow-lg">
+        <div className="absolute top-[-10px] right-[-35px] bg-green-700 text-white rounded-full h-10 min-w-[70px] flex justify-center items-center shadow-lg">
+          <Star style={{ fontSize: 20 }} />
           <strong>{position}</strong>
         </div>
       )}
@@ -58,6 +60,7 @@ export default function ResultsCard({
         {Object.keys(info?.Info)?.map((prop, index) => {
           let obj = info?.Info;
           if (prop === "ImageUrl") return;
+          if (prop === "ImageInfo") return;
           if (prop === "Ballot_Number") return;
           if (prop === "Name") return;
           return (

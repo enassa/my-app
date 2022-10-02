@@ -86,7 +86,6 @@ export default function GeneralInfoForm({ handleNavigation }) {
     const allContestantDefinitions = !!bluePrintState?.ContestantDefinition
       ? bluePrintState?.ContestantDefinition
       : [];
-    // console.log(bluePrintState?.ContestantDefinition);
     return allContestantDefinitions
       ?.filter((item) => item?.Invisible !== true)
       ?.map((item, count) => {

@@ -57,8 +57,8 @@ const ElectionProvider = ({ children }) => {
       updateBluePrintState(electionObjectCache());
       return;
     }
+    console.log(bluePrintState);
     saveObjectInLocalStorage("bluePrintState", bluePrintState);
-    console.log("===", electionObjectCache());
   }, [bluePrintState]);
 
   const updateGeneralInfo = (field, data) => {
@@ -200,6 +200,7 @@ const ElectionProvider = ({ children }) => {
   };
 
   // Positions|Portfolios CRUD operation
+
   const addPosition = (data) => {
     const oldPositions = bluePrintState?.Positions;
     const getIdOfLastPositions = () => {
@@ -208,17 +209,19 @@ const ElectionProvider = ({ children }) => {
         : -1;
     };
     let idOfNewPositions = getIdOfLastPositions() + 1;
-    console.log(positionBluePrint);
+    let newPosition = {
+      ...positionBluePrint,
+      Id: idOfNewPositions,
+      Title: `Portfolio ${idOfNewPositions + 1}`,
+    }; //new
+
+    let myPositions = oldPositions;
+    myPositions.push(newPosition);
+
     let newBluePrint = {
       ...bluePrintState,
-      Positions: [
-        ...oldPositions, //load old contestant definitions
-        {
-          ...positionBluePrint,
-          Id: idOfNewPositions,
-          Title: `Portfolio ${idOfNewPositions + 1}`,
-        }, //new contestant definition
-      ],
+      Positions: myPositions,
+      // Positions: [],
     };
     updateBluePrintState(newBluePrint);
   };
@@ -259,14 +262,12 @@ const ElectionProvider = ({ children }) => {
       let newContestant = oldContestants.filter(
         (item) => item?.PositionId !== data?.Id
       );
-      console.log(data, newContestant);
 
       if (!!!newContestant) return; //if for any reason filtering fails and this is udefined don't continue
       let newBluePrint = {
         ...bluePrintState,
         Contestants: newContestant,
       };
-      console.log("pp", mainBluePrint);
       mainBluePrint = newBluePrint;
     };
     deleteAssociatedContestants();
@@ -321,7 +322,6 @@ const ElectionProvider = ({ children }) => {
   };
 
   const deleteCategory = (data) => {
-    console.log("====", data);
     // return;
     const oldCategories = bluePrintState?.Categories;
     let newCategories = oldCategories.filter((item) => item?.Id !== data?.Id);
@@ -427,11 +427,7 @@ const ElectionProvider = ({ children }) => {
     if (bluePrintState.GeneralInfo.NumberOfVoters === "") {
       foundErrors.push("NumberOfVoters");
     }
-    console.log(
-      bluePrintState?.GeneralInfo,
-      bluePrintState?.GeneralInfo,
-      bluePrintState
-    );
+
     if (
       bluePrintState?.GeneralInfo.Starting === undefined ||
       bluePrintState?.GeneralInfo.Starting === ""
@@ -457,19 +453,18 @@ const ElectionProvider = ({ children }) => {
       }
     });
 
-    bluePrintState.Categories.map((item) => {
-      console.log(item);
-      if (item?.Title === "") {
-        foundErrors.push(`Category${item.Id}`);
-      }
-      Array.isArray(
-        item?.Options.map((option) => {
-          if (option.Title === "") {
-            foundErrors.push(`CategoryOption${item?.Id}${option?.Id}`);
-          }
-        })
-      );
-    });
+    // bluePrintState.Categories.map((item) => {
+    //   if (item?.Title === "") {
+    //     foundErrors.push(`Category${item.Id}`);
+    //   }
+    //   Array.isArray(
+    //     item?.Options.map((option) => {
+    //       if (option.Title === "") {
+    //         foundErrors.push(`CategoryOption${item?.Id}${option?.Id}`);
+    //       }
+    //     })
+    //   );
+    // });
 
     // if errors stop else move to next page to add contestants
 

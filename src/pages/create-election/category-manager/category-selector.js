@@ -2,6 +2,7 @@ import { Settings } from "@mui/icons-material";
 import { ClickAwayListener } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { portfolioTypes } from "../../../components/contants/ui-data";
 import { useCreateElectionServices } from "../context/create-election-context";
 
 export default function CategorySelector({ data }) {
@@ -27,21 +28,22 @@ export default function CategorySelector({ data }) {
       setCategoryArr(data?.Categories);
       return;
     }
+    console.log(categoryArr);
     updatePosition({ ...data, Categories: categoryArr });
   }, [categoryArr]);
 
   const modifyPositionCategory = (categoryId, optionId, checked, category) => {
     let allCategories = data?.Categories;
+    console.log(categoryId, optionId, checked, category);
     if (categoryId === "all") {
       setCategoryArr([]);
       return;
     }
-    if (optionId === undefined) {
+    if (optionId !== undefined) {
       let newCategories = allCategories.filter(
         (item) => item?.CategoryId !== categoryId
       );
       setCategoryArr(newCategories);
-      return;
     }
     if (checked) {
       allCategories.push({
@@ -54,7 +56,12 @@ export default function CategorySelector({ data }) {
       );
       allCategories.splice(indexOfCategory, 1);
     }
+    console.log(allCategories);
     setCategoryArr(allCategories);
+  };
+  const modifyPositionSettings = (setting) => {
+    console.log(setting);
+    updatePosition({ ...data, Settings: setting });
   };
 
   const ejectCategories = () => {
@@ -67,9 +74,9 @@ export default function CategorySelector({ data }) {
               name={`_${item.Id}`}
               type="checkbox"
               className="font-semibold mr-2"
-              checked={true}
+              // checked={true}
               onChange={(e) => {
-                if (e.target.checked) return;
+                // if (e.target.checked) return;
                 modifyPositionCategory(
                   item?.Id,
                   undefined,
@@ -95,6 +102,14 @@ export default function CategorySelector({ data }) {
                     name={`_${item.Id}`}
                     type={`${item.MultipleSelect ? "checkbox" : "radio"}`}
                     className="font-semibold mr-2"
+                    onChange={(e) =>
+                      modifyPositionCategory(
+                        item?.Id,
+                        undefined,
+                        e.target.checked,
+                        item
+                      )
+                    }
                   />
                   <label
                     style={{ position: "static", display: "flex" }}
@@ -106,6 +121,81 @@ export default function CategorySelector({ data }) {
                 </div>
               );
             })}
+          </div>
+        </div>
+      );
+    });
+  };
+  const ejectPortFolioType = () => {
+    return portfolioTypes.map((item, index) => {
+      const isSelected = item.title === data.Settings.title;
+      return (
+        <div className="w-full whitespace-nowrap  flex flex-col mb-3 bg-gray-50">
+          <div className="w-full flex items-center h-[20px] whitespace-nowrap">
+            <input
+              id={`_${item?.title}${index}`}
+              name={`portfolioType`}
+              type={`${item.MultipleSelect ? "checkbox" : "radio"}`}
+              className="font-semibold mr-2"
+              onChange={(e) => {
+                modifyPositionSettings(item);
+              }}
+              defaultChecked={item.title === data.Settings.title}
+              // checked={item.title === data.Settings.title}
+            />
+            <label
+              style={{ position: "static", display: "flex" }}
+              className="w-full text-gray-800 capitalize cursor-pointer whitespace-nowrapl flex justify-start"
+              htmlFor={`_${item?.title}${index}`}
+            >
+              {item?.title}
+            </label>
+          </div>
+          <div className="w-full h-auto flex flex-col">
+            <div className="w-full flex">
+              <div className="flex items-center w-full">
+                <span className="mr-2">minmax:</span>{" "}
+                <input
+                  defaultValue={1}
+                  className="w-full outline-none min-w-[50px] p-2 bg-gray-100 ml-2 mr-2"
+                  type="number"
+                  min={1}
+                  disabled={!isSelected}
+                  value={isSelected ? data.Settings.minSelection : 0}
+                  onChange={(e) => {
+                    if (isSelected) {
+                      modifyPositionSettings({
+                        ...item,
+                        minSelection: parseInt(e.target.value),
+                        maxSelection: data.Settings.maxSelection,
+                      });
+                    }
+                  }}
+                />
+                <span>:</span>{" "}
+                <input
+                  defaultValue={1}
+                  className="w-full outline-none min-w-[50px] p-2 bg-gray-100 ml-2 mr-2"
+                  type="number"
+                  min={1}
+                  value={isSelected ? data.Settings.maxSelection : 0}
+                  disabled={!isSelected}
+                  onChange={(e) => {
+                    if (isSelected) {
+                      modifyPositionSettings({
+                        ...item,
+                        minSelection: data.Settings.minSelection,
+                        maxSelection: parseInt(e.target.value),
+                      });
+                    }
+                  }}
+                />
+              </div>
+              {/* <div className="mt-2 flex items-center w-1/2">
+                <span>:</span>{" "}
+                
+              </div> */}
+            </div>
           </div>
         </div>
       );
@@ -134,6 +224,11 @@ export default function CategorySelector({ data }) {
               </label>
             </div>
             {ejectCategories()}
+            <div className="divide-x-2 h-5"></div>
+            <div className="w-full flex flex-col bg-gray-200">
+              {ejectPortFolioType()}
+            </div>
+            <div className="w-full border "></div>
           </div>
         </ClickAwayListener>
       )}

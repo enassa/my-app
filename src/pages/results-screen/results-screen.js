@@ -17,8 +17,16 @@ import ResultsCard from "../../components/results-card/results-card";
 import { useElectionServices } from "../../redux/slices/election-slice/election-hook";
 import ProgressBar from "../../components/progress bar/ProgressBar";
 import { useEffect } from "react";
+import { useReactToPrint } from "react-to-print";
+import { ALL_URLS } from "../../contants/urls/rout-links";
+import { useNavigate } from "react-router-dom";
 
 export default function ResultScreen() {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const navigate = useNavigate();
   // const { openedElection } = useElectionServices();
   const { loading, logoutAsync, getLatesResultsAsync, electionResults } =
     useElectionServices();
@@ -55,6 +63,7 @@ export default function ResultScreen() {
           contestant?.Position.toLowerCase() === item?.Title?.toLowerCase()
       );
       let dropDown = activeResults.includes(index);
+
       return (
         <div key={index} className="flex flex-col w-full  p-5">
           <div className="w-full flex items-center">
@@ -70,17 +79,19 @@ export default function ResultScreen() {
             <div className="w-full bg-slate-500 h-[0.5px]"></div>
           </div>
           <div
+            ref={componentRef}
             className={` ${
               dropDown ? "h-auto" : "h-[0px] "
             } transition-all duration-300 flex w-full overflow-hidden`}
           >
             <GridLayOut
               style={{
-                gridTemplateColumns: "repeat(4,1fr)",
+                // gridTemplateColumns: "repeat(4,1fr)",
                 justifyContent: "center",
                 padding: 40,
                 backgroundColor: "#DFDFDF",
               }}
+              className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xlg:grid-cols-5"
             >
               {contestantsForThePosition
                 .sort((a, b) => b?.VotesCount - a?.VotesCount)
@@ -164,7 +175,13 @@ export default function ResultScreen() {
               <span>{resultsCache?.Title}</span>
             </div>
           </div>
-          <div className="cursor-pointer hover:bg-blue-50 hover:text-blue-600  hover:rounded-md transition-all duration-200  overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg">
+          <div
+            onClick={() => {
+              // handlePrint();
+              navigate(ALL_URLS.printResults.url);
+            }}
+            className="cursor-pointer hover:bg-blue-50 hover:text-blue-600  hover:rounded-md transition-all duration-200  overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg"
+          >
             <Download />
             <span className="text-xs">Download</span>
           </div>
