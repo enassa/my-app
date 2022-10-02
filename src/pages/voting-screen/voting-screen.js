@@ -47,9 +47,11 @@ export default function VotingScreen() {
     : [];
   const totalNumberOfPosition = votingElection?.Positions?.length;
 
-  let maxVotesForPosition =
-    votingElection?.Positions[activePosition - 1].Settings.maxSelectionlet;
-  let votesCount = votingElection.Votes[`${activePosition - 1}`]?.length;
+  const maxVotesForPosition =
+    votingElection?.Positions[activePosition - 1].Settings.maxSelection;
+  const votesCount = votingElection.Votes[`${activePosition - 1}`]?.length;
+  const division = (votesCount / maxVotesForPosition) * 100;
+  const percentageVoteCount = parseInt(division.toFixed(2));
   // const castVote = (vote, portfolio) => {
   //   console.log(votingElection);
   //   // console.log(vote, portfolio);
@@ -262,7 +264,8 @@ export default function VotingScreen() {
             progressColor={"#5F27CD"}
             containerColor="#E2E2E2"
             radius={40}
-            progressPercentage={percentageProgress()}
+            // progressPercentage={percentageProgress()}
+            progressPercentage={percentageVoteCount}
           />
         </div>
         <div className="cursor-pointer bg-white overflow-hidden flex items-center w-full md:w-1/2 h-[50px] rounded-lg shadow-lg">
@@ -337,7 +340,11 @@ export default function VotingScreen() {
           </div>
         )}
         {activePosition === totalNumberOfPosition && (
-          <div className="w-full flex justify-end items-center">
+          <div
+            className={`${
+              percentageVoteCount === 100 ? "flex" : "hidden"
+            } w-full justify-end items-center`}
+          >
             <div className="bg relative">
               {/* pulser */}
               <div className="bg z-[-1]  top-0 w-[100px] h-[100px] animate-ping rounded-full bg-[#2463EB] absolute px-2"></div>
