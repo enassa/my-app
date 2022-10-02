@@ -47,6 +47,9 @@ export default function VotingScreen() {
     : [];
   const totalNumberOfPosition = votingElection?.Positions?.length;
 
+  let maxVotesForPosition =
+    votingElection?.Positions[activePosition - 1].Settings.maxSelectionlet;
+  let votesCount = votingElection.Votes[`${activePosition - 1}`]?.length;
   // const castVote = (vote, portfolio) => {
   //   console.log(votingElection);
   //   // console.log(vote, portfolio);
@@ -266,11 +269,13 @@ export default function VotingScreen() {
           <div className="h-full w-[200px] bg-[#5F27CD] flex items-center">
             <HowToVote className="text-white ml-2" />
             <div className="h-full w-full text-white flex justify-center items-center">
-              {activePosition}
+              {/* {activePosition} */}
+              {votesCount}
             </div>
             <span className="w-2 bg-white h-1/2"></span>
             <div className="h-full mr-2 text-white w-full flex justify-center items-center">
-              {totalNumberOfPosition}
+              {/* {totalNumberOfPosition} */}
+              {maxVotesForPosition}
             </div>
           </div>
           <div className="h-full w-full flex justify-center items-center ">
