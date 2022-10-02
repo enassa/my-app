@@ -17,6 +17,7 @@ import {
 import {
   getAsObjectFromLocalStorage,
   getAsObjectFromSession,
+  isTouch,
   localStorageGet,
   localStorageSave,
   removeItemsFromLocalStorage,
@@ -24,6 +25,7 @@ import {
   saveObjectInSession,
   sessionGet,
   sessionSave,
+  watchForHover,
 } from "../../contants/libraries/easy";
 import { errorToast } from "../../components/toast/toastify";
 import { useNavigate } from "react-router-dom";
@@ -132,7 +134,44 @@ export default function VotingScreen() {
   //   // positionIds.
   // };
   const submitVote = () => {
-    let votedPortVolios = Object.keys(votingElection.Votes);
+    let allVotes = votingElection.Votes;
+    let votedPortVolios = Object.keys(allVotes);
+    console.log(
+      // votingElection,
+      // votedPortVolios,
+      allVotes
+      // votingElection.Positions
+    );
+    // return;
+    let errorCounter = 0;
+    votedPortVolios.some((idOfPortfolio, index) => {
+      const portfolioId = parseInt(idOfPortfolio);
+      let positionOfInterest = votingElection.Positions.find(
+        (position) => position.Id === portfolioId
+      );
+      let expectedMaxVotes = positionOfInterest.Settings.maxSelection;
+      let expectedMinVotes = positionOfInterest.Settings.minSelection;
+      let votesForPortfolio = allVotes[`${portfolioId}`];
+      let minValid = votesForPortfolio.length >= expectedMinVotes;
+      let maxValid = votesForPortfolio.length <= expectedMaxVotes;
+
+      if (!minValid) {
+        errorToast(
+          `A minimum of ${expectedMinVotes} votes is required for ${positionOfInterest.Title}`
+        );
+        errorCounter++;
+        return;
+      }
+      // if (!maxValid) {
+      //   errorToast(`A m${17} votes is required for ${positionOfInterest.Title}`);
+      // }
+    });
+    // if(errorCounter){
+    //   errorToast(
+    //     `A minum of ${expectedMinVotes} votes is required for ${positionOfInterest.Title}`
+    //   );
+    // }
+    if (errorCounter) return;
     castVoteAsync({ voteData: votingElection });
   };
   const ejectContestants = () => {
@@ -212,7 +251,7 @@ export default function VotingScreen() {
           {<OverlayLoader loaderText="Creating election..." />}
         </div>
       ) : null}
-      <div className="w-full flex items-center z-[9999999]  h-[100px] sticky top-[0px]">
+      <div className="w-full flex items-center z-[999]  h-[100px] sticky top-[0px]">
         <div className="  mr-3 cursor-pointer hidden md:flex lg:flex xlg:flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
           <ProgressBar
             circular
@@ -296,7 +335,7 @@ export default function VotingScreen() {
           <div className="w-full flex justify-end items-center">
             <div className="bg relative">
               {/* pulser */}
-              <div className="bg  top-0 w-[100px] h-[100px] animate-ping rounded-full bg-[#2463EB] absolute px-2"></div>
+              <div className="bg z-[-1]  top-0 w-[100px] h-[100px] animate-ping rounded-full bg-[#2463EB] absolute px-2"></div>
               <PopUpButton
                 noText={true}
                 innerStyles={{
@@ -309,6 +348,7 @@ export default function VotingScreen() {
                   flexFlow: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  zIndex: 99999,
                 }}
                 handleClick={() => {
                   // if (activePosition < totalNumberOfPosition) {

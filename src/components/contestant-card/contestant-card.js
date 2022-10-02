@@ -7,7 +7,10 @@ import {
   HowToVote,
   NavigateNext,
 } from "@mui/icons-material";
-import { replaceUnderscoreWithSpace } from "../../contants/libraries/easy";
+import {
+  isTouch,
+  replaceUnderscoreWithSpace,
+} from "../../contants/libraries/easy";
 
 export default function ContestantCard({
   showPosition,
@@ -32,10 +35,19 @@ export default function ContestantCard({
   return (
     <div
       onMouseOver={() => {
-        setHovered(true);
+        if (!isTouch) {
+          setHovered(true);
+        }
       }}
       onMouseOut={() => {
-        setHovered(false);
+        if (!isTouch) {
+          setHovered(false);
+        }
+      }}
+      onClick={() => {
+        if (isTouch) {
+          handleClick && handleClick(info);
+        }
       }}
       className="w-[200px] z-[88] animate-rise hover:shadow-2xl hover:animate-rise rounded-2xl h-[200px] shadow-lg bg-yellow-100 py-3 px-2 cursor-pointer flex items-center flex-col relative"
     >
