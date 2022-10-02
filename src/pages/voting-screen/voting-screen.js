@@ -212,8 +212,8 @@ export default function VotingScreen() {
           {<OverlayLoader loaderText="Creating election..." />}
         </div>
       ) : null}
-      <div className="w-full flex items-center  h-[100px]">
-        <div className="  mr-3 cursor-pointer flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
+      <div className="w-full flex items-center z-[9999999]  h-[100px] sticky top-[0px]">
+        <div className="  mr-3 cursor-pointer hidden md:flex lg:flex xlg:flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
           <ProgressBar
             circular
             progressThickness={7}
@@ -223,7 +223,7 @@ export default function VotingScreen() {
             progressPercentage={percentageProgress()}
           />
         </div>
-        <div className="cursor-pointer overflow-hidden flex items-center w-1/2 h-[50px] rounded-lg shadow-lg">
+        <div className="cursor-pointer bg-white overflow-hidden flex items-center w-full md:w-1/2 h-[50px] rounded-lg shadow-lg">
           <div className="h-full w-[200px] bg-[#5F27CD] flex items-center">
             <HowToVote className="text-white ml-2" />
             <div className="h-full w-full text-white flex justify-center items-center">
@@ -235,10 +235,12 @@ export default function VotingScreen() {
             </div>
           </div>
           <div className="h-full w-full flex justify-center items-center ">
-            <span>{votingElection?.Positions[activePosition - 1]?.Title}</span>
+            <span className="whitespace-nowrap px-2">
+              {votingElection?.Positions[activePosition - 1]?.Title}
+            </span>
           </div>
         </div>
-        <div className="cursor-pointer ml-4 overflow-hidden pr-4 shadow-lg rounded-lg  justify-between flex items-center w-1/2 h-[50px] ">
+        <div className="hidden md:flex lg:flex xlg:flex cursor-pointer ml-4 overflow-hidden pr-4 shadow-lg rounded-lg  justify-between items-center w-1/2 h-[50px] ">
           <div className="h-full pl-2 flex items-center ">
             <div className="h-full whitespace-nowrap  text-[#5F27CD]  flex justify-end items-center">
               {/* <span> Title:</span>  */}
@@ -255,8 +257,9 @@ export default function VotingScreen() {
       </div>
       <div className="flex h-full w-full flex-col overflow-y-auto">
         <GridLayOut
+          className="grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xlg:grid-cols-5"
           style={{
-            gridTemplateColumns: "repeat(4,1fr)",
+            // gridTemplateColumns: "repeat(4,1fr)",
             justifyContent: "center",
             padding: 40,
           }}
@@ -264,7 +267,7 @@ export default function VotingScreen() {
           {ejectContestants()}
         </GridLayOut>
       </div>
-      <div className="w-full px-4 left-0 fixed bottom-4 flex justify-between">
+      <div className=" z-[99] w-full px-4 left-0 fixed bottom-4 flex justify-between">
         {activePosition > 1 && (
           <div className="w-full flex  items-center">
             <PopUpButton
@@ -293,7 +296,7 @@ export default function VotingScreen() {
           <div className="w-full flex justify-end items-center">
             <div className="bg relative">
               {/* pulser */}
-              <div className="bg z-[-1] top-0 w-[100px] h-[100px] animate-ping rounded-full bg-[#2463EB] absolute px-2"></div>
+              <div className="bg  top-0 w-[100px] h-[100px] animate-ping rounded-full bg-[#2463EB] absolute px-2"></div>
               <PopUpButton
                 noText={true}
                 innerStyles={{
