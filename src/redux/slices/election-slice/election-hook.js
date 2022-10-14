@@ -224,6 +224,7 @@ export const useElectionServices = () => {
         const property = position?.Id;
         obj[property] = undefined;
       });
+      console.log("obj====", obj, "alposition=====", allPositions);
       return obj;
     }
   };
@@ -237,6 +238,7 @@ export const useElectionServices = () => {
               ...res.data,
               Votes: voteSetUp,
             };
+            console.log("readyVotingElection=====", readyVotingElection);
             // save setup in local storage so that even if user refreshes, vote process can continue
             saveObjectInSession("votingElection", readyVotingElection);
             // update state that contains the voting setup

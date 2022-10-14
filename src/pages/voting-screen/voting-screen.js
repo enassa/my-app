@@ -49,7 +49,7 @@ export default function VotingScreen() {
 
   const maxVotesForPosition =
     votingElection?.Positions[activePosition - 1].Settings.maxSelection;
-  const votesCount = votingElection.Votes[`${activePosition - 1}`]?.length;
+  const votesCount = votingElection?.Votes[`${activePosition - 1}`]?.length;
   const division = (votesCount / maxVotesForPosition) * 100;
   const percentageVoteCount = parseInt(division.toFixed(2));
   // const castVote = (vote, portfolio) => {
