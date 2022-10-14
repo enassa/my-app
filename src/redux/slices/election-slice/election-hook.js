@@ -232,19 +232,17 @@ export const useElectionServices = () => {
       .then((res) => {
         if (res?.success) {
           //Set up voting obejct and if setup is complete, proceed
-          const Votes = setUpPositionsForVoting(res.data.Positions).then(
-            (voteSetUp) => {
-              const readyVotingElection = {
-                ...res.data,
-                Votes: voteSetUp,
-              };
-              // save setup in local storage so that even if user refreshes, vote process can continue
-              saveObjectInSession("votingElection", readyVotingElection);
-              // update state that contains the voting setup
-              dispatch(setVotingElection(readyVotingElection));
-              navigate(ALL_URLS.votingScreen.url);
-            }
-          );
+          setUpPositionsForVoting(res.data.Positions).then((voteSetUp) => {
+            const readyVotingElection = {
+              ...res.data,
+              Votes: voteSetUp,
+            };
+            // save setup in local storage so that even if user refreshes, vote process can continue
+            saveObjectInSession("votingElection", readyVotingElection);
+            // update state that contains the voting setup
+            dispatch(setVotingElection(readyVotingElection));
+            navigate(ALL_URLS.votingScreen.url);
+          });
         } else {
           errorToast(res.message);
         }
