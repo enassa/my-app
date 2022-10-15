@@ -154,7 +154,7 @@ export default function ResultScreen() {
               progressPercentage={parseInt(percentageProgress.toFixed(1))}
             />
           </div>{" "}
-          <div className="cursor-pointer overflow-hidden flex rounded-lg items-center w-1/2 h-[50px] shadow-lg">
+          <div className="cursor-pointer overflow-hidden flex rounded-lg items-center w-[70%] h-[50px] shadow-lg">
             <div className="h-full w-auto whitespace-nowrap bg-blue-600 flex items-center ">
               <HowToVote className="text-white ml-2 mr-3" />
               <div className="h-full mr-2 font-extrabold  w-full text-white flex justify-center items-center">
@@ -172,7 +172,9 @@ export default function ResultScreen() {
               </span>
             </div>
             <div className="h-full w-full flex justify-center items-center ">
-              <span>{resultsCache?.Title}</span>
+              <span className="whitespace-nowrap px-4 text-ellipsis">
+                {resultsCache?.Title}
+              </span>
             </div>
           </div>
           <div

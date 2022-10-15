@@ -79,7 +79,7 @@ export default function ResultsPrint() {
               <td style={{ width: "100%", align: "center" }}>
                 <span
                   onClick={() => handlePrint()}
-                  className="text-white cursor-pointer hover:text-gray-50 absolute right-[40px] top-[40px]"
+                  className="text-white cursor-pointer z-[600] hover:text-gray-50 absolute right-[40px] top-[40px]"
                 >
                   <Print />
                 </span>
@@ -115,7 +115,7 @@ export default function ResultsPrint() {
                   <WhatsappOutlined style={{ fontSize: 15, marginRight: 5 }} />
                   <span className="mr-[15px]">0501595639</span>
                   <EmailOutlined style={{ fontSize: 15, marginRight: 5 }} />
-                  <span> koinovot@gmail.com</span>
+                  <span> koinovote@gmail.com</span>
                 </div>
               </div>
             </tr>

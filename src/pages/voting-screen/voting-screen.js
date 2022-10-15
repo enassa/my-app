@@ -266,7 +266,7 @@ export default function VotingScreen() {
             containerColor="#E2E2E2"
             radius={40}
             // progressPercentage={percentageProgress()}
-            progressPercentage={percentageVoteCount}
+            progressPercentage={percentageVoteCount || 0}
           />
         </div>
         <div className="cursor-pointer bg-white overflow-hidden flex items-center w-full md:w-1/2 h-[50px] rounded-lg shadow-lg">
@@ -274,7 +274,7 @@ export default function VotingScreen() {
             <HowToVote className="text-white ml-2" />
             <div className="h-full w-full text-white flex justify-center items-center">
               {/* {activePosition} */}
-              {votesCount}
+              {votesCount || 0}
             </div>
             <span className="w-2 bg-white h-1/2"></span>
             <div className="h-full mr-2 text-white w-full flex justify-center items-center">
