@@ -4,7 +4,7 @@ import { User } from "../../components/contants/ui-data";
 const devMode = false;
 export const BASE_URL = devMode
   ? {
-      dev: "https://koinovote.herokuapp.com",
+      dev: "koino-voter-api-new.vercel.app",
     }
   : {
       dev:
