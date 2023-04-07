@@ -1,7 +1,7 @@
 // import logo from "../assets/imgs/logo.jpeg";
 import { User } from "../../components/contants/ui-data";
 
-const devMode = true;
+const devMode = false;
 export const BASE_URL = devMode
   ? {
       dev: "http://localhost:3030",
