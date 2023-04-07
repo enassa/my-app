@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400&display=swap");
+
+* {
+  font-family: "Anuphan", sans-serif;
+}
 .fit-bg {
   background-position: center;
   background-size: cover;

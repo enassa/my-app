@@ -62,7 +62,7 @@ export default function ResultsPrint() {
       console.log(contestants);
       let contestantsForThePosition = contestants?.filter(
         (contestant) =>
-          contestant?.Position.toLowerCase() === item?.Title?.toLowerCase()
+          contestant?.Position?.toLowerCase() === item?.Title?.toLowerCase()
       );
       let dropDown = activeResults.includes(index);
 

@@ -1,10 +1,10 @@
 // import logo from "../assets/imgs/logo.jpeg";
 import { User } from "../../components/contants/ui-data";
 
-const devMode = false;
+const devMode = true;
 export const BASE_URL = devMode
   ? {
-      dev: "koino-voter-api-new.vercel.app",
+      dev: "http://localhost:3030",
     }
   : {
       dev:
