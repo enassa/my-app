@@ -94,6 +94,7 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
     });
   };
   const getImageList = async (folderPath = folder, callBack) => {
+    console.log(folderPath);
     const imageListRef = ref(storage, folderPath);
     setLoading(true);
     if (folderPath === undefined)
@@ -141,6 +142,7 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
   };
 
   const uploadMultiple = (imagesToUpload, folderPath = folder) => {
+    console.log(imagesToUpload, folderPath, folder);
     setLoading(true);
     const fileListToArr = Array.from(imagesToUpload);
     const totalCount = fileListToArr?.length;
@@ -260,6 +262,7 @@ export const useFireStorageUploader = (firebaseConfig, folder = "/") => {
     setLoading(true);
     setDeleting(fileName);
     // Create a reference to the file to delete
+    console.log(folder + " / " + fileName);
     const desertRef = ref(storage, `${folder}/${fileName}`);
     // Delete the file
     deleteObject(desertRef)

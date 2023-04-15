@@ -51,25 +51,25 @@ function ImageLibraryProvider({ children }) {
   const handleSelectedImage = (imageName, origin) => {
     let imageSelected;
     if (origin == "local") {
-      imageSelected = multipleUploaded.uploadedFiles.filter(
+      imageSelected = multipleUploaded.uploadedFiles.find(
         (item) => item.name === imageName
       );
     } else {
-      imageSelected = uploadedImageList.filter(
-        (item) => item.name === imageName
-      );
+      imageSelected = uploadedImageList.find((item) => item.name === imageName);
     }
 
     setShowLibrary(false);
-    setSelected(imageSelected[0]);
+    console.log("-------", selectedImage, imageSelected, imageName);
+    setSelected(imageSelected);
     // callBack(image);
   };
   const removeFromImageList = (imageName, origin) => {
     let newImageList;
-    if (origin == "local") {
+    if (origin === "local") {
       newImageList = imagesToUpload.filter((image) => image.name !== imageName);
       setImages([...newImageList]);
     } else {
+      console.log(uploadedImageList, imageName);
       newImageList = uploadedImageList.filter(
         (image) => image.name !== imageName
       );

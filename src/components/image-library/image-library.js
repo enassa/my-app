@@ -49,6 +49,7 @@ export default function ImageLibrary({
   let refValue = useRef(0);
   useLayoutEffect(() => {
     if (value === 0 && !uploadedImageList.length) {
+      console.log("library folder", libraryFolder);
       getImageList(libraryFolder);
     }
     value++;
@@ -181,7 +182,8 @@ export default function ImageLibrary({
                   <ImageCircle
                     key={index}
                     deleteImage={(id) => {
-                      deleteFromList(id);
+                      console.log("local image id".id);
+                      // deleteFromList(id);
                     }}
                     uploading={{
                       state: isCurrentlyUploading,
@@ -209,6 +211,7 @@ export default function ImageLibrary({
                   <ImageCircle
                     key={index}
                     deleteImage={(id) => {
+                      console.log("remote image id".id);
                       deleteFromList(id);
                     }}
                     uploading={{

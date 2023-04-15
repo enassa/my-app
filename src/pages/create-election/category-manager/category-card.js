@@ -19,18 +19,19 @@ export default function CategoryCard({
 }) {
   const { deleteCategory, errors, setError, updateCategory } =
     useCreateElectionServices();
-  const [inputValue, setInputValue] = useState({ ...data });
-  //   const []
+  const [categoryData, setCategoryData] = useState({ ...data });
+
   useEffect(() => {
-    if (inputValue === undefined && !!data) {
-      setInputValue(data?.Title);
+    if (categoryData === undefined && !!data) {
+      setCategoryData(data?.Title);
       return;
     }
     setError([]);
-    handleChange && updateCategory(inputValue);
-  }, [inputValue]);
+    handleChange && updateCategory(categoryData);
+  }, [categoryData]);
+
   const addOption = () => {
-    let allOptions = inputValue.Options;
+    let allOptions = categoryData.Options;
     const idOfLastOption = allOptions[allOptions.length - 1]?.Id;
     let NewOption = {
       ...categoryOptionsBluePrint,
@@ -38,24 +39,27 @@ export default function CategoryCard({
       Title: `Option ${idOfLastOption + 2}`,
     };
     allOptions.push(NewOption);
-    setInputValue({ ...inputValue, Options: allOptions });
+    setCategoryData({ ...categoryData, Options: allOptions });
   };
+
   const deleteOption = (id) => {
-    let allOptions = inputValue.Options;
+    let allOptions = categoryData.Options;
     if (allOptions?.length === 2) return;
     let newOptions = allOptions.filter((item) => item?.Id !== id);
-    setInputValue({ ...inputValue, Options: newOptions });
+    setCategoryData({ ...categoryData, Options: newOptions });
   };
+
   const updateOption = (id, value) => {
-    let allOptions = inputValue.Options;
+    let allOptions = categoryData.Options;
     let indexOfItemToEdit = allOptions.findIndex((item) => item?.Id === id);
     let newOption = {
       ...allOptions[indexOfItemToEdit],
       Title: value,
     };
     allOptions.splice(indexOfItemToEdit, 1, newOption);
-    setInputValue({ ...inputValue, Options: allOptions });
+    setCategoryData({ ...categoryData, Options: allOptions });
   };
+
   return (
     <div className="w-full h-auto flex flex-col mt-4 bg-gray-50 py-3 px-2 rounded-sm">
       <div className="w-[100%] flex items-center h-[50px]  ">
@@ -77,7 +81,7 @@ export default function CategoryCard({
               e.target.select();
             }}
             onChange={(e) => {
-              setInputValue({ ...inputValue, Title: e.target.value });
+              setCategoryData({ ...categoryData, Title: e.target.value });
             }}
           />
           <div className="h-full w-auto ml-2   flex justify-center items-center">
@@ -86,8 +90,8 @@ export default function CategoryCard({
             </span>
             <Switch
               onChange={(e) => {
-                setInputValue({
-                  ...inputValue,
+                setCategoryData({
+                  ...categoryData,
                   MultipleSelect: e.target.checked,
                 });
               }}

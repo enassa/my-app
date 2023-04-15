@@ -303,17 +303,18 @@ const ElectionProvider = ({ children }) => {
         }, //new contestant definition
       ],
     };
+    console.log("add category", newBluePrint, "color:blue");
     updateBluePrintState(newBluePrint);
   };
 
   const updateCategory = (data) => {
     const oldCategories = bluePrintState?.Categories;
-    let indexOfItemToEdit = oldCategories.findIndex(
+    let indexOfCategoryToEdit = oldCategories.findIndex(
       (item) => item?.Id === data?.Id
     );
-    if (indexOfItemToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
+    if (indexOfCategoryToEdit === -1) return; //if for any reason filtering fails and this is udefined don't continue
 
-    oldCategories?.splice(indexOfItemToEdit, 1, data);
+    oldCategories?.splice(indexOfCategoryToEdit, 1, data);
     let newBluePrint = {
       ...bluePrintState,
       Categories: oldCategories,
@@ -322,6 +323,7 @@ const ElectionProvider = ({ children }) => {
   };
 
   const deleteCategory = (data) => {
+    console.log("catehory to delete", data);
     // return;
     const oldCategories = bluePrintState?.Categories;
     let newCategories = oldCategories.filter((item) => item?.Id !== data?.Id);

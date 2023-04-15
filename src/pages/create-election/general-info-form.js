@@ -10,6 +10,7 @@ import ImagetManager from "./image-manager";
 import CategoryManager from "./category-manager/category-manager";
 import ImageLibrary from "./../../components/image-library/image-library";
 import { ORG_LIBRARY_ID } from "../../contants/urls/urls";
+import { User } from "./../../components/contants/ui-data";
 
 export default function GeneralInfoForm({ handleNavigation }) {
   const {
@@ -143,6 +144,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
   let StartDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Starting : "";
   let EndDate = !!bluePrintState ? bluePrintState?.GeneralInfo?.Ending : "";
   const libraryFolder = ORG_LIBRARY_ID();
+  console.log("xxxx", User());
   return (
     <div className="w-full h-full  flex justify-start flex-col pb-[200px] bg-gray-100 items-center p-5 overflow-y-scroll">
       <div className="w-[70%]  min-w-[800px] mb-5 max-w-[800px] h-auto shadow-lg bg-white flex flex-col">
@@ -224,7 +226,7 @@ export default function GeneralInfoForm({ handleNavigation }) {
               </div>
             </div>
           </div>
-          {/* <CategoryManager /> */}
+          <CategoryManager />
           <div className="w-full h-auto mb-5 mt-2 flex items-center ">
             <strong className="whitespace-nowrap text-gray-500 flex items-center mr-2">
               Portfolios

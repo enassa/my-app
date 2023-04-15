@@ -158,10 +158,21 @@ export const categoryOptionsBluePrint = {
   disabled: false,
   selected: false,
 };
+// export const categoryBluePrint = {
+//   Id: 0,
+//   Name: "",
+//   Options: [{ ...categoryOptionsBluePrint }],
+//   MultipleSelect: false,
+//   disabled: false,
+//   Selected: false,
+// };
 export const categoryBluePrint = {
   Id: 0,
   Name: "",
-  Options: [{ ...categoryOptionsBluePrint }],
+  Options: [
+    { Id: 1, Title: "Option 1", disabled: false, selected: false },
+    { Id: 2, Title: "Option 2", disabled: false, selected: false },
+  ],
   MultipleSelect: false,
   disabled: false,
   Selected: false,

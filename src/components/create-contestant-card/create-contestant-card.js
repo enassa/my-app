@@ -92,14 +92,15 @@ export default function CreateContestantCard({
     updateContestant(editedContestdantData);
     closeForm();
   };
-  let initialLoad = React.createRef();
-  initialLoad = 0;
+  // let initialLoad = React.createRef();
+  // initialLoad = 0;
   useEffect(() => {
-    if (initialLoad === 0) return;
-    setTempImage({
-      ImageUrl: selectedImage?.url,
-      ImageInfo: selectedImage?.url,
-    });
+    if (editMode === true) {
+      setTempImage({
+        ImageUrl: selectedImage?.url,
+        ImageInfo: selectedImage?.url,
+      });
+    }
   }, [selectedImage]);
 
   const closeForm = () => {
