@@ -292,7 +292,7 @@ const ElectionProvider = ({ children }) => {
         : -1;
     };
     let idOfNewCategory = getIdOfLastCategory() + 1;
-    let newBluePrint = {
+    let newBluePrint = JSON.stringify({
       ...bluePrintState,
       Categories: [
         ...oldCategories, //load old contestant definitions
@@ -302,9 +302,9 @@ const ElectionProvider = ({ children }) => {
           Title: `Definition ${idOfNewCategory + 1}`,
         }, //new contestant definition
       ],
-    };
+    });
     console.log("add category", newBluePrint, "color:blue");
-    updateBluePrintState(newBluePrint);
+    updateBluePrintState(JSON.parse(newBluePrint));
   };
 
   const updateCategory = (data) => {

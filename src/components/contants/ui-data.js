@@ -67,28 +67,7 @@ export const electionBluePrint = {
   Positions: [],
   Contestants: [],
   VoterIds: [],
-  Categories: [
-    {
-      Id: 0,
-      Title: "Gender",
-      Options: [
-        { Id: 0, Title: "Male", disabled: false },
-        { Id: 1, Title: "Female", disabled: false },
-      ],
-      MultipleSelect: false,
-      disabled: false,
-    },
-    {
-      Id: 1,
-      Title: "Houses",
-      Options: [
-        { Id: 0, Title: "Kwapong House", disabled: false },
-        { Id: 1, Title: "Some House", disabled: false },
-      ],
-      MultipleSelect: true,
-      disabled: false,
-    },
-  ],
+  Categories: [],
 };
 export const voterIdBluePrint = {
   Id: "",

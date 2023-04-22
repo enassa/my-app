@@ -182,8 +182,8 @@ export default function ImageLibrary({
                   <ImageCircle
                     key={index}
                     deleteImage={(id) => {
-                      console.log("local image id".id);
-                      // deleteFromList(id);
+                      console.log("local image id", id);
+                      deleteFromList(id);
                     }}
                     uploading={{
                       state: isCurrentlyUploading,

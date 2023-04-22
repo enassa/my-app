@@ -51,6 +51,7 @@ export default function CategoryCard({
 
   const updateOption = (id, value) => {
     let allOptions = categoryData.Options;
+    console.log("categoryData", categoryData);
     let indexOfItemToEdit = allOptions.findIndex((item) => item?.Id === id);
     let newOption = {
       ...allOptions[indexOfItemToEdit],
