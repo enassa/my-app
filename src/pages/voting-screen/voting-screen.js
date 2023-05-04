@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { ALL_URLS } from "../../contants/urls/rout-links";
 import ProgressBar from "../../components/progress bar/ProgressBar";
 import OverlayLoader from "../../components/overlay_loader/OverlayLoader";
+import PreElection from "./pre-election";
 
 export default function VotingScreen() {
   const dispatch = useDispatch();
@@ -249,8 +250,10 @@ export default function VotingScreen() {
     sessionStorage.removeItem("activePosition");
     saveObjectInSession("activePosition", { num: activePosition });
   }, [activePosition]);
-
-  return (
+  const [showCategories, setShowCategories] = useState(false);
+  return showCategories ? (
+    <PreElection />
+  ) : (
     <div className="flex justify-start flex-col p-4">
       {loading ? (
         <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
