@@ -1,4 +1,4 @@
-import { HowToReg, HowToVote } from "@mui/icons-material";
+import { ErrorOutlineOutlined, HowToReg, HowToVote } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ContestantCard from "../../components/contestant-card/contestant-card";
@@ -272,10 +272,20 @@ export default function VotingScreen() {
     saveObjectInSession("activePosition", { num: activePosition });
   }, [activePosition]);
   const [showCategories, setShowCategories] = useState(false);
+  console.log("activeposition", activePosition);
   return showCategories ? (
     <PreElection />
   ) : (
     <div className="flex justify-start flex-col p-4">
+      {[3, 4, 5, 6].includes(activePosition) && (
+        <div className="absolute animate-pulse   w-full h-[30px] top-2 left-0 flex justify-center">
+          <ErrorOutlineOutlined className="text-red-600  animate-bounce mr-[10px] relative top-[10px]" />
+          <span className="text-white text-lg bg-red-600 rounded-xl px-[10px]">
+            Please choose a contestant from yourlocation (EAST or WEST)
+          </span>
+        </div>
+      )}
+
       {loading ? (
         <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
           {<OverlayLoader loaderText="Recording vote..." />}
