@@ -68,7 +68,12 @@ export default function ContestantCard({
       <div className="flex flex-col  justify-start items-center">
         <div>
           {/* <strong className="mb-2">Name: </strong> */}
-          <div className="text-center overflow-hidden  text-ellipsis ">
+          <div
+            style={{
+              fontSize: 14,
+            }}
+            className="text-center overflow-hidden  text-ellipsis "
+          >
             {info.Info.Name}
           </div>
         </div>
@@ -91,6 +96,11 @@ export default function ContestantCard({
           if (!checkShowStatus(prop)) return;
           return (
             <div
+              style={{
+                color: "indigo",
+                fontWeight: "bolder",
+                fontSize: 12,
+              }}
               className="w-full text-orange-800 flex flex-col items-center"
               key={index}
             >
