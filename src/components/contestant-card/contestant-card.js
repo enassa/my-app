@@ -126,7 +126,8 @@ export default function ContestantCard({
                     <div
                       style={{ borderRadius: "10px 50px 50px 10px" }}
                       className="absolute z-[999999] animate-rise bg-[#5F27CD] px-3 py-2 flex right-[-70px]"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         handleNextClick();
                       }}
                     >

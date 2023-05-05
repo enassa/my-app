@@ -48,11 +48,23 @@ export default function VotingScreen() {
     : [];
   const totalNumberOfPosition = votingElection?.Positions?.length;
 
-  const maxVotesForPosition =
-    votingElection?.Positions[activePosition - 1].Settings.maxSelection;
+  // const maxVotesForPosition =
+  //   votingElection?.Positions[activePosition - 1].Settings.maxSelection;
+  // const votesCount = votingElection?.Votes[`${activePosition - 1}`]?.length;
+  // const division = (votesCount / maxVotesForPosition) * 100;
+  const getVotesCount = () => {
+    const allCastedVotes = votingElection?.Votes;
+    let votesNumber = 0;
+    for (let vote in allCastedVotes) {
+      // console.log(vote);
+      votesNumber += allCastedVotes[vote]?.length || 0;
+    }
+    return votesNumber;
+  };
   const votesCount = votingElection?.Votes[`${activePosition - 1}`]?.length;
-  const division = (votesCount / maxVotesForPosition) * 100;
+  const division = (getVotesCount() / totalNumberOfPosition) * 100;
   const percentageVoteCount = parseInt(division.toFixed(2));
+
   console.log(votingElection);
   // const castVote = (vote, portfolio) => {
   //   console.log(votingElection);
@@ -75,7 +87,7 @@ export default function VotingScreen() {
     let votingPortfolio;
     let newVotes;
     const maxNumberOfVotes =
-      votingElection.Positions[activePosition - 1].Settings.maxSelection;
+      votingElection.Positions[activePosition - 1].Settings?.maxSelection;
     const oldVotesForPortfolio = votingElection.Votes[portfolioId] || [];
     const voteExist = oldVotesForPortfolio?.findIndex(
       (item) => item.Id === vote.Id
@@ -87,18 +99,27 @@ export default function VotingScreen() {
       votingPortfolio = votingElection.Votes;
     }
 
+    // if (voteExist === -1) {
+    //   //vote doesn't exist so add it if settings check is right
+    //   if (oldVotesForPortfolio.length < maxNumberOfVotes) {
+    //     newVotes = [...votingPortfolio[portfolioId], vote];
+    //   } else {
+    //     errorToast(`Maximum number of ${maxNumberOfVotes} voters selected`);
+    //     return;
+    //   }
+    // } else {
+    //   //vot exist so
+    //   newVotes = oldVotesForPortfolio.filter((item) => item.Id !== vote.Id);
+    // }
+
     if (voteExist === -1) {
       //vote doesn't exist so add it if settings check is right
-      if (oldVotesForPortfolio.length < maxNumberOfVotes) {
-        newVotes = [...votingPortfolio[portfolioId], vote];
-      } else {
-        errorToast(`Maximum number of ${maxNumberOfVotes} voters selected`);
-        return;
-      }
+      newVotes = [vote];
     } else {
       //vot exist so
       newVotes = oldVotesForPortfolio.filter((item) => item.Id !== vote.Id);
     }
+
     console.log(newVotes);
     let newBluePrint = {
       ...votingElection?.Votes,
@@ -219,9 +240,9 @@ export default function VotingScreen() {
               info={contestant}
               voterCard={true}
               handleNextClick={() => {
-                if (activePosition < totalNumberOfPosition) {
-                  setActivePosition(activePosition + 1);
-                }
+                // if (activePosition < totalNumberOfPosition) {
+                setActivePosition(activePosition + 1);
+                // }
               }}
               isLast={activePosition === totalNumberOfPosition}
               handleClick={(vote) => {
@@ -276,13 +297,13 @@ export default function VotingScreen() {
           <div className="h-full w-[200px] bg-[#5F27CD] flex items-center">
             <HowToVote className="text-white ml-2" />
             <div className="h-full w-full text-white flex justify-center items-center">
-              {/* {activePosition} */}
-              {votesCount || 0}
+              {activePosition}
+              {/* {votesCount || 0} */}
             </div>
             <span className="w-2 bg-white h-1/2"></span>
             <div className="h-full mr-2 text-white w-full flex justify-center items-center">
-              {/* {totalNumberOfPosition} */}
-              {maxVotesForPosition}
+              {totalNumberOfPosition}
+              {/* {maxVotesForPosition} */}
             </div>
           </div>
           <div className="h-full w-full flex justify-center items-center ">
