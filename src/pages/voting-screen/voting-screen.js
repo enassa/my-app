@@ -278,7 +278,7 @@ export default function VotingScreen() {
     <div className="flex justify-start flex-col p-4">
       {loading ? (
         <div className="fixed w-full h-full flex justify-center items-center top-0 left-0 z-[999999] bg-backdrop2">
-          {<OverlayLoader loaderText="Creating election..." />}
+          {<OverlayLoader loaderText="Recording vote..." />}
         </div>
       ) : null}
       <div className="w-full flex items-center z-[999]  h-[100px] sticky top-[0px]">
