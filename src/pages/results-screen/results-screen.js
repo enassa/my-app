@@ -184,11 +184,11 @@ export default function ResultScreen() {
                 {/* "#5F27CD"
                 "#E2E2E2" */}
               </div>{" "}
-              <div className="h-full mr-2  w-full text-blue-500 flex flex-col justify-center items-center">
+              <div className="h-full mr-2 font-extrabold  w-full text-blue-500 flex flex-col justify-center items-center">
                 <span className="font-extrabold">
                   {resultsCache?.TotalVoted} / {resultsCache?.NumberOfVoters}
                 </span>
-                <span className="text-sm">Votes recorded</span>
+                <span className="text-xs">Votes recorded</span>
               </div>
               <div className="h-full mr-2 font-extrabold text-white w-full flex justify-center items-center"></div>
             </div>
@@ -199,20 +199,20 @@ export default function ResultScreen() {
                 {resultsCache?.Title}
               </span>
             </div>
-            <div className="rounded-r-lg  border-l-white border-l md:bg-white flex right-0 md:relative flex-row md:flex-row justify-end md:min-w-[200px] w-[350px] h-full p-2 px-3 md:h-full top-[20%] md:top-0  items-center">
+            <div className="rounded-r-lg  border-l-white border-l md:bg-white flex flex-row justify-end md:max-w-[200px] w-full  h-full  md:h-full items-center relative right-3 ">
               <div className="flex flex-col items-center md:mr-[15px]">
                 <div
                   onClick={() => {
                     // handlePrint();
                     navigate(ALL_URLS.printResults.url);
                   }}
-                  className="cursor-pointer  md:md-1  md:mr-0 mr-1 md:shadow-none bg-blue-50 text-blue-600  md:mb-0  md:hover:bg-blue-100 hover:text-blue-700   rounded-full transition-all duration-200  overflow-hidden  flex justify-center flex-col items-center min-w-[50px] min-h-[50px] "
+                  className="cursor-pointer  md:mr-0 mr-3 md:shadow-none bg-blue-50 text-blue-600  md:mb-0  md:hover:bg-blue-100 hover:text-blue-700   rounded-full transition-all duration-200  overflow-hidden  flex justify-center flex-col items-center min-w-[50px] min-h-[50px] "
                 >
                   <Download />
                 </div>
                 <span className="text-xs md:flex hidden">Download</span>
               </div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center relative">
                 <div
                   onClick={() => {
                     window.location.reload();
