@@ -53,7 +53,10 @@ export default function ResultsCard({
       <div className="flex flex-col  justify-start items-center">
         <div>
           {/* <strong className="mb-2">Name: </strong> */}
-          <div className="text-center overflow-hidden  text-ellipsis ">
+          <div
+            style={{ fontSize: 14 }}
+            className="text-center overflow-hidden  text-ellipsis "
+          >
             {info?.Info?.Name}
           </div>
         </div>
@@ -64,7 +67,15 @@ export default function ResultsCard({
           if (prop === "Ballot_Number") return;
           if (prop === "Name") return;
           return (
-            <div className="w-full flex flex-col items-center" key={index}>
+            <div
+              style={{
+                color: "indigo",
+                fontWeight: "bolder",
+                fontSize: 14,
+              }}
+              className="w-full flex flex-col items-center"
+              key={index}
+            >
               {/* <strong className="mb-2 ">
                 {replaceUnderscoreWithSpace(prop)}:{" "}
               </strong> */}
