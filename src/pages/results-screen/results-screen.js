@@ -3,10 +3,12 @@ import {
   ArrowDownward,
   ArrowDropDown,
   ArrowDropUp,
+  Article,
   Download,
   HowToReg,
   HowToVote,
   Logout,
+  Menu,
   Refresh,
 } from "@mui/icons-material";
 import GridLayOut from "../../components/grid_layout/GridLayout";
@@ -63,20 +65,29 @@ export default function ResultScreen() {
           contestant?.Position?.toLowerCase() === item?.Title?.toLowerCase()
       );
       let dropDown = activeResults.includes(index);
-
+      const isLastPosition = index + 1 === positions.length ? true : false;
       return (
-        <div key={index} className="flex flex-col w-full  p-5">
+        <div key={index} className="flex flex-col w-full md:p-5">
           <div className="w-full flex items-center">
             <span
               onClick={() => {
                 addOrRemoveFromSelected(index);
               }}
-              className="whitespace-nowrap cursor-pointer bg-blue-500 flex justify-between py-2 pl-3 text-white rounded-sm px-2 w-auto mr-2"
+              className={`max-w-full ${
+                isLastPosition
+                  ? "rounded-b-md"
+                  : index === 0
+                  ? "rounded-t-md"
+                  : "rounded-none"
+              } md:max-w-auto  cursor-pointer shadow-md md:shadow-none md:border mb-[1px] border-slate-200 md:rounded-md md:min-h-auto min-h-[60px]  bg-white  flex justify-between items-center py-2 pl-3 text-blue-500 px-2 md:w-auto md:mr-2 w-full`}
             >
-              {item?.Title}
+              <span className="w-full overflow-hidden whitespace-nowrap text-ellipsis">
+                {item?.Title}
+              </span>
+
               <>{dropDown ? <ArrowDropUp /> : <ArrowDropDown />}</>
             </span>
-            <div className="w-full bg-slate-500 h-[0.5px]"></div>
+            <div className="w-full md:flex hidden bg-slate-200 h-[0.5px]"></div>
           </div>
           <div
             ref={componentRef}
@@ -89,7 +100,7 @@ export default function ResultScreen() {
                 // gridTemplateColumns: "repeat(4,1fr)",
                 justifyContent: "center",
                 padding: 40,
-                backgroundColor: "#DFDFDF",
+                backgroundColor: "#ffffff",
               }}
               className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xlg:grid-cols-5"
             >
@@ -132,85 +143,97 @@ export default function ResultScreen() {
   }, []);
   return (
     <div className="w-full h-full flex flex-col ">
-      <div className="w-full flex flex-col border-b border-gray-50 p-5">
+      <div className="w-full h-[60px] bg-blue-600 shadow-lg z-[1] top-0 right-0 text-white flex items-center justify-between px-2">
+        <div className="h">
+          <HowToVote className="text-white ml-2 mr-3" />
+
+          <span>KoinoVoter</span>
+        </div>
         <div
           onMouseOver={() => setHovered(true)}
           onMouseOut={() => {
             setHovered(false);
           }}
-          className="h-full whitespace-nowrap  text-gray-700 flex justify-end items-center"
+          className="h-full whitespace-nowrap  text-white md:flex justify-end items-center hidden"
         >
-          <HowToReg /> <span> Election Id: &nbsp;</span>{" "}
+          <HowToReg /> <span> Election ID: &nbsp;</span>{" "}
           <strong> {resultsCache?.electionId}</strong>
         </div>
+        <div
+          onClick={() => {
+            logoutAsync("/", ["resultsData"]);
+          }}
+          className="h-full hover:text-red-500 ml-2 whitespace-nowrap  text-white flex justify-end items-center"
+        >
+          <Logout /> <span className="md:flex hidden"> Logout</span>{" "}
+        </div>
+      </div>
+      <div className="w-full flex flex-col border-b border-gray-50 md:p-5">
         <div className="w-full flex items-center  h-[100px] mb-2">
-          <div className="  mr-3 cursor-pointer flex justify-center items-center w-[100px] h-[100px] min-h-[100px] min-w-[100px] rounded-full shadow-lg">
-            <ProgressBar
-              circular
-              progressThickness={7}
-              progressColor={"#5F27CD"}
-              containerColor="#E2E2E2"
-              radius={40}
-              progressPercentage={parseInt(percentageProgress.toFixed(1))}
-            />
-          </div>{" "}
-          <div className="cursor-pointer overflow-hidden flex rounded-lg items-center w-[70%] h-[50px] shadow-lg">
-            <div className="h-full w-auto whitespace-nowrap bg-blue-600 flex items-center ">
-              <HowToVote className="text-white ml-2 mr-3" />
-              <div className="h-full mr-2 font-extrabold  w-full text-white flex justify-center items-center">
-                {resultsCache?.TotalVoted}
+          <div className="cursor-pointer h-[110px]  shadow-md  flex  items-center w-full  ">
+            <div className="h-full md:w-auto   whitespace-nowrap p-2 rounded-l-lg md:rounded-lg  flex items-center ">
+              <div className="mr-3 cursor-pointer flex bg-white justify-center items-center w-[80px] h-[80px] min-h-[90px] min-w-[90px] rounded-full shadow-md">
+                <ProgressBar
+                  circular
+                  progressThickness={7}
+                  progressColor={"#e16311"}
+                  containerColor={"#E2E2E2"}
+                  radius={35}
+                  progressPercentage={5}
+                />
+                {/* "#5F27CD"
+                "#E2E2E2" */}
+              </div>{" "}
+              <div className="h-full mr-2  w-full text-blue-500 flex flex-col justify-center items-center">
+                <span className="font-extrabold">
+                  {resultsCache?.TotalVoted} / {resultsCache?.NumberOfVoters}
+                </span>
+                <span className="text-sm">Votes recorded</span>
               </div>
-              {/* <span className="w-2 bg-white h-1/2"></span> */}
-              <span className="w-auto mr-2  whitespace-nowrap text-white  h-1/2 ">
-                out of
-              </span>
-              <div className="h-full mr-2 font-extrabold text-white w-full flex justify-center items-center">
-                {resultsCache?.NumberOfVoters}
-              </div>
-              <span className="w-auto mr-2  whitespace-nowrap text-white  h-1/2 ">
-                votes recorded
-              </span>
+              <div className="h-full mr-2 font-extrabold text-white w-full flex justify-center items-center"></div>
             </div>
-            <div className="h-full w-full flex justify-center items-center ">
-              <span className="whitespace-nowrap px-4 text-ellipsis">
+            <div className="h-full text-blue-500 w-full md:flex justify-start border-l border-l-gray-100 pl-2 items-center hidden ">
+              <Article />
+              <span>Title: </span>
+              <span className="whitespace-nowrap overflow-hideen w-full px-4 text-ellipsis">
                 {resultsCache?.Title}
               </span>
             </div>
-          </div>
-          <div
-            onClick={() => {
-              // handlePrint();
-              navigate(ALL_URLS.printResults.url);
-            }}
-            className="cursor-pointer hover:bg-blue-50 hover:text-blue-600  hover:rounded-md transition-all duration-200  overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg"
-          >
-            <Download />
-            <span className="text-xs">Download</span>
-          </div>
-          <div
-            onClick={() => {
-              window.location.reload();
-            }}
-            className="cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:rounded-md  ml-3 overflow-hidden flex justify-center flex-col items-center w-[100px] h-[50px] shadow-lg"
-          >
-            <Refresh />
-            <span className="text-xs">Refresh</span>
-          </div>
-          <div className="cursor-pointer ml-4 overflow-hidden pr-4  justify-end flex items-center w-1/2 h-[50px] ">
-            <div className="h-full pl-2 flex items-center">
-              <div
-                onClick={() => {
-                  logoutAsync("/", ["resultsData"]);
-                }}
-                className="h-full hover:text-red-500 ml-2 whitespace-nowrap  text-gray-700 flex justify-end items-center"
-              >
-                <Logout /> <span> Logout</span>{" "}
+            <div className="rounded-r-lg  border-l-white border-l md:bg-white flex right-0 md:relative flex-row md:flex-row justify-end md:min-w-[200px] w-[350px] h-full p-2 px-3 md:h-full top-[20%] md:top-0  items-center">
+              <div className="flex flex-col items-center md:mr-[15px]">
+                <div
+                  onClick={() => {
+                    // handlePrint();
+                    navigate(ALL_URLS.printResults.url);
+                  }}
+                  className="cursor-pointer  md:md-1  md:mr-0 mr-1 md:shadow-none bg-blue-50 text-blue-600  md:mb-0  md:hover:bg-blue-100 hover:text-blue-700   rounded-full transition-all duration-200  overflow-hidden  flex justify-center flex-col items-center min-w-[50px] min-h-[50px] "
+                >
+                  <Download />
+                </div>
+                <span className="text-xs md:flex hidden">Download</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                  className="cursor-pointer md:md-1 md:shadow-none bg-blue-50 text-blue-600  md:hover:bg-blue-100 hover:text-blue-700  rounded-full  overflow-hidden flex justify-center flex-col items-center min-w-[50px] min-h-[50px]"
+                >
+                  <Refresh />
+                </div>
+                <span className="text-xs md:flex hidden">Refresh</span>
               </div>
             </div>
           </div>
+
+          {/* <div className="cursor-pointer ml-4 overflow-hidden pr-4  justify-end flex items-center w-1/2 h-[50px] ">
+            <div className="h-full pl-2 flex items-center">
+            
+            </div>
+          </div> */}
         </div>
       </div>
-      <div className="flex w-full h-full flex-col overflow-y-scroll">
+      <div className="flex w-full h-full flex-col overflow-y-auto px-2 md:px-0 mt-[10px]">
         {ejectContestants()}
       </div>
     </div>

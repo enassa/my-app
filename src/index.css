@@ -2,11 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap");
 
-* {
+/* * {
   font-family: "Anuphan", sans-serif;
+} */
+* {
+  font-family: "Cairo", sans-serif;
 }
+
 .fit-bg {
   background-position: center;
   background-size: cover;
