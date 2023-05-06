@@ -179,7 +179,7 @@ export default function ResultScreen() {
                   progressColor={"#e16311"}
                   containerColor={"#E2E2E2"}
                   radius={35}
-                  progressPercentage={5}
+                  progressPercentage={parseInt(percentageProgress.toFixed(1))}
                 />
                 {/* "#5F27CD"
                 "#E2E2E2" */}
