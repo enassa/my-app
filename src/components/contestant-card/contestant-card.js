@@ -65,14 +65,14 @@ export default function ContestantCard({
         style={{ backgroundImage: `url(${info?.Info?.ImageUrl})` }}
         className="w-[100px] h-[100px] min-w-[100px] min-h-[100px]  bg-yellow-50 rounded-full fit-bg mb-2"
       ></div>
-      <div className="flex flex-col  justify-start items-center">
+      <div className="flex flex-col   justify-start items-center">
         <div>
           {/* <strong className="mb-2">Name: </strong> */}
           <div
             style={{
               fontSize: 14,
             }}
-            className="text-center overflow-hidden  text-ellipsis "
+            className="text-center capitalize overflow-hidden   text-ellipsis "
           >
             {info.Info.Name}
           </div>
@@ -101,7 +101,7 @@ export default function ContestantCard({
                 fontWeight: "bolder",
                 fontSize: 12,
               }}
-              className="w-full text-orange-800 flex flex-col items-center"
+              className="w-full capitalize text-orange-800 flex flex-col items-center"
               key={index}
             >
               {/* <strong className="mb-2 ">

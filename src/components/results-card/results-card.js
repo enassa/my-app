@@ -55,7 +55,7 @@ export default function ResultsCard({
           {/* <strong className="mb-2">Name: </strong> */}
           <div
             style={{ fontSize: 14 }}
-            className="text-center overflow-hidden  text-ellipsis "
+            className="text-center capitalize overflow-hidden  text-ellipsis "
           >
             {info?.Info?.Name}
           </div>
@@ -73,7 +73,7 @@ export default function ResultsCard({
                 fontWeight: "bolder",
                 fontSize: 14,
               }}
-              className="w-full flex flex-col items-center"
+              className="w-full capitalize flex flex-col items-center"
               key={index}
             >
               {/* <strong className="mb-2 ">
