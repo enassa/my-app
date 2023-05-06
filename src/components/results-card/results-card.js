@@ -48,7 +48,7 @@ export default function ResultsCard({
       )}
       <div
         style={{ backgroundImage: `url(${info?.Info?.ImageUrl})` }}
-        className="w-[100px] h-[100px]  bg-yellow-50 rounded-full fit-bg mb-2"
+        className="w-[90px] h-[90px] min-h-[90px] min-w-[90px]  bg-yellow-50 rounded-full fit-bg mb-2"
       ></div>
       <div className="flex flex-col  justify-start items-center">
         <div>
